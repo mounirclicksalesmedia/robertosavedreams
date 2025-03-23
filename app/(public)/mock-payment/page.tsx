@@ -1,10 +1,23 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { formatAmount } from '@/app/lib/lenco';
 
-export default function MockPaymentPage() {
+// Loading component for Suspense fallback
+function LoadingMockPayment() {
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 text-center">
+        <div className="w-12 h-12 border-4 border-[#1D942C]/30 border-t-[#1D942C] rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-lg font-medium text-gray-900">Loading payment details...</p>
+      </div>
+    </div>
+  );
+}
+
+// Main content component that uses useSearchParams
+function MockPaymentContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -106,5 +119,13 @@ export default function MockPaymentPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function MockPaymentPage() {
+  return (
+    <Suspense fallback={<LoadingMockPayment />}>
+      <MockPaymentContent />
+    </Suspense>
   );
 } 
