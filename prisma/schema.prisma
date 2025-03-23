@@ -1,0 +1,139 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(cuid())
+  name           String
+  email          String    @unique
+  password       String
+  role           Role      @default(USER)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  loanApplications   LoanApplication[]
+  grantApplications  GrantApplication[]
+  fundingApplications FundingApplication[]
+  donations      Donation[]
+  blogPosts      BlogPost[]
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  STAFF
+  USER
+}
+
+model LoanApplication {
+  id             String    @id @default(cuid())
+  amount         Float
+  purpose        String
+  businessPlan   String    @db.Text
+  status         ApplicationStatus @default(PENDING)
+  applicantId    String
+  applicant      User      @relation(fields: [applicantId], references: [id])
+  documents      Document[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model GrantApplication {
+  id             String    @id @default(cuid())
+  amount         Float
+  purpose        String
+  projectDetails String    @db.Text
+  status         ApplicationStatus @default(PENDING)
+  applicantId    String
+  applicant      User      @relation(fields: [applicantId], references: [id])
+  documents      Document[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model FundingApplication {
+  id             String    @id @default(cuid())
+  amount         Float
+  purpose        String
+  educationDetails String  @db.Text
+  status         ApplicationStatus @default(PENDING)
+  applicantId    String
+  applicant      User      @relation(fields: [applicantId], references: [id])
+  documents      Document[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+enum ApplicationStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  FUNDED
+}
+
+model Donation {
+  id             String    @id @default(cuid())
+  amount         Float
+  currency       String    @default("USD")
+  status         String
+  paymentId      String?
+  donorId        String?
+  donor          User?     @relation(fields: [donorId], references: [id])
+  anonymous      Boolean   @default(false)
+  message        String?
+  createdAt      DateTime  @default(now())
+}
+
+model BlogPost {
+  id             String    @id @default(cuid())
+  title          String
+  slug           String    @unique
+  content        String    @db.Text
+  excerpt        String
+  coverImage     String
+  authorId       String
+  author         User      @relation(fields: [authorId], references: [id])
+  published      Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Document {
+  id                  String    @id @default(cuid())
+  name                String
+  path                String
+  type                String
+  loanApplicationId   String?
+  loanApplication     LoanApplication? @relation(fields: [loanApplicationId], references: [id])
+  grantApplicationId  String?
+  grantApplication    GrantApplication? @relation(fields: [grantApplicationId], references: [id])
+  fundingApplicationId String?
+  fundingApplication  FundingApplication? @relation(fields: [fundingApplicationId], references: [id])
+  createdAt           DateTime  @default(now())
+}
+
+model Contact {
+  id              String    @id @default(cuid())
+  name            String
+  email           String
+  subject         String
+  message         String    @db.Text
+  status          ContactStatus @default(UNREAD)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+enum ContactStatus {
+  UNREAD
+  READ
+  REPLIED
+  ARCHIVED
+} 

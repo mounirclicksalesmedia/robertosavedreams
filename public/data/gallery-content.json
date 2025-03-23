@@ -1,0 +1,159 @@
+{
+  "title": "Our Impact in Pictures",
+  "description": "Witness the transformative journey of communities through our lens",
+  "categories": [
+    "All", 
+    "Education", 
+    "Microloans", 
+    "Community", 
+    "Entrepreneurship", 
+    "Healthcare", 
+    "Sports"
+  ],
+  "images": [
+    {
+      "id": 1,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-44-32.jpg",
+      "alt": "Women entrepreneurs in training session",
+      "category": "Entrepreneurship"
+    },
+    {
+      "id": 2,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-44-31.jpg",
+      "alt": "Small business owner with products",
+      "category": "Microloans"
+    },
+    {
+      "id": 3,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-44-30.jpg",
+      "alt": "Community gathering for empowerment",
+      "category": "Community"
+    },
+    {
+      "id": 4,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-44-29.jpg",
+      "alt": "Education workshop for young women",
+      "category": "Education"
+    },
+    {
+      "id": 5,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-44-29 2.jpg",
+      "alt": "Local market vendor with microloan support",
+      "category": "Microloans"
+    },
+    {
+      "id": 6,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-44-28.jpg",
+      "alt": "Community development project",
+      "category": "Community"
+    },
+    {
+      "id": 7,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-44-27.jpg",
+      "alt": "Skills training for women",
+      "category": "Education"
+    },
+    {
+      "id": 8,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-44-27 2.jpg",
+      "alt": "Women entrepreneurs showcase",
+      "category": "Entrepreneurship"
+    },
+    {
+      "id": 9,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-44-26.jpg",
+      "alt": "Healthcare initiative for women",
+      "category": "Healthcare"
+    },
+    {
+      "id": 10,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-44-25.jpg",
+      "alt": "Financial literacy training",
+      "category": "Education"
+    },
+    {
+      "id": 11,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-31-56.jpg",
+      "alt": "Women in sports program",
+      "category": "Sports"
+    },
+    {
+      "id": 12,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-31-54.jpg",
+      "alt": "Community health outreach",
+      "category": "Healthcare"
+    },
+    {
+      "id": 13,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-31-51.jpg",
+      "alt": "Young entrepreneurs with products",
+      "category": "Microloans"
+    },
+    {
+      "id": 14,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-30-48.jpg",
+      "alt": "Women leadership workshop",
+      "category": "Education"
+    },
+    {
+      "id": 15,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-30-47.jpg",
+      "alt": "Sports for empowerment program",
+      "category": "Sports"
+    },
+    {
+      "id": 16,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-30-46.jpg",
+      "alt": "Community support initiative",
+      "category": "Community"
+    },
+    {
+      "id": 17,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-30-45.jpg",
+      "alt": "Women entrepreneurs networking",
+      "category": "Entrepreneurship"
+    },
+    {
+      "id": 18,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-30-41.jpg",
+      "alt": "Healthcare services for women",
+      "category": "Healthcare"
+    },
+    {
+      "id": 19,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-30-40.jpg",
+      "alt": "Educational resources distribution",
+      "category": "Education"
+    },
+    {
+      "id": 20,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-30-39.jpg",
+      "alt": "Microloan recipient with business",
+      "category": "Microloans"
+    },
+    {
+      "id": 21,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-30-38.jpg",
+      "alt": "Community celebration event",
+      "category": "Community"
+    },
+    {
+      "id": 22,
+      "src": "/images/gallery/PHOTO-2025-03-04-20-30-37.jpg",
+      "alt": "Women in sports training",
+      "category": "Sports"
+    },
+    {
+      "id": 23,
+      "src": "/images/gallery/PHOTO-2025-03-04-21-36-13.jpg",
+      "alt": "Entrepreneurship workshop",
+      "category": "Entrepreneurship"
+    },
+    {
+      "id": 24,
+      "src": "/images/gallery/PHOTO-2025-03-04-21-36-12.jpg",
+      "alt": "Healthcare awareness program",
+      "category": "Healthcare"
+    }
+  ]
+} 

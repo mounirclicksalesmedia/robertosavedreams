@@ -1,0 +1,83 @@
+{
+  "hero": {
+    "title": "Stories of Impact",
+    "subtitle": "& Hope",
+    "description": "Discover how we're transforming lives and empowering communities across Africa"
+  },
+  "featuredStory": {
+    "image": "/images/success-stories/successstory.jpg",
+    "name": "Grace Mwangi",
+    "location": "Lusaka, Zambia",
+    "story": "The Roberto Save Dreams Foundation didn't just provide me with an education; they gave me the tools and confidence to become a leader in my community. Today, I run a successful women's cooperative that employs 15 local women and provides educational support to over 50 children.",
+    "ctaText": "Support Similar Stories",
+    "ctaLink": "/donate"
+  },
+  "impactNumbers": [
+    {
+      "number": "1,200+",
+      "label": "Lives Transformed"
+    },
+    {
+      "number": "15",
+      "label": "Communities Served"
+    },
+    {
+      "number": "$500K+",
+      "label": "In Microloans"
+    },
+    {
+      "number": "85%",
+      "label": "Success Rate"
+    }
+  ],
+  "stories": [
+    {
+      "name": "Sarah's Market Success",
+      "location": "Luanda, Angola",
+      "category": "Entrepreneurship",
+      "story": "Started with a $500 microloan, now owns three market stalls and employs local women."
+    },
+    {
+      "name": "Maria's Teaching Journey",
+      "location": "Lusaka, Zambia",
+      "category": "Education",
+      "story": "Received a scholarship for teacher training, now educates 30 students in her village."
+    },
+    {
+      "name": "Hope's Healthcare Initiative",
+      "location": "Ndola, Zambia",
+      "category": "Healthcare",
+      "story": "Established a community health program that serves over 200 families monthly."
+    },
+    {
+      "name": "Faith's Tech Academy",
+      "location": "Huambo, Angola",
+      "category": "Technology",
+      "story": "Created a coding school for girls, training 50 students in web development."
+    },
+    {
+      "name": "Joy's Agricultural Project",
+      "location": "Kitwe, Zambia",
+      "category": "Agriculture",
+      "story": "Transformed local farming practices, increasing crop yields by 150%."
+    },
+    {
+      "name": "Peace's Community Center",
+      "location": "Benguela, Angola",
+      "category": "Community",
+      "story": "Built a women's support center that provides resources to 100+ families."
+    }
+  ],
+  "callToAction": {
+    "title": "Help Write the Next Success Story",
+    "description": "Your support can help create more inspiring stories of transformation and empowerment across Africa.",
+    "primaryCta": {
+      "text": "Make a Donation",
+      "link": "/donate"
+    },
+    "secondaryCta": {
+      "text": "Get Involved",
+      "link": "/get-involved"
+    }
+  }
+}

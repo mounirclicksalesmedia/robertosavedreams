@@ -1,0 +1,125 @@
+{
+  "hero": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about our programs, application process, and how you can get involved.",
+    "backgroundImage": "/images/hero/faq-hero.jpg"
+  },
+  "categories": [
+    {
+      "id": "general",
+      "title": "General Questions",
+      "questions": [
+        {
+          "question": "What is Roberto Save Dreams Foundation?",
+          "answer": "Roberto Save Dreams Foundation is a non-profit organization dedicated to empowering individuals and communities across Africa through sustainable programs in education, microfinance, and community development. Founded in 2015, we operate in 15 countries across the continent, working to create lasting change and opportunities for people to achieve their dreams."
+        },
+        {
+          "question": "Where does the foundation operate?",
+          "answer": "We currently operate in 15 countries across Africa, with a focus on West, East, and Southern Africa. Our programs are active in Nigeria, Ghana, Kenya, Tanzania, Uganda, Rwanda, Senegal, Côte d'Ivoire, Zambia, Zimbabwe, South Africa, Ethiopia, Malawi, Mozambique, and Cameroon."
+        },
+        {
+          "question": "How is the foundation funded?",
+          "answer": "The foundation is funded through a combination of sources, including individual donations, corporate partnerships, grants from other foundations and international organizations, and a portion of profits from Roberto Martins' business ventures. We are committed to financial transparency and publish annual reports detailing our funding sources and expenditures."
+        },
+        {
+          "question": "How can I contact the foundation?",
+          "answer": "You can reach us through our contact form on the website, by email at info@robertosavedreams.org, or by phone at +234-123-4567. We also maintain offices in Lagos, Nairobi, and Accra, with contact details available on our Contact page."
+        }
+      ]
+    },
+    {
+      "id": "programs",
+      "title": "Our Programs",
+      "questions": [
+        {
+          "question": "What types of programs does the foundation offer?",
+          "answer": "We focus on three main program areas: Education (scholarships, school construction, teacher training), Microloans (small business loans, entrepreneurship training, mentorship), and Sustainable Development (clean water, renewable energy, sustainable agriculture, healthcare initiatives)."
+        },
+        {
+          "question": "How do you select communities to work with?",
+          "answer": "We select communities based on a combination of need assessment, potential for impact, community engagement and leadership, and alignment with our strategic priorities. We often partner with local organizations that have established relationships in communities and can help ensure the sustainability of our programs."
+        },
+        {
+          "question": "How do you measure the impact of your programs?",
+          "answer": "We use a combination of quantitative and qualitative metrics to measure our impact, including number of beneficiaries, program completion rates, income changes, business growth, school attendance and performance, and community-level indicators. We conduct regular monitoring and evaluation, including baseline and endline surveys, to track progress and outcomes."
+        },
+        {
+          "question": "Do you partner with other organizations?",
+          "answer": "Yes, we actively seek partnerships with local and international organizations that share our vision and values. These partnerships help us leverage resources, expertise, and networks to maximize our impact. Our partners include local NGOs, international foundations, academic institutions, and government agencies."
+        }
+      ]
+    },
+    {
+      "id": "applications",
+      "title": "Application Process",
+      "questions": [
+        {
+          "question": "How can I apply for a scholarship?",
+          "answer": "Scholarship applications are typically open once a year, with deadlines varying by country. To apply, you need to complete our online application form, submit academic records, a personal statement, and references. Eligibility criteria include academic merit, financial need, and commitment to community service. Visit our Education Program page for specific details and current application deadlines."
+        },
+        {
+          "question": "What is the process for applying for a microloan?",
+          "answer": "To apply for a microloan, you must first attend our business training workshop, which is offered regularly in communities where we operate. After completing the training, you can submit a business plan and loan application. Applications are reviewed by our local committees, and decisions are typically made within 4-6 weeks. Visit our Microloans Program page for more information."
+        },
+        {
+          "question": "Can communities apply for development projects?",
+          "answer": "Yes, communities can apply for support for sustainable development projects. The application process begins with a community needs assessment and proposal, which should demonstrate community engagement, leadership, and commitment to maintaining the project. We prioritize projects that address critical needs and have potential for long-term impact. Contact our Sustainable Development team for guidance on the application process."
+        },
+        {
+          "question": "What happens after I submit my application?",
+          "answer": "After submission, our team reviews all applications to ensure they meet our basic criteria. Shortlisted applicants are typically invited for an interview or site visit. For scholarships, this may include academic assessments; for microloans, a review of your business plan; and for community projects, meetings with community leaders. We aim to communicate decisions within 4-8 weeks of application deadlines."
+        }
+      ]
+    },
+    {
+      "id": "involvement",
+      "title": "Getting Involved",
+      "questions": [
+        {
+          "question": "How can I donate to the foundation?",
+          "answer": "You can make a one-time or recurring donation through our website using credit card, PayPal, or bank transfer. We also accept donations via mobile money in many African countries. For larger donations or specific program support, please contact our development team directly. All donations are tax-deductible in many countries, and we provide receipts for tax purposes."
+        },
+        {
+          "question": "What volunteer opportunities are available?",
+          "answer": "We offer various volunteer opportunities, both in-person and remote. These include skills-based volunteering (such as mentoring entrepreneurs, teaching, or providing professional services), event support, and administrative assistance. Long-term volunteer placements are available in some of our country offices. Visit our Volunteer page to see current opportunities and application requirements."
+        },
+        {
+          "question": "How can my organization partner with the foundation?",
+          "answer": "We welcome partnerships with organizations that share our values and can complement our work. Partnership opportunities include joint programming, funding collaborations, technical assistance, and knowledge sharing. To explore potential partnerships, please contact our partnerships team with information about your organization and areas of interest."
+        },
+        {
+          "question": "Can I fundraise for the foundation?",
+          "answer": "Yes, we encourage individuals and groups to organize fundraising events or campaigns to support our work. We can provide materials, guidance, and in some cases, staff support for your fundraising efforts. Please contact us before starting any fundraising activity using our name or logo, so we can provide proper authorization and support."
+        }
+      ]
+    },
+    {
+      "id": "financial",
+      "title": "Financial Questions",
+      "questions": [
+        {
+          "question": "What percentage of donations goes directly to programs?",
+          "answer": "We are committed to financial efficiency, with approximately 85% of our funds going directly to program implementation. The remaining 15% covers essential administrative and fundraising costs that enable us to operate effectively and sustainably. Our detailed financial breakdowns are available in our annual reports."
+        },
+        {
+          "question": "Are donations tax-deductible?",
+          "answer": "Yes, donations are tax-deductible in many countries where we have registered charitable status, including Nigeria, Kenya, Ghana, the United States, and the United Kingdom. We provide receipts for all donations that can be used for tax purposes. For specific questions about tax deductibility in your country, please consult with a tax professional."
+        },
+        {
+          "question": "How do you ensure financial transparency?",
+          "answer": "We publish detailed annual reports and financial statements that are audited by independent accounting firms. These reports are available on our website and include breakdowns of our income sources, program expenditures, and administrative costs. We also maintain strict internal controls and governance policies to ensure proper use of funds."
+        },
+        {
+          "question": "What is your microloan repayment rate?",
+          "answer": "Our current microloan repayment rate is approximately 85%, which is considered strong in the microfinance sector. This high rate reflects our thorough application process, business training requirements, and ongoing support for loan recipients. Repaid loans are recycled back into the program to support more entrepreneurs."
+        }
+      ]
+    }
+  ],
+  "contactCta": {
+    "title": "Still Have Questions?",
+    "description": "If you couldn't find the answer you were looking for, please reach out to us directly.",
+    "buttonText": "Contact Us",
+    "buttonLink": "/contact"
+  }
+} 

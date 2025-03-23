@@ -1,0 +1,64 @@
+{
+  "stories": [
+    {
+      "id": "maria-education",
+      "title": "Maria's Education Journey",
+      "person": "Maria Johnson",
+      "location": "Lagos, Nigeria",
+      "programType": "Education",
+      "shortStory": "The scholarship from Roberto Save Dreams Foundation changed my life. I was able to complete my education and now I'm teaching at the same school I once attended as a student.",
+      "fullStory": "Growing up in a small village outside Lagos, I never thought I would be able to complete my education. My parents, both farmers, struggled to pay school fees for me and my four siblings. When I was 14, I was about to drop out of school when the Roberto Save Dreams Foundation came to our community. I applied for their scholarship program and was accepted. The foundation not only covered my school fees but also provided mentorship and learning materials. With their support, I graduated at the top of my class and went on to earn a teaching degree. Today, I'm a teacher at the same primary school I once attended, inspiring the next generation of students. The foundation didn't just give me an education; they gave me a purpose and a way to give back to my community.",
+      "image": "/images/success-stories/maria.jpg",
+      "year": 2018,
+      "impact": "Maria has gone on to help 120 students in her community, with 15 of them receiving scholarships from the foundation."
+    },
+    {
+      "id": "john-business",
+      "title": "John's Small Business",
+      "person": "John Okafor",
+      "location": "Accra, Ghana",
+      "programType": "Microloans",
+      "shortStory": "With a microloan of just $500, I was able to expand my carpentry workshop. Now I employ five people from my community and can provide for my family.",
+      "fullStory": "I learned carpentry from my father, who had a small workshop in Accra. When he passed away, I inherited his tools but struggled to make the business profitable. I needed to buy better equipment and materials, but banks wouldn't give me a loan without collateral. The Roberto Save Dreams Foundation's microloan program changed everything for me. After completing their business training, I received a $500 loan to buy modern tools and quality wood. This allowed me to create better furniture that I could sell at higher prices. Within a year, I repaid the loan and applied for a second one to rent a larger workshop. Today, my business employs five people from my community, and I'm able to provide a stable income for my family. I've even started a training program for young apprentices, passing on the skills that my father taught me.",
+      "image": "/images/success-stories/john.jpg",
+      "year": 2019,
+      "impact": "John's business now generates over $2,000 in monthly revenue and has trained 12 apprentices."
+    },
+    {
+      "id": "village-water",
+      "title": "Clean Water for Mwanzo Village",
+      "person": "Community Project",
+      "location": "Mwanzo Village, Kenya",
+      "programType": "Sustainable Development",
+      "shortStory": "Our village used to walk 5 kilometers for clean water. With the foundation's help, we now have a solar-powered well that provides clean water to over 500 people.",
+      "fullStory": "For generations, the people of Mwanzo Village had to walk 5 kilometers each way to collect clean water from a neighboring community. This task, primarily done by women and children, took hours each day and prevented many children from attending school regularly. When our community leaders approached the Roberto Save Dreams Foundation, they didn't just offer to build a well; they worked with us to create a sustainable solution. The foundation helped us install a solar-powered well system that now provides clean water to over 500 people. They also trained community members to maintain the system and established a community committee to manage it. The impact has been transformative. Children now attend school regularly, women have time for other productive activities, and waterborne diseases have decreased significantly. The project has united our community around a shared resource that we all help maintain and protect.",
+      "image": "/images/success-stories/mwanzo.jpg",
+      "year": 2020,
+      "impact": "School attendance has increased by 40%, and waterborne diseases have decreased by 65% in the community."
+    },
+    {
+      "id": "sarah-farm",
+      "title": "Sarah's Sustainable Farm",
+      "person": "Sarah Mutua",
+      "location": "Lusaka, Zambia",
+      "programType": "Sustainable Development",
+      "shortStory": "The foundation's agricultural training program taught me sustainable farming techniques. My crop yields have tripled, and I now sell organic produce to restaurants in the city.",
+      "fullStory": "I inherited a small plot of land from my parents, but years of conventional farming had depleted the soil. My harvests were getting smaller each year, and I was considering selling the land. Then I joined the Roberto Save Dreams Foundation's sustainable agriculture program. They taught me organic farming techniques, crop rotation, and water conservation methods. With a small grant, I was able to install a drip irrigation system and build a greenhouse for seedlings. The results were remarkable. My crop yields tripled within two seasons, and the quality of my produce improved significantly. I now grow a variety of organic vegetables that I sell to restaurants in Lusaka. The foundation also connected me with other farmers in the program, and together we've formed a cooperative to share resources and knowledge. Sustainable farming hasn't just improved my income; it's restored my family's land for future generations.",
+      "image": "/images/success-stories/sarah.jpg",
+      "year": 2021,
+      "impact": "Sarah's farm now produces over 5 tons of organic vegetables annually and has become a training site for other farmers."
+    },
+    {
+      "id": "tech-academy",
+      "title": "Tech Skills Academy",
+      "person": "Community Project",
+      "location": "Nairobi, Kenya",
+      "programType": "Education",
+      "shortStory": "The foundation helped us establish a technology training center that has equipped over 200 young people with digital skills, leading to employment opportunities.",
+      "fullStory": "In our rapidly digitalizing world, many young people in Nairobi were being left behind due to lack of access to technology education. The Roberto Save Dreams Foundation partnered with our community organization to establish the Tech Skills Academy. The foundation provided computers, internet connectivity, and curriculum development support. They also funded scholarships for students from low-income families. The academy offers courses in web development, graphic design, digital marketing, and basic computer skills. Since opening in 2019, we've trained over 200 young people, with 75% of our graduates finding employment or starting their own digital businesses. The academy has become a hub for innovation in our community, hosting hackathons and tech meetups. What makes this project special is that it's now self-sustaining, with revenue from fee-paying students covering operational costs and funding scholarships for those who can't afford to pay.",
+      "image": "/images/success-stories/tech-academy.jpg",
+      "year": 2019,
+      "impact": "75% of graduates have found employment in the tech sector, with average income increases of 300%."
+    }
+  ]
+} 

@@ -1,0 +1,193 @@
+{
+  "hero": {
+    "title": "About Roberto Save Dreams Foundation",
+    "subtitle": "Our story, mission, and the impact we're making across Africa",
+    "backgroundImage": "/images/hero/about-hero.jpg"
+  },
+  "mission": {
+    "title": "Our Mission",
+    "statement": "To empower individuals and communities across Africa through sustainable programs in education, microfinance, and community development.",
+    "description": "We believe that everyone deserves the opportunity to pursue their dreams, regardless of their economic circumstances. By providing access to education, financial resources, and sustainable development initiatives, we aim to create lasting change that transforms lives and communities.",
+    "image": "/images/about/mission.jpg"
+  },
+  "vision": {
+    "title": "Our Vision",
+    "statement": "A world where every African has the resources, opportunities, and support needed to achieve their full potential.",
+    "description": "We envision thriving communities where access to quality education is universal, where entrepreneurs have the resources to build sustainable businesses, and where community-led development creates lasting prosperity.",
+    "image": "/images/about/vision.jpg"
+  },
+  "values": {
+    "title": "Our Values",
+    "description": "These core principles guide our work and decision-making:",
+    "valuesList": [
+      {
+        "title": "Empowerment",
+        "description": "We believe in equipping individuals with the tools, resources, and knowledge they need to create their own success."
+      },
+      {
+        "title": "Sustainability",
+        "description": "We focus on long-term solutions that create lasting change, not quick fixes or temporary relief."
+      },
+      {
+        "title": "Community-Led",
+        "description": "We listen to and partner with local communities, respecting their knowledge and leadership in addressing their own challenges."
+      },
+      {
+        "title": "Transparency",
+        "description": "We are committed to openness and accountability in all our operations and financial management."
+      },
+      {
+        "title": "Innovation",
+        "description": "We continuously seek creative and effective approaches to address complex challenges."
+      }
+    ]
+  },
+  "story": {
+    "title": "Our Story",
+    "paragraphs": [
+      "Roberto Save Dreams Foundation was established in 2015 by Roberto Martins, a Brazilian-Nigerian entrepreneur who experienced firsthand the transformative power of education and economic opportunity.",
+      "Growing up in Lagos, Nigeria, Roberto faced significant economic challenges. His life changed when he received a scholarship to complete his education, followed by a small loan to start his first business. These opportunities set him on a path to success as an international businessman.",
+      "Determined to create similar opportunities for others, Roberto established the foundation with an initial focus on providing scholarships and microloans in Nigeria. Over the years, the foundation has expanded its programs and geographic reach, now operating in 15 countries across Africa.",
+      "What began as one person's vision has grown into a vibrant organization with dedicated staff, volunteers, and partners working together to empower individuals and transform communities across the continent."
+    ],
+    "founderImage": "/images/about/founder.jpg",
+    "timelineEvents": [
+      {
+        "year": 2015,
+        "title": "Foundation Established",
+        "description": "Roberto Martins establishes the foundation in Lagos, Nigeria, with initial programs in education and microfinance."
+      },
+      {
+        "year": 2016,
+        "title": "First Scholarship Program",
+        "description": "Launch of our flagship scholarship program, supporting 50 students in Nigeria."
+      },
+      {
+        "year": 2017,
+        "title": "Expansion to Ghana and Kenya",
+        "description": "Programs expand to two new countries, with partnerships with local organizations."
+      },
+      {
+        "year": 2018,
+        "title": "Sustainable Development Focus",
+        "description": "Addition of sustainable development programs, including clean water and renewable energy initiatives."
+      },
+      {
+        "year": 2020,
+        "title": "Digital Education Initiative",
+        "description": "Launch of technology training programs to address the digital divide."
+      },
+      {
+        "year": 2022,
+        "title": "Reached 10,000 Beneficiaries",
+        "description": "Milestone of impacting over 10,000 lives through our various programs."
+      },
+      {
+        "year": 2023,
+        "title": "Present in 15 Countries",
+        "description": "Expansion to 15 countries across West, East, and Southern Africa."
+      }
+    ]
+  },
+  "approach": {
+    "title": "Our Approach",
+    "description": "We believe in sustainable development that addresses root causes rather than symptoms. Our approach is characterized by:",
+    "principles": [
+      {
+        "title": "Local Partnership",
+        "description": "We work with local organizations and community leaders who understand the context and have established trust.",
+        "icon": "handshake"
+      },
+      {
+        "title": "Holistic Solutions",
+        "description": "We recognize that challenges are interconnected and require comprehensive approaches.",
+        "icon": "puzzle"
+      },
+      {
+        "title": "Capacity Building",
+        "description": "We focus on developing skills and knowledge that remain in communities long after our programs end.",
+        "icon": "tools"
+      },
+      {
+        "title": "Measurable Impact",
+        "description": "We rigorously evaluate our programs to ensure they're creating meaningful change.",
+        "icon": "chart"
+      }
+    ],
+    "image": "/images/about/approach.jpg"
+  },
+  "team": {
+    "title": "Our Team",
+    "description": "Meet the dedicated professionals who lead our work across Africa.",
+    "cta": "View Full Team",
+    "ctaLink": "/team"
+  },
+  "partners": {
+    "title": "Our Partners",
+    "description": "We collaborate with organizations that share our vision and values.",
+    "partnersList": [
+      {
+        "name": "African Development Bank",
+        "logo": "/images/partners/adb.png",
+        "link": "https://www.afdb.org/"
+      },
+      {
+        "name": "UNICEF",
+        "logo": "/images/partners/unicef.png",
+        "link": "https://www.unicef.org/"
+      },
+      {
+        "name": "Gates Foundation",
+        "logo": "/images/partners/gates.png",
+        "link": "https://www.gatesfoundation.org/"
+      },
+      {
+        "name": "Mastercard Foundation",
+        "logo": "/images/partners/mastercard.png",
+        "link": "https://mastercardfdn.org/"
+      },
+      {
+        "name": "Tony Elumelu Foundation",
+        "logo": "/images/partners/tef.png",
+        "link": "https://www.tonyelumelufoundation.org/"
+      },
+      {
+        "name": "African Union",
+        "logo": "/images/partners/au.png",
+        "link": "https://au.int/"
+      }
+    ]
+  },
+  "reports": {
+    "title": "Annual Reports & Financials",
+    "description": "We are committed to transparency and accountability in all our operations.",
+    "reportsList": [
+      {
+        "year": 2022,
+        "title": "Annual Report 2022",
+        "description": "Our impact, financials, and key achievements from 2022.",
+        "link": "/reports/annual-report-2022.pdf"
+      },
+      {
+        "year": 2021,
+        "title": "Annual Report 2021",
+        "description": "Our impact, financials, and key achievements from 2021.",
+        "link": "/reports/annual-report-2021.pdf"
+      },
+      {
+        "year": 2020,
+        "title": "Annual Report 2020",
+        "description": "Our impact, financials, and key achievements from 2020.",
+        "link": "/reports/annual-report-2020.pdf"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Join Our Mission",
+    "description": "There are many ways to support our work and make a difference.",
+    "primaryCta": "Donate Now",
+    "primaryCtaLink": "/donate",
+    "secondaryCta": "Get Involved",
+    "secondaryCtaLink": "/get-involved"
+  }
+} 

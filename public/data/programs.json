@@ -1,0 +1,77 @@
+{
+  "programs": [
+    {
+      "id": "education",
+      "title": "Education",
+      "shortDescription": "Providing access to quality education and learning resources for children and adults.",
+      "fullDescription": "Our education program aims to break the cycle of poverty by providing access to quality education. We support students from primary school through university with scholarships, learning materials, and mentorship. We also build and renovate schools in underserved communities to create conducive learning environments.",
+      "image": "/images/programs/education.jpg",
+      "stats": {
+        "studentsSupported": 500,
+        "schoolsBuilt": 5,
+        "teachersTrained": 50
+      },
+      "eligibility": [
+        "Students from low-income families",
+        "Demonstrated academic potential",
+        "Commitment to community service"
+      ],
+      "applicationProcess": [
+        "Complete online application form",
+        "Submit academic records",
+        "Provide recommendation letters",
+        "Interview with selection committee"
+      ]
+    },
+    {
+      "id": "microloans",
+      "title": "Microloans",
+      "shortDescription": "Empowering entrepreneurs with small loans to start or grow their businesses.",
+      "fullDescription": "Our microloan program provides small business owners with the capital they need to start or expand their enterprises. We offer low-interest loans ranging from $500 to $5,000, along with business training and mentorship to ensure sustainable growth. Our focus is on supporting women entrepreneurs and youth-led businesses.",
+      "image": "/images/programs/microloans.jpg",
+      "stats": {
+        "loansProvided": 250,
+        "averageLoanAmount": 1500,
+        "businessesSupported": 200,
+        "repaymentRate": 95
+      },
+      "eligibility": [
+        "Viable business plan",
+        "Resident of target communities",
+        "Demonstrated entrepreneurial skills",
+        "Unable to access traditional banking"
+      ],
+      "applicationProcess": [
+        "Complete business assessment",
+        "Submit business plan",
+        "Attend financial literacy training",
+        "Review by loan committee"
+      ]
+    },
+    {
+      "id": "sustainable",
+      "title": "Sustainable Development",
+      "shortDescription": "Creating long-term solutions for community growth and environmental sustainability.",
+      "fullDescription": "Our sustainable development initiatives focus on creating lasting positive change in communities. We implement projects in renewable energy, clean water access, sustainable agriculture, and waste management. By combining environmental sustainability with economic opportunity, we help communities thrive while preserving natural resources for future generations.",
+      "image": "/images/programs/sustainable.jpg",
+      "stats": {
+        "communitiesServed": 12,
+        "cleanWaterProjects": 8,
+        "solarInstallations": 15,
+        "farmersTrained": 120
+      },
+      "eligibility": [
+        "Community-led initiatives",
+        "Focus on environmental sustainability",
+        "Long-term viability",
+        "Community participation"
+      ],
+      "applicationProcess": [
+        "Community needs assessment",
+        "Project proposal submission",
+        "Community consultation",
+        "Implementation planning"
+      ]
+    }
+  ]
+} 

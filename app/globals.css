@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Button styles */
+.btn {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-radius: 0.375rem;
+  transition-property: all;
+  transition-duration: 300ms;
+  font-family: var(--font-caveat);
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.btn-primary {
+  background-color: #3eb54d;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #2d9039;
+}
+
+.btn-secondary {
+  background-color: #ffc500;
+  color: #171717;
+}
+.btn-secondary:hover {
+  background-color: #f2b000;
+}
+
+.btn-outline {
+  border-width: 2px;
+  border-color: #3eb54d;
+  color: #3eb54d;
+}
+.btn-outline:hover {
+  background-color: #3eb54d;
+  color: white;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heebo);
+  font-weight: bold;
+}
+
+.subtitle {
+  font-family: var(--font-caveat);
+}

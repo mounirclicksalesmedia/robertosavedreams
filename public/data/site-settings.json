@@ -1,0 +1,186 @@
+{
+  "site": {
+    "name": "Roberto Save Dreams Foundation",
+    "shortName": "Roberto Save Dreams",
+    "description": "Empowering individuals and communities across Africa through education, microfinance, and sustainable development.",
+    "url": "https://robertosavedreams.org",
+    "logo": {
+      "main": "/images/logo/logo-main.svg",
+      "white": "/images/logo/logo-white.svg",
+      "favicon": "/favicon.ico"
+    },
+    "contact": {
+      "email": "info@robertosavedreams.org",
+      "phone": "+234-123-4567",
+      "address": "123 Victoria Island Boulevard, Lagos, Nigeria"
+    }
+  },
+  "theme": {
+    "colors": {
+      "primary": "#3eb54d",
+      "secondary": "#ffc500",
+      "accent": "#ff6b35",
+      "background": "#ffffff",
+      "text": "#333333",
+      "lightGray": "#f5f5f5",
+      "mediumGray": "#cccccc",
+      "darkGray": "#666666",
+      "success": "#28a745",
+      "error": "#dc3545",
+      "warning": "#ffc107",
+      "info": "#17a2b8"
+    },
+    "fonts": {
+      "heading": "Heebo, sans-serif",
+      "subheading": "Caveat, cursive",
+      "body": "Heebo, sans-serif",
+      "button": "Caveat, cursive"
+    },
+    "borderRadius": {
+      "small": "4px",
+      "medium": "8px",
+      "large": "16px",
+      "round": "50%"
+    },
+    "boxShadow": {
+      "small": "0 2px 4px rgba(0,0,0,0.1)",
+      "medium": "0 4px 8px rgba(0,0,0,0.1)",
+      "large": "0 8px 16px rgba(0,0,0,0.1)"
+    },
+    "spacing": {
+      "xs": "0.25rem",
+      "sm": "0.5rem",
+      "md": "1rem",
+      "lg": "2rem",
+      "xl": "4rem",
+      "xxl": "8rem"
+    }
+  },
+  "seo": {
+    "titleTemplate": "%s | Roberto Save Dreams Foundation",
+    "defaultTitle": "Roberto Save Dreams Foundation - Empowering Dreams Across Africa",
+    "defaultDescription": "Roberto Save Dreams Foundation is dedicated to creating sustainable opportunities through education, microfinance, and community development across Africa.",
+    "defaultKeywords": "Roberto Save Dreams, foundation, Africa, education, microloans, sustainable development, nonprofit, charity",
+    "defaultImage": "/images/og-image.jpg",
+    "twitterHandle": "@robertodreams",
+    "googleAnalyticsId": "G-XXXXXXXXXX"
+  },
+  "features": {
+    "donations": {
+      "enabled": true,
+      "minimumAmount": 5,
+      "suggestedAmounts": [25, 50, 100, 250, 500, 1000],
+      "currencies": ["USD", "EUR", "GBP", "NGN", "GHS", "KES"]
+    },
+    "applications": {
+      "enabled": true,
+      "openForSubmissions": true,
+      "deadlines": {
+        "microloans": "Rolling basis",
+        "educationGrants": "March 31 and September 30",
+        "communityProjects": "Last day of each quarter"
+      }
+    },
+    "newsletter": {
+      "enabled": true,
+      "provider": "mailchimp",
+      "listId": "abc123def456"
+    },
+    "blog": {
+      "enabled": true,
+      "postsPerPage": 9,
+      "showAuthor": true,
+      "showDate": true,
+      "showReadTime": true,
+      "allowComments": false
+    },
+    "testimonials": {
+      "enabled": true,
+      "rotationSpeed": 5000
+    },
+    "successStories": {
+      "enabled": true,
+      "featuredCount": 3
+    }
+  },
+  "social": {
+    "platforms": [
+      {
+        "name": "Facebook",
+        "url": "https://facebook.com/robertosavedreams",
+        "icon": "facebook",
+        "active": true
+      },
+      {
+        "name": "Twitter",
+        "url": "https://twitter.com/robertodreams",
+        "icon": "twitter",
+        "active": true
+      },
+      {
+        "name": "Instagram",
+        "url": "https://instagram.com/robertosavedreams",
+        "icon": "instagram",
+        "active": true
+      },
+      {
+        "name": "LinkedIn",
+        "url": "https://linkedin.com/company/roberto-save-dreams-foundation",
+        "icon": "linkedin",
+        "active": true
+      },
+      {
+        "name": "YouTube",
+        "url": "https://youtube.com/robertosavedreams",
+        "icon": "youtube",
+        "active": true
+      }
+    ],
+    "sharing": {
+      "enabled": true,
+      "platforms": ["facebook", "twitter", "linkedin", "email", "whatsapp"]
+    }
+  },
+  "legal": {
+    "privacyPolicy": {
+      "lastUpdated": "2023-01-15",
+      "version": "1.2"
+    },
+    "termsOfService": {
+      "lastUpdated": "2023-01-15",
+      "version": "1.2"
+    },
+    "cookiePolicy": {
+      "lastUpdated": "2023-01-15",
+      "version": "1.1"
+    },
+    "registrationNumbers": {
+      "nigeria": "RC-123456",
+      "usa": "501(c)(3) 12-3456789",
+      "uk": "Charity No. 123456"
+    }
+  },
+  "localization": {
+    "defaultLocale": "en",
+    "supportedLocales": [
+      {
+        "code": "en",
+        "name": "English",
+        "active": true
+      },
+      {
+        "code": "pt",
+        "name": "Portuguese",
+        "active": true
+      },
+      {
+        "code": "fr",
+        "name": "French",
+        "active": false
+      }
+    ],
+    "dateFormat": "MMMM D, YYYY",
+    "timeFormat": "h:mm A",
+    "timezone": "Africa/Lagos"
+  }
+} 

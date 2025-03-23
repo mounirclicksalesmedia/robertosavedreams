@@ -1,0 +1,48 @@
+{
+  "name": "roberto-save-dreams",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "@hookform/resolvers": "^3.3.4",
+    "@prisma/client": "^5.10.2",
+    "@sendgrid/mail": "^8.1.0",
+    "@types/react-color": "^3.0.13",
+    "@types/uuid": "^10.0.0",
+    "aws-sdk": "^2.1550.0",
+    "bcryptjs": "^2.4.3",
+    "clsx": "^2.1.1",
+    "date-fns": "^3.6.0",
+    "framer-motion": "^11.18.2",
+    "lucide-react": "^0.482.0",
+    "next": "15.2.0",
+    "next-auth": "^5.0.0-beta.25",
+    "node-fetch": "^2.7.0",
+    "react": "^19.0.0",
+    "react-color": "^2.19.3",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.50.1",
+    "tailwind-merge": "^3.0.2",
+    "uuid": "^11.1.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.2.0",
+    "prisma": "^5.10.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

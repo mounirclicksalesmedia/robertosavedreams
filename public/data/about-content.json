@@ -1,0 +1,92 @@
+{
+  "hero": {
+    "title": "Who We Are",
+    "subtitle": "Our Story, Our Mission",
+    "description": "Empowering women and girls to create lasting change in their communities"
+  },
+  "introduction": {
+    "title": "ROBERTO SAVE DREAMS FOUNDATION",
+    "description": "Humanitarian women's organisation is dedicated to empowering and uplifting women and girls in underserved communities around the world. We believe that by providing access to education, healthcare, and economic opportunities, we can help women break the cycle of poverty and become active agents of change in their own lives and in their communities."
+  },
+  "missionVision": {
+    "mission": {
+      "title": "Our Mission",
+      "description": "Our mission is to create a world where every woman and girl has the opportunity to reach her full potential, to lead a healthy and fulfilling life, and to participate fully in the economic, social, and political life of her country."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "Empowering Women, Transforming the World."
+    }
+  },
+  "founder": {
+    "name": "Dr. Roberto Cacoma Chiteta",
+    "role": "Founder & CEO",
+    "image": "/images/about/dr-roberto.jpg",
+    "description": [
+      "Dr. Roberto Cacoma Chiteta is a forward-thinking entrepreneur who holds dual citizenship in Angola and Zambia. He is primarily based in Luanda Nova cidade Kilamba. With over 11 years of experience in leadership training roles, Dr. Chiteta has designed and delivered educational programs globally, spanning regions such as the UK, Europe, Africa, Australia, Hong Kong, and China.",
+      "Currently, Dr. Chiteta serves as the CEO and Founder at Roberto Save Dreams Foundation (2024-Present), where he continues to lead impactful leadership development programs."
+    ],
+    "qualifications": [
+      "Master's in Leadership",
+      "PhD in Philosophy",
+      "PhD in Justice and Criminology",
+      "Certificate Pedagogy Course in English Language",
+      "PDA International qualifications in management and talent development",
+      "Diploma in Project Planning and Management"
+    ]
+  },
+  "team": {
+    "title": "Our Team",
+    "members": [
+      {
+        "name": "Christine Chilangwa",
+        "role": "Country Director (Zambia - Angola)",
+        "image": "/images/team/christian.jpg"
+      },
+      {
+        "name": "Jennifer Chinyere Osakwe",
+        "role": "President of RSDF Global",
+        "image": "/images/team/jennifer.jpg"
+      }
+    ]
+  },
+  "strategicGoalsObjectives": {
+    "title": "Strategic Goals & Objectives",
+    "goals": [
+      "Provide access to quality education for women and girls",
+      "Improve access to healthcare and reproductive health services",
+      "Support women's economic empowerment",
+      "Advocate for women's rights and gender equality"
+    ],
+    "objectives": [
+      "Establish network of women's centers",
+      "Train and empower new women leaders",
+      "Advocate for policy changes promoting women's rights"
+    ]
+  },
+  "coreValues": {
+    "title": "Core Values",
+    "values": [
+      {
+        "title": "Empowerment",
+        "description": "We believe that women and girls have the right to make decisions about their own lives and to have the skills and resources necessary to achieve their goals."
+      },
+      {
+        "title": "Inclusion",
+        "description": "We are committed to reaching the most marginalized and excluded women and girls, particularly those living in poverty, those affected by conflict or crisis, and those living with disabilities."
+      },
+      {
+        "title": "Sustainability",
+        "description": "We work to build sustainable, community-led solutions that will outlast our initial support and continue to empower women and girls for generations to come."
+      }
+    ]
+  },
+  "callToAction": {
+    "title": "Building a Better World",
+    "description": "We rely on the generosity of donors and supporters to fund our work. Join us in making a difference.",
+    "button": {
+      "text": "Make a Donation",
+      "url": "/donate"
+    }
+  }
+}

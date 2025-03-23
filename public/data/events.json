@@ -1,0 +1,513 @@
+{
+  "hero": {
+    "title": "Events & Workshops",
+    "subtitle": "Join us for impactful events that bring our community together and advance our mission",
+    "backgroundImage": "/images/hero/events-hero.jpg"
+  },
+  "intro": {
+    "title": "Connect & Contribute",
+    "description": "At Roberto Save Dreams Foundation, we organize various events throughout the year to engage our community, share knowledge, raise funds, and create meaningful connections. From educational workshops to fundraising galas, our events provide opportunities to learn about our work, meet our team, and discover ways to get involved."
+  },
+  "eventCategories": [
+    {
+      "id": "fundraising",
+      "name": "Fundraising Events",
+      "description": "Galas, charity auctions, and campaigns that raise critical funds for our programs",
+      "icon": "coin"
+    },
+    {
+      "id": "educational",
+      "name": "Educational Workshops",
+      "description": "Skills training, business development, and educational seminars for beneficiaries and supporters",
+      "icon": "academic-cap"
+    },
+    {
+      "id": "community",
+      "name": "Community Gatherings",
+      "description": "Local events that bring together beneficiaries, donors, and community members",
+      "icon": "users"
+    },
+    {
+      "id": "virtual",
+      "name": "Virtual Events",
+      "description": "Online webinars, discussions, and presentations accessible from anywhere",
+      "icon": "computer"
+    }
+  ],
+  "upcomingEvents": [
+    {
+      "id": "annual-gala-2023",
+      "title": "Annual Fundraising Gala 2023",
+      "category": "fundraising",
+      "date": "2023-11-15T18:00:00Z",
+      "endDate": "2023-11-15T22:00:00Z",
+      "location": {
+        "name": "Grand Horizon Hotel",
+        "address": "123 Victoria Island, Lagos, Nigeria",
+        "coordinates": {
+          "lat": 6.4281,
+          "lng": 3.4219
+        },
+        "isVirtual": false
+      },
+      "description": "Join us for our most prestigious event of the year, the Annual Fundraising Gala. This elegant evening will feature inspiring stories from our beneficiaries, a silent auction with exclusive items, gourmet dining, and entertainment. All proceeds will support our education and microloan programs across Africa.",
+      "image": "/images/events/annual-gala.jpg",
+      "ticketInfo": {
+        "available": true,
+        "price": "$150",
+        "tablePrice": "$1,200",
+        "url": "/events/annual-gala-2023/register"
+      },
+      "schedule": [
+        {
+          "time": "18:00",
+          "activity": "Welcome Reception & Cocktails"
+        },
+        {
+          "time": "19:00",
+          "activity": "Dinner & Program"
+        },
+        {
+          "time": "20:30",
+          "activity": "Silent Auction"
+        },
+        {
+          "time": "21:15",
+          "activity": "Entertainment & Dancing"
+        }
+      ],
+      "speakers": [
+        {
+          "name": "Dr. Roberto Clemente",
+          "title": "Founder & President",
+          "image": "/images/team/roberto-clemente.jpg"
+        },
+        {
+          "name": "Amina Diallo",
+          "title": "Education Program Director",
+          "image": "/images/team/amina-diallo.jpg"
+        }
+      ],
+      "sponsors": [
+        {
+          "name": "Global Bank",
+          "logo": "/images/sponsors/global-bank.png"
+        },
+        {
+          "name": "Tech Innovations Inc.",
+          "logo": "/images/sponsors/tech-innovations.png"
+        }
+      ],
+      "featured": true
+    },
+    {
+      "id": "business-workshop-lagos",
+      "title": "Entrepreneurship Workshop Series",
+      "category": "educational",
+      "date": "2023-10-05T10:00:00Z",
+      "endDate": "2023-10-05T15:00:00Z",
+      "location": {
+        "name": "Roberto Save Dreams Community Center",
+        "address": "45 Adebayo Street, Yaba, Lagos, Nigeria",
+        "coordinates": {
+          "lat": 6.5075,
+          "lng": 3.3838
+        },
+        "isVirtual": false
+      },
+      "description": "This hands-on workshop is designed for current and prospective microloan recipients. Learn essential business skills including financial management, marketing strategies, and sustainable business practices. The workshop will include interactive sessions, networking opportunities, and one-on-one consultations with business mentors.",
+      "image": "/images/events/business-workshop.jpg",
+      "ticketInfo": {
+        "available": true,
+        "price": "Free (Registration Required)",
+        "url": "/events/business-workshop-lagos/register"
+      },
+      "schedule": [
+        {
+          "time": "10:00",
+          "activity": "Welcome & Introduction"
+        },
+        {
+          "time": "10:30",
+          "activity": "Financial Management for Small Businesses"
+        },
+        {
+          "time": "12:00",
+          "activity": "Lunch Break"
+        },
+        {
+          "time": "13:00",
+          "activity": "Marketing on a Budget"
+        },
+        {
+          "time": "14:30",
+          "activity": "Networking Session"
+        }
+      ],
+      "speakers": [
+        {
+          "name": "Kofi Mensah",
+          "title": "Microloan Program Director",
+          "image": "/images/team/kofi-mensah.jpg"
+        },
+        {
+          "name": "Sarah Johnson",
+          "title": "Business Development Consultant",
+          "image": "/images/speakers/sarah-johnson.jpg"
+        }
+      ],
+      "featured": true
+    },
+    {
+      "id": "virtual-donor-briefing",
+      "title": "Virtual Donor Briefing: Q3 Impact Report",
+      "category": "virtual",
+      "date": "2023-10-12T17:00:00Z",
+      "endDate": "2023-10-12T18:30:00Z",
+      "location": {
+        "name": "Zoom Webinar",
+        "isVirtual": true,
+        "virtualLink": "Provided upon registration"
+      },
+      "description": "Join our quarterly virtual briefing for donors and supporters to learn about our recent impact, ongoing projects, and future plans. Our program directors will share updates from the field, and you'll hear directly from beneficiaries whose lives have been transformed through your support.",
+      "image": "/images/events/virtual-briefing.jpg",
+      "ticketInfo": {
+        "available": true,
+        "price": "Free (Registration Required)",
+        "url": "/events/virtual-donor-briefing/register"
+      },
+      "schedule": [
+        {
+          "time": "17:00",
+          "activity": "Welcome & Foundation Updates"
+        },
+        {
+          "time": "17:15",
+          "activity": "Q3 Impact Report Presentation"
+        },
+        {
+          "time": "17:45",
+          "activity": "Beneficiary Stories"
+        },
+        {
+          "time": "18:00",
+          "activity": "Q&A Session"
+        }
+      ],
+      "speakers": [
+        {
+          "name": "Dr. Roberto Clemente",
+          "title": "Founder & President",
+          "image": "/images/team/roberto-clemente.jpg"
+        },
+        {
+          "name": "Fatima Osei",
+          "title": "Director of Development",
+          "image": "/images/team/fatima-osei.jpg"
+        }
+      ],
+      "featured": false
+    },
+    {
+      "id": "community-water-project",
+      "title": "Community Water Project Launch",
+      "category": "community",
+      "date": "2023-10-20T11:00:00Z",
+      "endDate": "2023-10-20T14:00:00Z",
+      "location": {
+        "name": "Mwanza Village",
+        "address": "Mwanza Region, Tanzania",
+        "coordinates": {
+          "lat": -2.5164,
+          "lng": 32.9175
+        },
+        "isVirtual": false
+      },
+      "description": "Join us for the inauguration of our newest sustainable development initiative - a community water project in Mwanza Village, Tanzania. This project will provide clean, accessible water to over 500 families. The event will include a ribbon-cutting ceremony, community celebrations, and an opportunity to meet the local partners who made this project possible.",
+      "image": "/images/events/water-project.jpg",
+      "ticketInfo": {
+        "available": false,
+        "note": "This event is open to the public. No registration required."
+      },
+      "schedule": [
+        {
+          "time": "11:00",
+          "activity": "Welcome & Project Overview"
+        },
+        {
+          "time": "11:30",
+          "activity": "Ribbon Cutting Ceremony"
+        },
+        {
+          "time": "12:00",
+          "activity": "Community Celebration"
+        },
+        {
+          "time": "13:00",
+          "activity": "Project Tours"
+        }
+      ],
+      "speakers": [
+        {
+          "name": "James Mwangi",
+          "title": "Sustainable Development Director",
+          "image": "/images/team/james-mwangi.jpg"
+        },
+        {
+          "name": "Chief Adamu",
+          "title": "Mwanza Village Leader",
+          "image": "/images/speakers/chief-adamu.jpg"
+        }
+      ],
+      "featured": true
+    }
+  ],
+  "pastEvents": [
+    {
+      "id": "education-summit-2023",
+      "title": "Education for All Summit 2023",
+      "category": "educational",
+      "date": "2023-06-15T09:00:00Z",
+      "endDate": "2023-06-16T17:00:00Z",
+      "location": {
+        "name": "University of Nairobi",
+        "address": "University Way, Nairobi, Kenya",
+        "isVirtual": false
+      },
+      "description": "Our annual Education for All Summit brought together educators, policymakers, donors, and students to discuss innovative approaches to education in underserved communities. The two-day conference featured keynote speeches, panel discussions, and interactive workshops focused on improving educational outcomes across Africa.",
+      "image": "/images/events/education-summit.jpg",
+      "highlights": [
+        "Over 300 attendees from 15 countries",
+        "Launch of our new scholarship program for girls in STEM",
+        "Partnerships formed with 5 new educational institutions"
+      ],
+      "resources": [
+        {
+          "type": "Video",
+          "title": "Keynote Address",
+          "url": "/resources/education-summit-keynote"
+        },
+        {
+          "type": "PDF",
+          "title": "Conference Proceedings",
+          "url": "/resources/education-summit-proceedings.pdf"
+        },
+        {
+          "type": "Photos",
+          "title": "Event Gallery",
+          "url": "/events/education-summit-2023/gallery"
+        }
+      ]
+    },
+    {
+      "id": "virtual-fundraiser-2023",
+      "title": "Virtual 5K Fundraiser",
+      "category": "fundraising",
+      "date": "2023-04-22T00:00:00Z",
+      "endDate": "2023-04-23T23:59:59Z",
+      "location": {
+        "name": "Worldwide",
+        "isVirtual": true
+      },
+      "description": "Our first-ever Virtual 5K Fundraiser allowed supporters from around the world to participate in a weekend-long event to raise funds for our education programs. Participants walked, ran, or biked 5 kilometers in their local communities while tracking their progress through our mobile app.",
+      "image": "/images/events/virtual-5k.jpg",
+      "highlights": [
+        "Over 500 participants from 23 countries",
+        "Raised $75,000 for education programs",
+        "Social media campaign reached 100,000+ people"
+      ],
+      "resources": [
+        {
+          "type": "Video",
+          "title": "Event Highlights",
+          "url": "/resources/virtual-5k-highlights"
+        },
+        {
+          "type": "Photos",
+          "title": "Participant Gallery",
+          "url": "/events/virtual-5k/gallery"
+        }
+      ]
+    },
+    {
+      "id": "microloan-graduation-2023",
+      "title": "Microloan Program Graduation Ceremony",
+      "category": "community",
+      "date": "2023-03-10T14:00:00Z",
+      "endDate": "2023-03-10T17:00:00Z",
+      "location": {
+        "name": "Roberto Save Dreams Community Center",
+        "address": "45 Adebayo Street, Yaba, Lagos, Nigeria",
+        "isVirtual": false
+      },
+      "description": "We celebrated the successful completion of our 2022-2023 Microloan Program cohort. 75 entrepreneurs graduated after completing their business training and successfully repaying their microloans. The ceremony featured presentations of their businesses, success stories, and a marketplace where graduates showcased their products and services.",
+      "image": "/images/events/microloan-graduation.jpg",
+      "highlights": [
+        "75 graduates with a 98% loan repayment rate",
+        "30% average increase in business income",
+        "15 businesses hired additional employees"
+      ],
+      "resources": [
+        {
+          "type": "Video",
+          "title": "Graduation Ceremony",
+          "url": "/resources/microloan-graduation-video"
+        },
+        {
+          "type": "PDF",
+          "title": "Impact Report",
+          "url": "/resources/microloan-impact-2023.pdf"
+        },
+        {
+          "type": "Photos",
+          "title": "Event Gallery",
+          "url": "/events/microloan-graduation/gallery"
+        }
+      ]
+    }
+  ],
+  "registration": {
+    "title": "Event Registration",
+    "description": "Registration for our events is quick and easy. Simply click the register button for the event you're interested in and complete the form. For paid events, you can complete your payment securely online.",
+    "process": [
+      {
+        "step": 1,
+        "title": "Select an Event",
+        "description": "Browse our upcoming events and click 'Register' for the one you'd like to attend."
+      },
+      {
+        "step": 2,
+        "title": "Complete Registration Form",
+        "description": "Fill out your personal information and any event-specific questions."
+      },
+      {
+        "step": 3,
+        "title": "Payment (if applicable)",
+        "description": "For paid events, complete your payment through our secure payment system."
+      },
+      {
+        "step": 4,
+        "title": "Confirmation",
+        "description": "Receive a confirmation email with event details and any necessary instructions."
+      }
+    ],
+    "faq": [
+      {
+        "question": "Can I register for multiple events at once?",
+        "answer": "Currently, you need to register for each event separately. This ensures we collect the right information for each specific event."
+      },
+      {
+        "question": "What is your cancellation policy?",
+        "answer": "For free events, please let us know if you can no longer attend so we can offer your spot to someone else. For paid events, refunds are available up to 7 days before the event. After that, we can transfer your registration to another person or convert it to a donation."
+      },
+      {
+        "question": "Are there discounts available for students or groups?",
+        "answer": "Yes, we offer discounted rates for students (with valid ID) and for groups of 5 or more. Please contact events@robertosavedreams.org for more information."
+      }
+    ]
+  },
+  "hostYourOwn": {
+    "title": "Host Your Own Fundraiser",
+    "description": "Want to support our mission by hosting your own event? We provide resources and support for community fundraisers, awareness events, and more.",
+    "steps": [
+      {
+        "step": 1,
+        "title": "Contact Us",
+        "description": "Reach out to our events team to discuss your idea and how we can support you."
+      },
+      {
+        "step": 2,
+        "title": "Plan Your Event",
+        "description": "We'll provide guidance, materials, and resources to help you plan a successful event."
+      },
+      {
+        "step": 3,
+        "title": "Promote & Host",
+        "description": "Spread the word and host your event. We can help with promotion through our channels."
+      },
+      {
+        "step": 4,
+        "title": "Share Your Impact",
+        "description": "After your event, we'll share how your contribution is making a difference."
+      }
+    ],
+    "contactInfo": {
+      "email": "events@robertosavedreams.org",
+      "phone": "+234 800 123 4567"
+    },
+    "cta": {
+      "text": "Contact Our Events Team",
+      "url": "/contact?subject=Host%20an%20Event"
+    }
+  },
+  "calendar": {
+    "title": "Event Calendar",
+    "description": "View all our upcoming events in calendar format. Filter by event type, location, or date to find events that interest you.",
+    "url": "/events/calendar",
+    "subscribeUrl": "/api/calendar/subscribe",
+    "subscribeText": "Add to Your Calendar"
+  },
+  "notification": {
+    "title": "Stay Updated",
+    "description": "Sign up to receive notifications about upcoming events that match your interests.",
+    "formFields": [
+      {
+        "id": "email",
+        "label": "Email Address",
+        "type": "email",
+        "required": true
+      },
+      {
+        "id": "name",
+        "label": "Full Name",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "interests",
+        "label": "Event Types",
+        "type": "checkbox",
+        "options": [
+          "Fundraising Events",
+          "Educational Workshops",
+          "Community Gatherings",
+          "Virtual Events"
+        ],
+        "required": true
+      },
+      {
+        "id": "location",
+        "label": "Preferred Location",
+        "type": "select",
+        "options": [
+          "All Locations",
+          "Nigeria",
+          "Kenya",
+          "Tanzania",
+          "Ghana",
+          "Virtual Only"
+        ],
+        "required": true
+      }
+    ],
+    "submitButton": {
+      "text": "Subscribe to Events",
+      "url": "/api/events/subscribe"
+    }
+  },
+  "contact": {
+    "title": "Questions About Events?",
+    "description": "Our events team is here to help with any questions about upcoming events, registration, or hosting your own fundraiser.",
+    "email": "events@robertosavedreams.org",
+    "phone": "+234 800 123 4567",
+    "cta": {
+      "text": "Contact Events Team",
+      "url": "/contact?department=events"
+    }
+  },
+  "seo": {
+    "title": "Events & Workshops | Roberto Save Dreams Foundation",
+    "description": "Join Roberto Save Dreams Foundation for impactful events including fundraisers, educational workshops, community gatherings, and virtual events that support our mission across Africa.",
+    "keywords": "nonprofit events, charity fundraisers, educational workshops, community development events, virtual fundraisers, Africa charity events"
+  }
+} 

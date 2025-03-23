@@ -1,0 +1,522 @@
+{
+  "hero": {
+    "title": "Apply for Support",
+    "subtitle": "Submit your application for financial and technical assistance from Roberto Save Dreams Foundation.",
+    "backgroundImage": "/images/hero/application-hero.jpg"
+  },
+  "intro": {
+    "title": "Application Process",
+    "description": "Thank you for your interest in applying for support from Roberto Save Dreams Foundation. Please review the information below carefully before starting your application. Fields marked with an asterisk (*) are required.",
+    "steps": [
+      "Complete and submit the online application form",
+      "Our team reviews your application (2-4 weeks)",
+      "Selected applicants are invited for an interview or site visit",
+      "Final decision and notification",
+      "Funding disbursement and program implementation"
+    ]
+  },
+  "programTypes": [
+    {
+      "id": "microloan",
+      "title": "Microloan",
+      "description": "Small business loans ranging from $500 to $5,000 for entrepreneurs looking to start or expand their businesses.",
+      "eligibility": [
+        "Must be 18 years or older",
+        "Must have a viable business plan",
+        "Must complete our business training workshop",
+        "Must be a resident of a community where we operate",
+        "Must demonstrate inability to access traditional banking services"
+      ],
+      "image": "/images/programs/microloans-thumbnail.jpg"
+    },
+    {
+      "id": "education-grant",
+      "title": "Education Grant",
+      "description": "Financial support for students at various levels of education, from primary school to university.",
+      "eligibility": [
+        "Must demonstrate academic potential",
+        "Must demonstrate financial need",
+        "Must be enrolled or accepted in an accredited educational institution",
+        "Must be committed to community service",
+        "Must be a resident of a country where we operate"
+      ],
+      "image": "/images/programs/education-thumbnail.jpg"
+    },
+    {
+      "id": "community-project",
+      "title": "Community Development Project",
+      "description": "Funding and technical support for community-led initiatives in areas such as clean water, renewable energy, and sustainable agriculture.",
+      "eligibility": [
+        "Must be a registered community organization or have community endorsement",
+        "Project must address a clear community need",
+        "Must demonstrate community participation and ownership",
+        "Must have a sustainable plan for long-term maintenance",
+        "Must be in a geographic area where we operate"
+      ],
+      "image": "/images/programs/sustainable-development-thumbnail.jpg"
+    }
+  ],
+  "commonFields": [
+    {
+      "id": "firstName",
+      "label": "First Name",
+      "type": "text",
+      "required": true,
+      "placeholder": "Your first name"
+    },
+    {
+      "id": "lastName",
+      "label": "Last Name",
+      "type": "text",
+      "required": true,
+      "placeholder": "Your last name"
+    },
+    {
+      "id": "email",
+      "label": "Email Address",
+      "type": "email",
+      "required": true,
+      "placeholder": "Your email address"
+    },
+    {
+      "id": "phone",
+      "label": "Phone Number",
+      "type": "tel",
+      "required": true,
+      "placeholder": "Your phone number with country code"
+    },
+    {
+      "id": "dateOfBirth",
+      "label": "Date of Birth",
+      "type": "date",
+      "required": true
+    },
+    {
+      "id": "gender",
+      "label": "Gender",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Male",
+        "Female",
+        "Non-binary",
+        "Prefer not to say"
+      ]
+    },
+    {
+      "id": "address",
+      "label": "Street Address",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Your street address"
+    },
+    {
+      "id": "city",
+      "label": "City",
+      "type": "text",
+      "required": true,
+      "placeholder": "Your city"
+    },
+    {
+      "id": "country",
+      "label": "Country",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Nigeria",
+        "Ghana",
+        "Kenya",
+        "Tanzania",
+        "Uganda",
+        "Rwanda",
+        "Senegal",
+        "Côte d'Ivoire",
+        "Zambia",
+        "Zimbabwe",
+        "South Africa",
+        "Ethiopia",
+        "Malawi",
+        "Mozambique",
+        "Cameroon"
+      ]
+    }
+  ],
+  "loanFields": [
+    {
+      "id": "businessName",
+      "label": "Business Name",
+      "type": "text",
+      "required": true,
+      "placeholder": "Your business name"
+    },
+    {
+      "id": "businessType",
+      "label": "Business Type",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Retail",
+        "Agriculture",
+        "Food Service",
+        "Manufacturing",
+        "Crafts/Artisan",
+        "Services",
+        "Technology",
+        "Other"
+      ]
+    },
+    {
+      "id": "businessStage",
+      "label": "Business Stage",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Idea/Concept",
+        "Startup (Less than 1 year)",
+        "Established (1-3 years)",
+        "Growing (3+ years)"
+      ]
+    },
+    {
+      "id": "businessDescription",
+      "label": "Business Description",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Describe your business, products/services, and target market"
+    },
+    {
+      "id": "loanAmount",
+      "label": "Loan Amount Requested (USD)",
+      "type": "number",
+      "required": true,
+      "min": 500,
+      "max": 5000
+    },
+    {
+      "id": "loanPurpose",
+      "label": "Loan Purpose",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Explain how you will use the loan funds"
+    },
+    {
+      "id": "repaymentPlan",
+      "label": "Proposed Repayment Plan",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Describe how you plan to repay the loan"
+    },
+    {
+      "id": "trainingCompleted",
+      "label": "Have you completed our business training workshop?",
+      "type": "radio",
+      "required": true,
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ]
+    }
+  ],
+  "grantFields": [
+    {
+      "id": "institutionName",
+      "label": "Educational Institution Name",
+      "type": "text",
+      "required": true,
+      "placeholder": "Name of school/university"
+    },
+    {
+      "id": "programOfStudy",
+      "label": "Program of Study",
+      "type": "text",
+      "required": true,
+      "placeholder": "Your field of study or school grade"
+    },
+    {
+      "id": "educationLevel",
+      "label": "Education Level",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Primary School",
+        "Secondary School",
+        "Vocational Training",
+        "Undergraduate",
+        "Graduate",
+        "Other"
+      ]
+    },
+    {
+      "id": "enrollmentStatus",
+      "label": "Enrollment Status",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Currently Enrolled",
+        "Accepted but not yet enrolled",
+        "Applying for admission"
+      ]
+    },
+    {
+      "id": "startDate",
+      "label": "Program Start Date",
+      "type": "date",
+      "required": true
+    },
+    {
+      "id": "endDate",
+      "label": "Expected Completion Date",
+      "type": "date",
+      "required": true
+    },
+    {
+      "id": "grantAmount",
+      "label": "Grant Amount Requested (USD)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "id": "educationCosts",
+      "label": "Breakdown of Education Costs",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Provide a detailed breakdown of tuition, books, accommodation, etc."
+    },
+    {
+      "id": "academicAchievements",
+      "label": "Academic Achievements",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Describe your academic achievements, awards, and performance"
+    },
+    {
+      "id": "communityService",
+      "label": "Community Service Experience",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Describe your involvement in community service activities"
+    }
+  ],
+  "fundingFields": [
+    {
+      "id": "organizationName",
+      "label": "Organization Name",
+      "type": "text",
+      "required": true,
+      "placeholder": "Name of your community organization"
+    },
+    {
+      "id": "organizationType",
+      "label": "Organization Type",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Community-Based Organization",
+        "Non-Governmental Organization",
+        "Cooperative",
+        "Informal Community Group",
+        "Other"
+      ]
+    },
+    {
+      "id": "registrationStatus",
+      "label": "Registration Status",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Registered",
+        "In process of registration",
+        "Unregistered"
+      ]
+    },
+    {
+      "id": "projectTitle",
+      "label": "Project Title",
+      "type": "text",
+      "required": true,
+      "placeholder": "Title of your community project"
+    },
+    {
+      "id": "projectCategory",
+      "label": "Project Category",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Clean Water",
+        "Renewable Energy",
+        "Sustainable Agriculture",
+        "Healthcare",
+        "Education Infrastructure",
+        "Environmental Conservation",
+        "Other"
+      ]
+    },
+    {
+      "id": "projectDescription",
+      "label": "Project Description",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Describe your project, its objectives, and implementation plan"
+    },
+    {
+      "id": "communityNeed",
+      "label": "Community Need",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Explain the community need this project addresses"
+    },
+    {
+      "id": "beneficiaries",
+      "label": "Expected Beneficiaries",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Describe who will benefit from this project and how many people will be impacted"
+    },
+    {
+      "id": "fundingAmount",
+      "label": "Funding Amount Requested (USD)",
+      "type": "number",
+      "required": true
+    },
+    {
+      "id": "budgetBreakdown",
+      "label": "Budget Breakdown",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Provide a detailed breakdown of how the funds will be used"
+    },
+    {
+      "id": "projectTimeline",
+      "label": "Project Timeline",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Outline the timeline for implementing your project"
+    },
+    {
+      "id": "sustainabilityPlan",
+      "label": "Sustainability Plan",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Explain how the project will be maintained after initial funding"
+    },
+    {
+      "id": "communityInvolvement",
+      "label": "Community Involvement",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "Describe how the community is involved in planning and implementing this project"
+    }
+  ],
+  "documentUpload": {
+    "title": "Supporting Documents",
+    "description": "Please upload the following documents to support your application. Accepted formats: PDF, JPG, PNG. Maximum file size: 5MB per document.",
+    "commonDocuments": [
+      {
+        "id": "idDocument",
+        "label": "Government-Issued ID",
+        "required": true
+      },
+      {
+        "id": "photo",
+        "label": "Recent Photograph",
+        "required": true
+      }
+    ],
+    "loanDocuments": [
+      {
+        "id": "businessPlan",
+        "label": "Business Plan",
+        "required": true
+      },
+      {
+        "id": "financialProjections",
+        "label": "Financial Projections",
+        "required": true
+      },
+      {
+        "id": "trainingCertificate",
+        "label": "Business Training Certificate",
+        "required": false
+      }
+    ],
+    "grantDocuments": [
+      {
+        "id": "academicRecords",
+        "label": "Academic Records/Transcripts",
+        "required": true
+      },
+      {
+        "id": "admissionLetter",
+        "label": "Admission Letter/Proof of Enrollment",
+        "required": true
+      },
+      {
+        "id": "recommendationLetter",
+        "label": "Recommendation Letter",
+        "required": true
+      }
+    ],
+    "fundingDocuments": [
+      {
+        "id": "organizationRegistration",
+        "label": "Organization Registration Certificate (if applicable)",
+        "required": false
+      },
+      {
+        "id": "projectProposal",
+        "label": "Detailed Project Proposal",
+        "required": true
+      },
+      {
+        "id": "communityEndorsement",
+        "label": "Community Endorsement Letter",
+        "required": true
+      },
+      {
+        "id": "previousProjects",
+        "label": "Documentation of Previous Projects (if applicable)",
+        "required": false
+      }
+    ]
+  },
+  "declaration": {
+    "title": "Declaration",
+    "text": "I hereby declare that the information provided in this application is true and accurate to the best of my knowledge. I understand that any false statements or misrepresentations may result in the rejection of my application or termination of any support received. I authorize Roberto Save Dreams Foundation to verify any information provided in this application.",
+    "consentItems": [
+      {
+        "id": "infoConsent",
+        "text": "I consent to the collection and processing of my personal information for the purpose of evaluating my application.",
+        "required": true
+      },
+      {
+        "id": "termsConsent",
+        "text": "I have read and agree to the terms and conditions of the Roberto Save Dreams Foundation support programs.",
+        "required": true
+      },
+      {
+        "id": "contactConsent",
+        "text": "I consent to being contacted by Roberto Save Dreams Foundation regarding my application and other relevant opportunities.",
+        "required": true
+      }
+    ]
+  },
+  "submitButton": {
+    "text": "Submit Application"
+  },
+  "messages": {
+    "success": {
+      "title": "Application Submitted Successfully!",
+      "message": "Thank you for submitting your application to Roberto Save Dreams Foundation. We have received your application and will review it carefully. You will receive an email confirmation shortly, and we will contact you within 2-4 weeks regarding the status of your application."
+    },
+    "error": {
+      "title": "Submission Error",
+      "message": "We encountered an error while submitting your application. Please check your internet connection and try again. If the problem persists, please contact us at applications@robertosavedreams.org for assistance."
+    }
+  }
+} 

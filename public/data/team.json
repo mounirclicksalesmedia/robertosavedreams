@@ -1,0 +1,97 @@
+{
+  "leadership": [
+    {
+      "id": "roberto-martinez",
+      "name": "Roberto Martinez",
+      "title": "Founder & President",
+      "bio": "Roberto founded the Save Dreams Foundation in 2010 after witnessing the transformative power of education and entrepreneurship in his native community. With over 20 years of experience in international development, Roberto has dedicated his life to creating opportunities for underserved communities.",
+      "image": "/images/team/roberto.jpg",
+      "socialMedia": {
+        "linkedin": "https://linkedin.com/in/roberto-martinez",
+        "twitter": "https://twitter.com/robertomartinez"
+      }
+    },
+    {
+      "id": "maria-santos",
+      "name": "Maria Santos",
+      "title": "Executive Director",
+      "bio": "Maria brings 15 years of nonprofit leadership experience to the foundation. She oversees all operations and strategic initiatives, ensuring that our programs create maximum impact. Her background in finance and community development has been instrumental in scaling our programs across multiple countries.",
+      "image": "/images/team/maria.jpg",
+      "socialMedia": {
+        "linkedin": "https://linkedin.com/in/maria-santos"
+      }
+    },
+    {
+      "id": "james-wilson",
+      "name": "James Wilson",
+      "title": "Chief Financial Officer",
+      "bio": "James manages the foundation's financial operations and ensures transparency and accountability in all our financial dealings. With a background in international finance and social enterprise, he has helped develop sustainable funding models for our programs.",
+      "image": "/images/team/james.jpg",
+      "socialMedia": {
+        "linkedin": "https://linkedin.com/in/james-wilson"
+      }
+    }
+  ],
+  "programDirectors": [
+    {
+      "id": "amina-diallo",
+      "name": "Amina Diallo",
+      "title": "Education Program Director",
+      "bio": "Amina leads our education initiatives with passion and expertise. Her background as an educator and education policy advisor has shaped our approach to creating accessible, quality education programs that meet the specific needs of each community we serve.",
+      "image": "/images/team/amina.jpg",
+      "socialMedia": {
+        "linkedin": "https://linkedin.com/in/amina-diallo"
+      }
+    },
+    {
+      "id": "carlos-rodriguez",
+      "name": "Carlos Rodriguez",
+      "title": "Microloan Program Director",
+      "bio": "Carlos oversees our microloan program, bringing his expertise in microfinance and small business development. He has designed our loan assessment process and business training curriculum to ensure entrepreneurs receive both financial support and the skills they need to succeed.",
+      "image": "/images/team/carlos.jpg",
+      "socialMedia": {
+        "linkedin": "https://linkedin.com/in/carlos-rodriguez"
+      }
+    },
+    {
+      "id": "priya-patel",
+      "name": "Priya Patel",
+      "title": "Sustainable Development Director",
+      "bio": "Priya leads our sustainable development initiatives with a focus on environmental sustainability and community empowerment. Her background in environmental engineering and community organizing has been vital in creating programs that balance ecological concerns with economic opportunities.",
+      "image": "/images/team/priya.jpg",
+      "socialMedia": {
+        "linkedin": "https://linkedin.com/in/priya-patel"
+      }
+    }
+  ],
+  "board": [
+    {
+      "id": "dr-samuel-osei",
+      "name": "Dr. Samuel Osei",
+      "title": "Board Chair",
+      "bio": "Dr. Osei is a renowned economist specializing in development economics. He provides strategic guidance to the foundation and has been instrumental in developing our impact assessment frameworks.",
+      "image": "/images/team/samuel.jpg"
+    },
+    {
+      "id": "elena-gonzalez",
+      "name": "Elena Gonzalez",
+      "title": "Board Member",
+      "bio": "Elena is a social entrepreneur who has founded several successful social enterprises. She advises the foundation on scaling strategies and sustainable business models.",
+      "image": "/images/team/elena.jpg"
+    },
+    {
+      "id": "david-kim",
+      "name": "David Kim",
+      "title": "Board Member",
+      "bio": "David is a technology executive who helps guide our digital strategy and technology initiatives. His expertise has been crucial in developing our online application and monitoring systems.",
+      "image": "/images/team/david.jpg"
+    },
+    {
+      "id": "fatima-al-mansour",
+      "name": "Fatima Al-Mansour",
+      "title": "Board Member",
+      "bio": "Fatima is an international education expert who advises on our education programs. Her research on educational outcomes in developing countries has informed our approach to scholarship programs.",
+      "image": "/images/team/fatima.jpg"
+    }
+  ]
+} 

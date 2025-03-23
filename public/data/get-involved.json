@@ -1,0 +1,313 @@
+{
+  "hero": {
+    "title": "Get Involved",
+    "subtitle": "Join us in our mission to empower individuals and communities across Africa.",
+    "backgroundImage": "/images/hero/get-involved-hero.jpg"
+  },
+  "intro": {
+    "title": "Make a Difference",
+    "description": "There are many ways to support our work and create lasting change. Whether you donate, volunteer, partner with us, or spread the word, your contribution matters. Together, we can empower dreams and transform lives."
+  },
+  "donateSection": {
+    "id": "donate",
+    "title": "Donate",
+    "description": "Your financial support enables us to provide education, microloans, and sustainable development initiatives to those who need it most.",
+    "image": "/images/get-involved/donate.jpg",
+    "stats": [
+      {
+        "value": "85%",
+        "label": "of donations go directly to programs"
+      },
+      {
+        "value": "$25",
+        "label": "provides school supplies for a student"
+      },
+      {
+        "value": "$250",
+        "label": "funds a microloan for an entrepreneur"
+      }
+    ],
+    "options": [
+      {
+        "title": "One-Time Donation",
+        "description": "Make a single contribution of any amount to support our work."
+      },
+      {
+        "title": "Monthly Giving",
+        "description": "Join our community of monthly donors providing sustainable support."
+      },
+      {
+        "title": "Corporate Matching",
+        "description": "Double your impact through your employer's matching gift program."
+      },
+      {
+        "title": "Legacy Giving",
+        "description": "Create a lasting impact by including us in your estate planning."
+      }
+    ],
+    "cta": {
+      "text": "Donate Now",
+      "link": "/donate"
+    },
+    "testimonial": {
+      "quote": "I donate monthly because I've seen firsthand how the foundation transforms lives. My contribution is an investment in a better future for Africa.",
+      "author": "James Wilson",
+      "role": "Monthly Donor since 2018"
+    }
+  },
+  "volunteerSection": {
+    "id": "volunteer",
+    "title": "Volunteer",
+    "description": "Share your time, skills, and passion to support our mission. Volunteers play a crucial role in expanding our impact and reaching more communities.",
+    "image": "/images/get-involved/volunteer.jpg",
+    "opportunities": [
+      {
+        "title": "Skills-Based Volunteering",
+        "description": "Contribute your professional expertise in areas such as finance, marketing, education, technology, or program evaluation.",
+        "commitment": "Flexible, project-based",
+        "location": "Remote or in-country"
+      },
+      {
+        "title": "Event Support",
+        "description": "Help organize and run fundraising events, awareness campaigns, or community activities.",
+        "commitment": "Short-term, event-based",
+        "location": "Various locations"
+      },
+      {
+        "title": "Field Volunteers",
+        "description": "Work directly with our program teams and beneficiaries in the communities we serve.",
+        "commitment": "1-6 months, full-time",
+        "location": "On-site in program countries"
+      },
+      {
+        "title": "Administrative Support",
+        "description": "Assist with office tasks, data management, communications, and other operational needs.",
+        "commitment": "Regular, part-time",
+        "location": "Office-based or remote"
+      }
+    ],
+    "process": [
+      "Complete the volunteer application form",
+      "Interview with our volunteer coordinator",
+      "Attend orientation and training",
+      "Begin your volunteer assignment"
+    ],
+    "cta": {
+      "text": "Apply to Volunteer",
+      "link": "/volunteer-application"
+    },
+    "testimonial": {
+      "quote": "Volunteering with Roberto Save Dreams Foundation has been one of the most rewarding experiences of my life. I've gained new skills, made lifelong connections, and contributed to meaningful change.",
+      "author": "Sarah Osei",
+      "role": "Skills-Based Volunteer, Marketing"
+    }
+  },
+  "partnerSection": {
+    "id": "partner",
+    "title": "Partner With Us",
+    "description": "We believe in the power of collaboration. By partnering with organizations that share our vision, we can amplify our collective impact and create sustainable change.",
+    "image": "/images/get-involved/partner.jpg",
+    "partnershipTypes": [
+      {
+        "title": "Corporate Partnerships",
+        "description": "Engage your company in meaningful social impact through financial support, employee volunteering, cause marketing, or in-kind donations.",
+        "examples": [
+          "Sponsorship of specific programs or initiatives",
+          "Employee matching gift programs",
+          "Skills-based employee volunteering",
+          "Cause-related marketing campaigns",
+          "Product or service donations"
+        ]
+      },
+      {
+        "title": "Institutional Partnerships",
+        "description": "Collaborate with us on program implementation, research, advocacy, or funding as a foundation, government agency, or multilateral organization.",
+        "examples": [
+          "Co-funding of programs",
+          "Joint research initiatives",
+          "Policy advocacy collaborations",
+          "Technical assistance partnerships",
+          "Knowledge sharing networks"
+        ]
+      },
+      {
+        "title": "Implementation Partnerships",
+        "description": "Work with us as a local organization to implement programs, reach communities, and build capacity in the regions we serve.",
+        "examples": [
+          "Program delivery partnerships",
+          "Community mobilization",
+          "Training and capacity building",
+          "Monitoring and evaluation",
+          "Local knowledge and context expertise"
+        ]
+      },
+      {
+        "title": "Academic Partnerships",
+        "description": "Engage with us as an educational institution through research, student internships, or curriculum development.",
+        "examples": [
+          "Impact evaluation studies",
+          "Student internship programs",
+          "Joint research publications",
+          "Guest lectures and workshops",
+          "Curriculum development collaborations"
+        ]
+      }
+    ],
+    "currentPartners": [
+      {
+        "name": "African Development Bank",
+        "logo": "/images/partners/adb.png"
+      },
+      {
+        "name": "UNICEF",
+        "logo": "/images/partners/unicef.png"
+      },
+      {
+        "name": "Gates Foundation",
+        "logo": "/images/partners/gates.png"
+      },
+      {
+        "name": "Mastercard Foundation",
+        "logo": "/images/partners/mastercard.png"
+      }
+    ],
+    "cta": {
+      "text": "Explore Partnership Opportunities",
+      "link": "/partnership-inquiry"
+    },
+    "testimonial": {
+      "quote": "Our partnership with Roberto Save Dreams Foundation has enabled us to extend our impact in ways we couldn't have achieved alone. Their deep community connections and implementation expertise complement our resources perfectly.",
+      "author": "Michael Chen",
+      "role": "Director of CSR, Global Tech Solutions"
+    }
+  },
+  "fundraiseSection": {
+    "id": "fundraise",
+    "title": "Fundraise",
+    "description": "Create your own fundraising campaign to support our work. Whether it's for your birthday, a special event, or a personal challenge, your fundraising efforts can make a significant difference.",
+    "image": "/images/get-involved/fundraise.jpg",
+    "ideas": [
+      {
+        "title": "Personal Challenges",
+        "description": "Run a marathon, climb a mountain, or set another personal challenge and ask friends to sponsor you.",
+        "icon": "running"
+      },
+      {
+        "title": "Special Occasions",
+        "description": "Dedicate your birthday, wedding, or anniversary to supporting our cause instead of receiving gifts.",
+        "icon": "gift"
+      },
+      {
+        "title": "Community Events",
+        "description": "Organize a dinner, concert, auction, or other event in your community to raise funds and awareness.",
+        "icon": "users"
+      },
+      {
+        "title": "School Campaigns",
+        "description": "Engage your school or university in a fundraising campaign or competition.",
+        "icon": "school"
+      }
+    ],
+    "howItWorks": [
+      "Choose your fundraising activity or event",
+      "Set up your personalized fundraising page on our platform",
+      "Share with friends, family, and colleagues",
+      "Collect donations and track your progress",
+      "Celebrate your impact!"
+    ],
+    "support": {
+      "title": "We'll Support You",
+      "items": [
+        "Personalized fundraising page",
+        "Fundraising toolkit with tips and resources",
+        "Social media templates and graphics",
+        "Regular updates on your impact",
+        "Recognition for your efforts"
+      ]
+    },
+    "cta": {
+      "text": "Start Fundraising",
+      "link": "/start-fundraising"
+    },
+    "testimonial": {
+      "quote": "For my 30th birthday, I asked friends to donate instead of giving gifts. We raised enough to fund three microloans! It was the most meaningful birthday I've ever had.",
+      "author": "Elena Gonzalez",
+      "role": "Birthday Fundraiser"
+    }
+  },
+  "advocateSection": {
+    "id": "advocate",
+    "title": "Advocate",
+    "description": "Use your voice to amplify our mission and raise awareness about the issues we address. By sharing our story and spreading the word, you help us reach more people and create greater impact.",
+    "image": "/images/get-involved/advocate.jpg",
+    "ways": [
+      {
+        "title": "Social Media",
+        "description": "Follow us on social media and share our content with your network. Use your platform to raise awareness about our work and the issues we address.",
+        "icon": "share"
+      },
+      {
+        "title": "Community Presentations",
+        "description": "Host a presentation or discussion about our work in your community, workplace, school, or place of worship.",
+        "icon": "presentation"
+      },
+      {
+        "title": "Write or Speak",
+        "description": "Write articles, blog posts, or speak at events about issues related to our mission and the importance of sustainable development in Africa.",
+        "icon": "microphone"
+      },
+      {
+        "title": "Engage Policy Makers",
+        "description": "Advocate for policies that support sustainable development, education, and economic opportunity in Africa.",
+        "icon": "government"
+      }
+    ],
+    "resources": {
+      "title": "Advocacy Resources",
+      "items": [
+        "Fact sheets and infographics",
+        "Presentation templates",
+        "Social media toolkit",
+        "Impact stories and testimonials",
+        "Educational materials about our focus areas"
+      ]
+    },
+    "cta": {
+      "text": "Access Advocacy Resources",
+      "link": "/advocacy-resources"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "questions": [
+      {
+        "question": "Can I specify which program my donation supports?",
+        "answer": "Yes, you can designate your donation to support a specific program area: Education, Microloans, or Sustainable Development. You can also choose 'Where Needed Most' to allow us to direct your donation to the areas of greatest need."
+      },
+      {
+        "question": "Do you accept in-kind donations?",
+        "answer": "We accept certain in-kind donations that align with our program needs. Please contact us at donations@robertosavedreams.org to discuss potential in-kind contributions before sending any items."
+      },
+      {
+        "question": "Can I volunteer remotely?",
+        "answer": "Yes, we offer various remote volunteer opportunities, particularly for skills-based volunteering in areas such as marketing, design, research, translation, and technology support."
+      },
+      {
+        "question": "How can my company partner with the foundation?",
+        "answer": "We offer various corporate partnership opportunities, including program sponsorship, employee engagement, cause marketing, and in-kind support. Please contact our partnerships team at partnerships@robertosavedreams.org to discuss potential collaborations."
+      }
+    ],
+    "cta": {
+      "text": "View All FAQs",
+      "link": "/faq#get-involved"
+    }
+  },
+  "contactCta": {
+    "title": "Have Questions?",
+    "description": "Our team is here to help you find the best way to get involved based on your interests, skills, and capacity.",
+    "button": {
+      "text": "Contact Us",
+      "link": "/contact"
+    }
+  }
+} 

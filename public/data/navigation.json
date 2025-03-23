@@ -1,0 +1,333 @@
+{
+  "mainNav": [
+    {
+      "title": "Home",
+      "path": "/"
+    },
+    {
+      "title": "About",
+      "path": "/about",
+      "children": [
+        {
+          "title": "Our Story",
+          "path": "/about#story"
+        },
+        {
+          "title": "Mission & Vision",
+          "path": "/about#mission"
+        },
+        {
+          "title": "Our Team",
+          "path": "/about#team"
+        },
+        {
+          "title": "Annual Reports",
+          "path": "/about#reports"
+        }
+      ]
+    },
+    {
+      "title": "Programs",
+      "path": "/programs",
+      "children": [
+        {
+          "title": "Education",
+          "path": "/programs#education"
+        },
+        {
+          "title": "Microloans",
+          "path": "/programs#microloans"
+        },
+        {
+          "title": "Sustainable Development",
+          "path": "/programs#sustainable"
+        }
+      ]
+    },
+    {
+      "title": "Success Stories",
+      "path": "/success-stories"
+    },
+    {
+      "title": "Get Involved",
+      "path": "/get-involved",
+      "children": [
+        {
+          "title": "Donate",
+          "path": "/donate"
+        },
+        {
+          "title": "Volunteer",
+          "path": "/get-involved#volunteer"
+        },
+        {
+          "title": "Partner With Us",
+          "path": "/get-involved#partner"
+        },
+        {
+          "title": "Fundraise",
+          "path": "/get-involved#fundraise"
+        }
+      ]
+    },
+    {
+      "title": "Apply",
+      "path": "/apply",
+      "children": [
+        {
+          "title": "Microloan",
+          "path": "/apply#microloan"
+        },
+        {
+          "title": "Education Grant",
+          "path": "/apply#education-grant"
+        },
+        {
+          "title": "Community Project",
+          "path": "/apply#community-project"
+        }
+      ]
+    },
+    {
+      "title": "Blog",
+      "path": "/blog"
+    },
+    {
+      "title": "Contact",
+      "path": "/contact"
+    }
+  ],
+  "footerNav": {
+    "about": {
+      "title": "About Us",
+      "links": [
+        {
+          "title": "Our Story",
+          "path": "/about#story"
+        },
+        {
+          "title": "Mission & Vision",
+          "path": "/about#mission"
+        },
+        {
+          "title": "Our Team",
+          "path": "/about#team"
+        },
+        {
+          "title": "Partners",
+          "path": "/about#partners"
+        },
+        {
+          "title": "Annual Reports",
+          "path": "/about#reports"
+        }
+      ]
+    },
+    "programs": {
+      "title": "Our Programs",
+      "links": [
+        {
+          "title": "Education",
+          "path": "/programs#education"
+        },
+        {
+          "title": "Microloans",
+          "path": "/programs#microloans"
+        },
+        {
+          "title": "Sustainable Development",
+          "path": "/programs#sustainable"
+        },
+        {
+          "title": "Youth Leadership",
+          "path": "/programs#youth-leadership"
+        },
+        {
+          "title": "Success Stories",
+          "path": "/success-stories"
+        }
+      ]
+    },
+    "getInvolved": {
+      "title": "Get Involved",
+      "links": [
+        {
+          "title": "Donate",
+          "path": "/donate"
+        },
+        {
+          "title": "Volunteer",
+          "path": "/get-involved#volunteer"
+        },
+        {
+          "title": "Partner With Us",
+          "path": "/get-involved#partner"
+        },
+        {
+          "title": "Fundraise",
+          "path": "/get-involved#fundraise"
+        },
+        {
+          "title": "Apply for Support",
+          "path": "/apply"
+        }
+      ]
+    },
+    "resources": {
+      "title": "Resources",
+      "links": [
+        {
+          "title": "Blog",
+          "path": "/blog"
+        },
+        {
+          "title": "FAQ",
+          "path": "/faq"
+        },
+        {
+          "title": "Contact Us",
+          "path": "/contact"
+        },
+        {
+          "title": "Privacy Policy",
+          "path": "/privacy-policy"
+        },
+        {
+          "title": "Terms of Service",
+          "path": "/terms-of-service"
+        }
+      ]
+    }
+  },
+  "mobileNav": {
+    "topLevel": [
+      {
+        "title": "Home",
+        "path": "/"
+      },
+      {
+        "title": "About",
+        "path": "/about"
+      },
+      {
+        "title": "Programs",
+        "path": "/programs"
+      },
+      {
+        "title": "Success Stories",
+        "path": "/success-stories"
+      },
+      {
+        "title": "Get Involved",
+        "path": "/get-involved"
+      },
+      {
+        "title": "Apply",
+        "path": "/apply"
+      },
+      {
+        "title": "Blog",
+        "path": "/blog"
+      },
+      {
+        "title": "Contact",
+        "path": "/contact"
+      }
+    ],
+    "callToAction": {
+      "title": "Donate",
+      "path": "/donate"
+    }
+  },
+  "userNav": {
+    "loggedOut": [
+      {
+        "title": "Sign In",
+        "path": "/auth/signin"
+      },
+      {
+        "title": "Register",
+        "path": "/auth/signup"
+      }
+    ],
+    "loggedIn": [
+      {
+        "title": "Dashboard",
+        "path": "/dashboard"
+      },
+      {
+        "title": "My Applications",
+        "path": "/dashboard/applications"
+      },
+      {
+        "title": "My Donations",
+        "path": "/dashboard/donations"
+      },
+      {
+        "title": "Profile",
+        "path": "/dashboard/profile"
+      },
+      {
+        "title": "Sign Out",
+        "path": "/api/auth/signout"
+      }
+    ],
+    "admin": [
+      {
+        "title": "Admin Dashboard",
+        "path": "/admin"
+      },
+      {
+        "title": "Manage Applications",
+        "path": "/admin/applications"
+      },
+      {
+        "title": "Manage Donations",
+        "path": "/admin/donations"
+      },
+      {
+        "title": "Manage Users",
+        "path": "/admin/users"
+      },
+      {
+        "title": "Content Management",
+        "path": "/admin/content"
+      },
+      {
+        "title": "Settings",
+        "path": "/admin/settings"
+      },
+      {
+        "title": "Sign Out",
+        "path": "/api/auth/signout"
+      }
+    ]
+  },
+  "socialLinks": [
+    {
+      "platform": "Facebook",
+      "url": "https://facebook.com/robertosavedreams",
+      "icon": "facebook"
+    },
+    {
+      "platform": "Twitter",
+      "url": "https://twitter.com/robertodreams",
+      "icon": "twitter"
+    },
+    {
+      "platform": "Instagram",
+      "url": "https://instagram.com/robertosavedreams",
+      "icon": "instagram"
+    },
+    {
+      "platform": "LinkedIn",
+      "url": "https://linkedin.com/company/roberto-save-dreams-foundation",
+      "icon": "linkedin"
+    },
+    {
+      "platform": "YouTube",
+      "url": "https://youtube.com/robertosavedreams",
+      "icon": "youtube"
+    }
+  ]
+} 

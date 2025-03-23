@@ -1,0 +1,52 @@
+{
+  "testimonials": [
+    {
+      "id": "testimonial-1",
+      "name": "Amina Diallo",
+      "role": "Education Program Recipient",
+      "location": "Dakar, Senegal",
+      "quote": "The scholarship I received didn't just pay for my education; it opened doors I never knew existed. Today, I'm the first person in my family to graduate from university.",
+      "image": "/images/testimonials/amina.jpg"
+    },
+    {
+      "id": "testimonial-2",
+      "name": "David Mwangi",
+      "role": "Microloan Recipient",
+      "location": "Nairobi, Kenya",
+      "quote": "The business training was as valuable as the loan itself. I learned how to manage my finances, market my products, and plan for growth. My shop is now thriving.",
+      "image": "/images/testimonials/david.jpg"
+    },
+    {
+      "id": "testimonial-3",
+      "name": "Grace Okonkwo",
+      "role": "Community Leader",
+      "location": "Lagos, Nigeria",
+      "quote": "What sets Roberto Save Dreams apart is that they listen to our needs rather than imposing solutions. They've become true partners in our community's development.",
+      "image": "/images/testimonials/grace.jpg"
+    },
+    {
+      "id": "testimonial-4",
+      "name": "Ibrahim Toure",
+      "role": "Sustainable Agriculture Participant",
+      "location": "Bamako, Mali",
+      "quote": "The sustainable farming techniques I learned have made my land more productive than ever. Even during drought seasons, we're able to harvest enough to feed my family and sell at the market.",
+      "image": "/images/testimonials/ibrahim.jpg"
+    },
+    {
+      "id": "testimonial-5",
+      "name": "Fatima Mensah",
+      "role": "Parent of Education Program Recipient",
+      "location": "Accra, Ghana",
+      "quote": "Seeing my daughter excel in school brings tears to my eyes. The foundation didn't just provide financial support; they created a community of learners who inspire each other.",
+      "image": "/images/testimonials/fatima.jpg"
+    },
+    {
+      "id": "testimonial-6",
+      "name": "Samuel Osei",
+      "role": "Tech Academy Graduate",
+      "location": "Kumasi, Ghana",
+      "quote": "Before joining the Tech Academy, I had never even used a computer. Now I work as a web developer for an international company, all while living in my hometown.",
+      "image": "/images/testimonials/samuel.jpg"
+    }
+  ]
+} 

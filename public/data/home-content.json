@@ -1,0 +1,109 @@
+{
+  "hero": {
+    "title": "Empowering <span>Dreams</span><br/><span class='text-highlight'>Building Futures</span>",
+    "description": "The Roberto Save Dreams Foundation is dedicated to transforming lives through education, microloans, and sustainable development initiatives.",
+    "buttons": [
+      {
+        "text": "Make a Donation",
+        "url": "/donate",
+        "isPrimary": true
+      },
+      {
+        "text": "Get Involved",
+        "url": "/get-involved",
+        "isPrimary": false
+      }
+    ]
+  },
+  "missionVision": {
+    "title": "Our Mission & Vision",
+    "mission": {
+      "title": "Our Mission",
+      "description": "To empower individuals and communities through sustainable development programs, education initiatives, and financial support that creates lasting positive change."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "A world where everyone has the opportunity to realize their dreams through access to education, resources, and economic empowerment."
+    }
+  },
+  "programs": {
+    "title": "Our Programs",
+    "description": "We offer various programs designed to create sustainable impact in communities.",
+    "items": [
+      {
+        "id": "education",
+        "title": "Education Support",
+        "description": "Providing scholarships, learning materials, and infrastructure to improve access to quality education.",
+        "icon": "graduation-cap",
+        "image": "/images/education.jpg"
+      },
+      {
+        "id": "microloans",
+        "title": "Microloans",
+        "description": "Offering small loans with low interest rates to help entrepreneurs start or expand their businesses.",
+        "icon": "money-bill",
+        "image": "/images/microloans.jpg"
+      },
+      {
+        "id": "community",
+        "title": "Community Development",
+        "description": "Supporting infrastructure projects and community initiatives that improve quality of life.",
+        "icon": "people-group",
+        "image": "/images/community.jpg"
+      }
+    ]
+  },
+  "impact": {
+    "title": "Our Impact",
+    "description": "Through our programs and initiatives, we've made a significant impact in communities around the world.",
+    "stats": [
+      {
+        "value": "500+",
+        "label": "Students Supported"
+      },
+      {
+        "value": "250+",
+        "label": "Businesses Funded"
+      },
+      {
+        "value": "30+",
+        "label": "Communities Served"
+      },
+      {
+        "value": "$150k+",
+        "label": "Funds Distributed"
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Success Stories",
+    "description": "Real stories of transformation and hope powered by our initiatives.",
+    "items": [
+      {
+        "name": "Deny Gee Kachaku",
+        "role": "Program Beneficiary",
+        "quote": "I have benefited a lot and yet to benefit more and more. It is very amazing and caring foundation 🙏🙏",
+        "image": "/images/testimonial1.jpg"
+      },
+      {
+        "name": "Rakel Kateya",
+        "role": "Community Member",
+        "quote": "Your works are so motivating, always encouraging....seeing the organization helping the needy is much appreciated and beneficial 🙏🙏🙏",
+        "image": "/images/testimonial2.jpg"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready to Make a Difference?",
+    "description": "Join us in our mission to empower dreams and build a better future for communities around the world.",
+    "button": {
+      "text": "Donate Now",
+      "url": "/donate"
+    }
+  },
+  "loanCalculator": {
+    "title": "Loan Calculator",
+    "description": "Calculate your potential loan repayment based on your needs.",
+    "interestRate": 4.68
+  }
+}

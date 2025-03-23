@@ -1,0 +1,121 @@
+{
+  "hero": {
+    "title": "Empowering Dreams Across Africa",
+    "subtitle": "Roberto Save Dreams Foundation is dedicated to creating sustainable opportunities through education, microfinance, and community development.",
+    "cta": "Join Our Mission",
+    "ctaLink": "/get-involved",
+    "secondaryCta": "Learn More",
+    "secondaryCtaLink": "/about",
+    "backgroundImage": "/images/hero/hero-background.jpg"
+  },
+  "impact": {
+    "title": "Our Impact",
+    "description": "Since 2015, we've been working with communities across Africa to create lasting change.",
+    "stats": [
+      {
+        "value": "10,000+",
+        "label": "Lives Impacted"
+      },
+      {
+        "value": "15",
+        "label": "Countries Reached"
+      },
+      {
+        "value": "$2.5M",
+        "label": "Funds Distributed"
+      },
+      {
+        "value": "85%",
+        "label": "Loan Repayment Rate"
+      }
+    ]
+  },
+  "mission": {
+    "title": "Our Mission",
+    "description": "We believe that everyone deserves the opportunity to pursue their dreams. Through targeted programs in education, microfinance, and sustainable development, we empower individuals and communities to create lasting change.",
+    "image": "/images/hero/mission.jpg",
+    "cta": "Read Our Story",
+    "ctaLink": "/about"
+  },
+  "featuredPrograms": {
+    "title": "Our Programs",
+    "description": "We focus on three key areas to create sustainable impact and empower communities.",
+    "cta": "View All Programs",
+    "ctaLink": "/programs",
+    "programs": [
+      {
+        "id": "education",
+        "title": "Education",
+        "description": "Providing access to quality education through scholarships, school construction, and teacher training.",
+        "image": "/images/programs/education-thumbnail.jpg",
+        "link": "/programs#education"
+      },
+      {
+        "id": "microloans",
+        "title": "Microloans",
+        "description": "Empowering entrepreneurs with small loans, business training, and mentorship to build sustainable livelihoods.",
+        "image": "/images/programs/microloans-thumbnail.jpg",
+        "link": "/programs#microloans"
+      },
+      {
+        "id": "sustainable-development",
+        "title": "Sustainable Development",
+        "description": "Supporting community-led initiatives in agriculture, clean water, renewable energy, and healthcare.",
+        "image": "/images/programs/sustainable-development-thumbnail.jpg",
+        "link": "/programs#sustainable-development"
+      }
+    ]
+  },
+  "featuredStory": {
+    "title": "Featured Success Story",
+    "description": "Meet Maria, whose life was transformed through our education program.",
+    "storyId": "maria-education",
+    "cta": "Read More Stories",
+    "ctaLink": "/success-stories"
+  },
+  "testimonialSection": {
+    "title": "Voices from Our Community",
+    "description": "Hear from the people whose lives have been impacted by our programs."
+  },
+  "getInvolved": {
+    "title": "Get Involved",
+    "description": "There are many ways to support our mission and make a difference.",
+    "options": [
+      {
+        "title": "Donate",
+        "description": "Your contribution helps fund our programs and create lasting impact.",
+        "icon": "heart",
+        "link": "/donate"
+      },
+      {
+        "title": "Volunteer",
+        "description": "Share your skills and time to support our mission on the ground.",
+        "icon": "hands",
+        "link": "/volunteer"
+      },
+      {
+        "title": "Partner",
+        "description": "Organizations can partner with us to amplify our collective impact.",
+        "icon": "handshake",
+        "link": "/partner"
+      },
+      {
+        "title": "Apply",
+        "description": "Apply for our programs if you're eligible and in need of support.",
+        "icon": "document",
+        "link": "/apply"
+      }
+    ]
+  },
+  "blog": {
+    "title": "Latest News",
+    "description": "Stay updated with our latest activities, impact stories, and announcements.",
+    "cta": "View All Posts",
+    "ctaLink": "/blog"
+  },
+  "newsletter": {
+    "title": "Stay Connected",
+    "description": "Subscribe to our newsletter to receive updates on our work and ways to get involved.",
+    "buttonText": "Subscribe"
+  }
+} 

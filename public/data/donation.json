@@ -1,0 +1,389 @@
+{
+  "hero": {
+    "title": "Support Our Mission",
+    "subtitle": "Your donation helps us empower individuals and communities across Africa.",
+    "backgroundImage": "/images/hero/donate-hero.jpg"
+  },
+  "intro": {
+    "title": "Make a Difference Today",
+    "description": "Every contribution, no matter the size, helps us create lasting change. Your support enables us to provide education, microloans, and sustainable development initiatives to those who need it most."
+  },
+  "impact": {
+    "title": "Your Impact",
+    "description": "See how your donation can make a difference:",
+    "examples": [
+      {
+        "amount": 25,
+        "description": "Provides school supplies for a student for one term",
+        "icon": "book"
+      },
+      {
+        "amount": 50,
+        "description": "Funds business training for an aspiring entrepreneur",
+        "icon": "briefcase"
+      },
+      {
+        "amount": 100,
+        "description": "Covers one month of school fees for a scholarship recipient",
+        "icon": "graduation-cap"
+      },
+      {
+        "amount": 250,
+        "description": "Provides a microloan to start a small business",
+        "icon": "money"
+      },
+      {
+        "amount": 500,
+        "description": "Funds a community water project serving 50 people",
+        "icon": "water"
+      },
+      {
+        "amount": 1000,
+        "description": "Supports a classroom of 30 students for a full year",
+        "icon": "school"
+      }
+    ]
+  },
+  "donationForm": {
+    "title": "Donation Information",
+    "description": "Please select your donation amount and frequency.",
+    "amountOptions": [
+      {
+        "value": 25,
+        "label": "$25"
+      },
+      {
+        "value": 50,
+        "label": "$50"
+      },
+      {
+        "value": 100,
+        "label": "$100"
+      },
+      {
+        "value": 250,
+        "label": "$250"
+      },
+      {
+        "value": 500,
+        "label": "$500"
+      },
+      {
+        "value": 1000,
+        "label": "$1,000"
+      },
+      {
+        "value": "custom",
+        "label": "Custom Amount"
+      }
+    ],
+    "frequencyOptions": [
+      {
+        "value": "one-time",
+        "label": "One-time Donation"
+      },
+      {
+        "value": "monthly",
+        "label": "Monthly Donation"
+      },
+      {
+        "value": "quarterly",
+        "label": "Quarterly Donation"
+      },
+      {
+        "value": "annually",
+        "label": "Annual Donation"
+      }
+    ],
+    "designationOptions": [
+      {
+        "value": "general",
+        "label": "Where Needed Most"
+      },
+      {
+        "value": "education",
+        "label": "Education Programs"
+      },
+      {
+        "value": "microloans",
+        "label": "Microloan Programs"
+      },
+      {
+        "value": "sustainable",
+        "label": "Sustainable Development"
+      }
+    ],
+    "personalInfoFields": [
+      {
+        "id": "firstName",
+        "label": "First Name",
+        "type": "text",
+        "required": true,
+        "placeholder": "Your first name"
+      },
+      {
+        "id": "lastName",
+        "label": "Last Name",
+        "type": "text",
+        "required": true,
+        "placeholder": "Your last name"
+      },
+      {
+        "id": "email",
+        "label": "Email Address",
+        "type": "email",
+        "required": true,
+        "placeholder": "Your email address"
+      },
+      {
+        "id": "phone",
+        "label": "Phone Number",
+        "type": "tel",
+        "required": false,
+        "placeholder": "Your phone number (optional)"
+      },
+      {
+        "id": "address",
+        "label": "Address",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Your full address"
+      },
+      {
+        "id": "city",
+        "label": "City",
+        "type": "text",
+        "required": true,
+        "placeholder": "Your city"
+      },
+      {
+        "id": "country",
+        "label": "Country",
+        "type": "select",
+        "required": true,
+        "options": [
+          "United States",
+          "United Kingdom",
+          "Canada",
+          "Nigeria",
+          "Ghana",
+          "Kenya",
+          "South Africa",
+          "Other"
+        ]
+      },
+      {
+        "id": "postalCode",
+        "label": "Postal/Zip Code",
+        "type": "text",
+        "required": true,
+        "placeholder": "Your postal/zip code"
+      }
+    ],
+    "paymentMethods": [
+      {
+        "id": "creditCard",
+        "label": "Credit/Debit Card",
+        "icon": "credit-card"
+      },
+      {
+        "id": "paypal",
+        "label": "PayPal",
+        "icon": "paypal"
+      },
+      {
+        "id": "bankTransfer",
+        "label": "Bank Transfer",
+        "icon": "bank"
+      },
+      {
+        "id": "mobileMoney",
+        "label": "Mobile Money (Africa only)",
+        "icon": "mobile"
+      }
+    ],
+    "additionalOptions": [
+      {
+        "id": "receiptNeeded",
+        "label": "I need a tax receipt for this donation",
+        "type": "checkbox",
+        "defaultValue": true
+      },
+      {
+        "id": "newsletter",
+        "label": "Subscribe to our newsletter",
+        "type": "checkbox",
+        "defaultValue": true
+      },
+      {
+        "id": "anonymous",
+        "label": "Make this donation anonymous",
+        "type": "checkbox",
+        "defaultValue": false
+      },
+      {
+        "id": "honorMemory",
+        "label": "Make this donation in honor or memory of someone",
+        "type": "checkbox",
+        "defaultValue": false
+      }
+    ],
+    "honorMemoryFields": [
+      {
+        "id": "honorType",
+        "label": "Donation Type",
+        "type": "radio",
+        "options": [
+          {
+            "value": "honor",
+            "label": "In Honor of"
+          },
+          {
+            "value": "memory",
+            "label": "In Memory of"
+          }
+        ]
+      },
+      {
+        "id": "honorName",
+        "label": "Name",
+        "type": "text",
+        "placeholder": "Name of the person"
+      },
+      {
+        "id": "notificationEmail",
+        "label": "Notification Email",
+        "type": "email",
+        "placeholder": "Email to send notification (optional)"
+      },
+      {
+        "id": "notificationMessage",
+        "label": "Personal Message",
+        "type": "textarea",
+        "placeholder": "Your personal message (optional)"
+      }
+    ],
+    "submitButton": "Complete Donation",
+    "securityNote": "Your payment information is secure and encrypted. We never store your full credit card details."
+  },
+  "taxInfo": {
+    "title": "Tax Information",
+    "description": "Roberto Save Dreams Foundation is a registered non-profit organization. Donations are tax-deductible in many countries, including:",
+    "countries": [
+      {
+        "name": "United States",
+        "details": "Tax ID: 12-3456789"
+      },
+      {
+        "name": "United Kingdom",
+        "details": "Charity Number: 123456"
+      },
+      {
+        "name": "Canada",
+        "details": "Charity Number: 12345 6789 RR0001"
+      },
+      {
+        "name": "Nigeria",
+        "details": "RC Number: 123456"
+      }
+    ],
+    "note": "For specific questions about tax deductibility in your country, please consult with a tax professional."
+  },
+  "otherWays": {
+    "title": "Other Ways to Give",
+    "options": [
+      {
+        "title": "Corporate Matching",
+        "description": "Many employers match charitable donations made by their employees. Check with your HR department to see if your company has a matching gift program.",
+        "icon": "building",
+        "link": "/corporate-matching"
+      },
+      {
+        "title": "Planned Giving",
+        "description": "Include Roberto Save Dreams Foundation in your will or estate planning to create a lasting legacy of impact.",
+        "icon": "document",
+        "link": "/planned-giving"
+      },
+      {
+        "title": "Stock Donations",
+        "description": "Donate appreciated securities and receive tax benefits while supporting our mission.",
+        "icon": "chart",
+        "link": "/stock-donations"
+      },
+      {
+        "title": "Fundraise for Us",
+        "description": "Create your own fundraising campaign for birthdays, marathons, or special events.",
+        "icon": "users",
+        "link": "/fundraise"
+      }
+    ]
+  },
+  "transparency": {
+    "title": "Financial Transparency",
+    "description": "We are committed to financial transparency and accountability. Approximately 85% of all donations go directly to our programs, with the remaining 15% covering essential administrative and fundraising costs.",
+    "cta": "View Annual Reports",
+    "ctaLink": "/about#reports"
+  },
+  "testimonial": {
+    "quote": "I donate monthly because I've seen firsthand how the foundation transforms lives. My contribution is an investment in a better future for Africa.",
+    "author": "James Wilson",
+    "role": "Monthly Donor since 2018",
+    "image": "/images/testimonials/james.jpg"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "questions": [
+      {
+        "question": "Is my donation secure?",
+        "answer": "Yes, we use industry-standard encryption and security measures to protect your personal and payment information. We are PCI compliant and never store your full credit card details."
+      },
+      {
+        "question": "Can I change or cancel my recurring donation?",
+        "answer": "Yes, you can modify or cancel your recurring donation at any time by logging into your donor account or contacting our donor services team at donations@robertosavedreams.org."
+      },
+      {
+        "question": "Will I receive a receipt for my donation?",
+        "answer": "Yes, you will receive an email receipt immediately after your donation is processed. For recurring donations, you will receive a consolidated receipt at the end of the year for tax purposes."
+      },
+      {
+        "question": "Can I specify which program my donation supports?",
+        "answer": "Yes, you can designate your donation to support a specific program area: Education, Microloans, or Sustainable Development. You can also choose 'Where Needed Most' to allow us to direct your donation to the areas of greatest need."
+      }
+    ],
+    "cta": "View All FAQs",
+    "ctaLink": "/faq#donations"
+  },
+  "contactInfo": {
+    "title": "Questions About Donating?",
+    "description": "Our donor services team is here to help.",
+    "email": "donations@robertosavedreams.org",
+    "phone": "+234-765-4321",
+    "hours": "Monday-Friday: 9am-5pm WAT"
+  },
+  "thankYou": {
+    "title": "Thank You for Your Support",
+    "description": "Your generosity makes our work possible. We'll send you updates about the impact of your donation.",
+    "socialShare": {
+      "title": "Share Your Support",
+      "description": "Inspire others to join our mission by sharing your support on social media.",
+      "platforms": [
+        {
+          "name": "Facebook",
+          "icon": "facebook"
+        },
+        {
+          "name": "Twitter",
+          "icon": "twitter"
+        },
+        {
+          "name": "LinkedIn",
+          "icon": "linkedin"
+        },
+        {
+          "name": "Email",
+          "icon": "email"
+        }
+      ]
+    }
+  }
+} 

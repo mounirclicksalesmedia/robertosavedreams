@@ -1,0 +1,69 @@
+{
+  "title": "Our Programs",
+  "description": "At Roberto Save Dreams Foundation, we offer various programs designed to empower communities, foster education, and create sustainable development opportunities. Explore our programs below to learn how you can benefit or get involved.",
+  "programs": [
+    {
+      "title": "Microloans Program",
+      "description": "Our microloans program provides small business owners and entrepreneurs with access to affordable capital to start or expand their businesses. This program aims to reduce poverty through economic empowerment.",
+      "image": "/images/programs/microloans.jpg",
+      "benefits": [
+        "Low-interest loans with flexible repayment terms",
+        "Business mentorship and guidance from experienced entrepreneurs",
+        "Financial literacy training and workshops",
+        "Networking opportunities with other business owners"
+      ],
+      "eligibility": [
+        "Must be 18 years or older",
+        "Must have a viable business plan or existing small business",
+        "Must demonstrate commitment to business growth",
+        "Must complete our basic financial literacy training"
+      ],
+      "cta": {
+        "text": "Apply for a Loan Now",
+        "link": "/loanapplication"
+      }
+    },
+    {
+      "title": "Scholarship Program",
+      "description": "Our scholarship program supports deserving students who have demonstrated academic excellence but lack the financial means to pursue higher education. We believe that education is a powerful tool for transformation.",
+      "image": "/images/programs/scholarships.jpg",
+      "benefits": [
+        "Full or partial coverage of tuition fees",
+        "Mentorship from professionals in chosen field",
+        "Career guidance and internship opportunities",
+        "Leadership development workshops"
+      ],
+      "eligibility": [
+        "Must demonstrate financial need",
+        "Must maintain a minimum GPA of 3.0",
+        "Must show commitment to community service",
+        "Must be enrolled or accepted in an accredited institution"
+      ],
+      "cta": {
+        "text": "Apply for a Scholarship",
+        "link": "/scholarship-application"
+      }
+    },
+    {
+      "title": "Community Development Initiative",
+      "description": "Our community development initiative focuses on sustainable projects that address local needs, from clean water access to infrastructure improvement. We work closely with community leaders to ensure projects have lasting impact.",
+      "image": "/images/programs/community.jpg",
+      "benefits": [
+        "Improved community infrastructure and services",
+        "Job creation opportunities for local residents",
+        "Skills development and capacity building",
+        "Enhanced community cohesion and solidarity"
+      ],
+      "eligibility": [
+        "Projects must address a demonstrated community need",
+        "Communities must show commitment to project sustainability",
+        "Project must benefit a significant portion of the community",
+        "Community must have a plan for ongoing maintenance"
+      ],
+      "cta": {
+        "text": "Propose a Project",
+        "link": "/community-projects"
+      }
+    }
+  ]
+}

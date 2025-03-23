@@ -1,0 +1,119 @@
+{
+  "hero": {
+    "title": "Make a Difference Today",
+    "subtitle": "Support Our Mission",
+    "description": "Your contribution helps empower women and children across Africa through education, healthcare, and economic opportunities."
+  },
+  "stats": [
+    { 
+      "number": "500+", 
+      "label": "Students Educated", 
+      "color": "from-[#1D942C]/10" 
+    },
+    { 
+      "number": "$250K", 
+      "label": "In Microloans", 
+      "color": "from-[#ffc500]/10" 
+    },
+    { 
+      "number": "12", 
+      "label": "Communities Supported", 
+      "color": "from-[#1D942C]/10" 
+    }
+  ],
+  "levels": [
+    {
+      "amount": 10,
+      "label": "Supporter"
+    },
+    {
+      "amount": 25,
+      "label": "Friend"
+    },
+    {
+      "amount": 50,
+      "label": "Advocate"
+    },
+    {
+      "amount": 100,
+      "label": "Champion"
+    },
+    {
+      "amount": 250,
+      "label": "Partner"
+    },
+    {
+      "amount": 500,
+      "label": "Benefactor"
+    },
+    {
+      "amount": 1000,
+      "label": "Visionary"
+    }
+  ],
+  "impact": {
+    "title": "Your Impact",
+    "description": "See how your donation makes a real difference in the lives of women and children across Africa.",
+    "metrics": [
+      {
+        "icon": "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253",
+        "title": "Educational Support",
+        "description": "Provide books, supplies, and scholarships to students in need"
+      },
+      {
+        "icon": "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+        "title": "Economic Empowerment",
+        "description": "Fund microloans for women entrepreneurs to start businesses"
+      },
+      {
+        "icon": "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
+        "title": "Healthcare Access",
+        "description": "Provide medical care and health education to communities"
+      }
+    ],
+    "calculations": {
+      "studentCost": 100,
+      "microloanCost": 500,
+      "healthcareCost": 250,
+      "communityCost": 2500
+    }
+  },
+  "testimonials": [
+    {
+      "quote": "The scholarship I received changed my life. I am now able to pursue my dream of becoming a doctor and help my community.",
+      "name": "Amara N.",
+      "role": "Scholarship Recipient",
+      "image": "/images/testimonials/student1.jpg"
+    },
+    {
+      "quote": "With the microloan, I started my own business selling handmade goods. Now I can support my family and send my children to school.",
+      "name": "Fatima K.",
+      "role": "Entrepreneur",
+      "image": "/images/testimonials/entrepreneur1.jpg"
+    },
+    {
+      "quote": "The healthcare program brought vital services to our village. Our children are healthier and our mothers are safer.",
+      "name": "Nia M.",
+      "role": "Community Leader",
+      "image": "/images/testimonials/community1.jpg"
+    }
+  ],
+  "frequentlyAskedQuestions": [
+    {
+      "question": "How is my donation used?",
+      "answer": "Your donation directly supports our programs in education, healthcare, and economic empowerment. We ensure that at least 85% of all donations go directly to program services."
+    },
+    {
+      "question": "Is my donation tax-deductible?",
+      "answer": "Yes, all donations are tax-deductible to the full extent allowed by law as we are a registered 501(c)(3) nonprofit organization."
+    },
+    {
+      "question": "Can I specify which program my donation supports?",
+      "answer": "Yes, you can designate your donation to support a specific program. Just include a note with your donation specifying your preference."
+    },
+    {
+      "question": "How can I see the impact of my donation?",
+      "answer": "We provide regular updates through our newsletter, annual reports, and impact stories on our website. You can also follow our social media channels for real-time updates."
+    }
+  ]
+} 
