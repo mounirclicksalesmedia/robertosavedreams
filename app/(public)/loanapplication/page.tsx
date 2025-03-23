@@ -1,12 +1,25 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
-export default function LoanApplicationPage() {
+// Loading component for Suspense fallback
+function LoadingLoanApplication() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-white to-[#1D942C]/5 flex items-center justify-center">
+      <div className="text-center py-12">
+        <div className="w-16 h-16 border-4 border-[#1D942C] border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+        <p className="text-xl text-gray-600">Loading loan application form...</p>
+      </div>
+    </div>
+  );
+}
+
+// Main content component that uses useSearchParams
+function LoanApplicationContent() {
   const searchParams = useSearchParams();
   const [loanAmount, setLoanAmount] = useState<number>(1000);
   const [loanTerm, setLoanTerm] = useState<number>(12);
@@ -657,5 +670,13 @@ export default function LoanApplicationPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function LoanApplicationPage() {
+  return (
+    <Suspense fallback={<LoadingLoanApplication />}>
+      <LoanApplicationContent />
+    </Suspense>
   );
 }
