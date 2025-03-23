@@ -4,24 +4,17 @@ import { getToken } from 'next-auth/jwt';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  
+  // Get token with minimal options to avoid edge runtime issues
   const token = await getToken({ 
     req: request, 
-    secret: process.env.NEXTAUTH_SECRET,
-    secureCookie: process.env.NODE_ENV === 'production'
+    secret: process.env.NEXTAUTH_SECRET
   });
-
-  console.log('Middleware - Path:', pathname);
-  console.log('Middleware - Token:', token ? 'exists' : 'none');
-  if (token) {
-    console.log('Middleware - User:', token.email);
-    console.log('Middleware - Role:', token.role);
-  }
 
   // Check if the path starts with /dashboard
   if (pathname.startsWith('/dashboard')) {
     // If the user is not authenticated, redirect to the sign-in page
     if (!token) {
-      console.log('Middleware - Redirecting to signin, no token');
       const url = new URL('/signin', request.url);
       url.searchParams.set('callbackUrl', encodeURI(pathname));
       return NextResponse.redirect(url);
@@ -31,7 +24,6 @@ export async function middleware(request: NextRequest) {
     if (pathname.startsWith('/dashboard/users') || pathname.startsWith('/dashboard/settings')) {
       // @ts-ignore - We know role exists on our token
       if (token.role !== 'ADMIN' && token.role !== 'MANAGER') {
-        console.log('Middleware - Redirecting to overview, insufficient role');
         // Redirect to the dashboard overview page
         return NextResponse.redirect(new URL('/dashboard/overview', request.url));
       }
@@ -40,7 +32,6 @@ export async function middleware(request: NextRequest) {
 
   // If user is already authenticated and tries to access signin or signup pages
   if ((pathname === '/signin' || pathname === '/signup') && token) {
-    console.log('Middleware - Redirecting to dashboard, already authenticated');
     // Redirect to dashboard
     const response = NextResponse.redirect(new URL('/dashboard', request.url));
     // Ensure no caching

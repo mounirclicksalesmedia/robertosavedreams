@@ -1,181 +1,218 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { formatAmount } from '@/app/lib/lenco';
 
-// Loading component for Suspense fallback
-function LoadingDonationStatus() {
-  return (
-    <div className="text-center py-12">
-      <div className="w-16 h-16 border-4 border-[#1D942C]/30 border-t-[#1D942C] rounded-full animate-spin mx-auto mb-6"></div>
-      <p className="text-xl font-medium text-gray-700">Loading donation information...</p>
-    </div>
-  );
+interface PaymentVerificationResult {
+  success: boolean;
+  reference: string;
+  amount: number;
+  formattedAmount: string;
+  status: string;
+  error?: string;
+  orderId?: string;
 }
 
-// Main content component that uses useSearchParams
-function DonationContent() {
+function DonationSuccess() {
   const searchParams = useSearchParams();
-  const reference = searchParams.get('reference') || searchParams.get('trxref') || '';
-  const [isLoading, setIsLoading] = useState(true);
-  const [paymentDetails, setPaymentDetails] = useState<any>(null);
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [paymentData, setPaymentData] = useState<PaymentVerificationResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
   
+  const reference = searchParams.get('reference') || '';
+  
+  // Verify the payment status when the page loads
   useEffect(() => {
-    async function verifyPayment() {
-      if (!reference) {
-        setError('Invalid payment reference');
-        setIsLoading(false);
-        return;
-      }
-      
+    const verifyPayment = async () => {
       try {
-        console.log('Verifying payment on success page:', { reference });
-        const response = await fetch(`/api/donations/verify?reference=${reference}`);
+        // Use reference from URL or localStorage
+        const paymentReference = reference || localStorage.getItem('lastDonationReference') || '';
+        
+        if (!paymentReference) {
+          setError('No payment reference was provided');
+          setLoading(false);
+          return;
+        }
+        
+        // For mock payments, handle locally with data from localStorage
+        if (paymentReference.startsWith('mock_')) {
+          const storedAmount = Number(localStorage.getItem('donationAmount') || 0);
+          
+          setPaymentData({
+            success: true,
+            reference: paymentReference,
+            amount: storedAmount,
+            formattedAmount: formatAmount(storedAmount, 'USD'),
+            status: 'Mock Payment Completed'
+          });
+          
+          // Remove stored values once used
+          localStorage.removeItem('lastDonationReference');
+          localStorage.removeItem('donationAmount');
+          
+          setLoading(false);
+          return;
+        }
+        
+        // Verify with API for real payments
+        const response = await fetch(`/api/donations/verify?reference=${paymentReference}`, {
+          method: 'GET',
+        });
+        
         const data = await response.json();
         
         if (!response.ok) {
           throw new Error(data.error || 'Failed to verify payment');
         }
         
-        setPaymentDetails(data);
-        console.log('Payment details retrieved:', data);
-      } catch (err: any) {
-        console.error('Payment verification error on success page:', err);
-        setError(err.message || 'Failed to verify payment status');
+        setPaymentData(data);
+        
+        // Clear stored data after successful verification
+        localStorage.removeItem('lastDonationReference');
+        localStorage.removeItem('donationAmount');
+      } catch (error: any) {
+        console.error('Payment verification error:', error);
+        setError(error.message || 'There was an error verifying your payment.');
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
-    }
+    };
     
     verifyPayment();
   }, [reference]);
   
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-      className="bg-white rounded-2xl shadow-lg p-8 md:p-12 border border-gray-100"
-    >
-      {isLoading ? (
-        <div className="text-center py-12">
-          <div className="w-16 h-16 border-4 border-[#1D942C]/30 border-t-[#1D942C] rounded-full animate-spin mx-auto mb-6"></div>
-          <p className="text-xl font-medium text-gray-700">Verifying your donation...</p>
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center p-4">
+        <div className="w-full max-w-md text-center">
+          <div className="w-16 h-16 border-4 border-[#1D942C]/30 border-t-[#1D942C] rounded-full animate-spin mx-auto mb-4"></div>
+          <h2 className="text-xl font-bold text-gray-800">Verifying your donation...</h2>
+          <p className="text-gray-600 mt-2">Please wait while we confirm your payment.</p>
         </div>
-      ) : error ? (
-        <div className="text-center py-12">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+      </div>
+    );
+  }
+  
+  if (error || !paymentData) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
+        <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 text-center">
+          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Verification Failed</h2>
-          <p className="text-gray-600 mb-8">{error}</p>
-          <Link href="/donate" className="inline-block px-6 py-3 bg-[#1D942C] text-white rounded-lg font-medium hover:bg-[#167623] transition-colors">
-            Try Again
-          </Link>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Verification Failed</h1>
+          <p className="text-gray-600 mb-6">{error || 'We could not verify your payment at this time.'}</p>
+          <div className="space-y-4">
+            <Link 
+              href="/donate"
+              className="block w-full py-3 bg-[#1D942C] text-white rounded-lg font-medium hover:bg-[#167623] transition-colors text-center"
+            >
+              Try Again
+            </Link>
+            <Link 
+              href="/"
+              className="block w-full py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors text-center"
+            >
+              Return Home
+            </Link>
+          </div>
         </div>
-      ) : (
-        <>
-          <div className="text-center mb-8">
-            <div className="w-20 h-20 bg-[#1D942C]/10 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-10 h-10 text-[#1D942C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      </div>
+    );
+  }
+  
+  return (
+    <div className="min-h-screen bg-white py-16">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+          <div className="bg-gradient-to-br from-[#1D942C] to-[#167623] p-8 text-center">
+            <div className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Donation Successful!</h2>
-            <p className="text-xl text-gray-600">Your contribution will make a real difference</p>
+            <h1 className="text-3xl font-bold text-white">Thank You for Your Donation!</h1>
+            <p className="text-white/80 text-lg mt-2">Your contribution will make a real difference.</p>
           </div>
           
-          <div className="bg-gray-50 rounded-xl p-6 mb-8">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Payment Details</h3>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Reference:</span>
-                <span className="font-medium text-gray-900">{reference}</span>
+          <div className="p-8">
+            <div className="mb-8 bg-gray-50 rounded-xl p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Donation Details</h2>
+              
+              <div className="space-y-4">
+                <div className="flex justify-between items-center border-b border-gray-200 pb-3">
+                  <span className="text-gray-600">Amount:</span>
+                  <span className="font-bold text-gray-900 text-xl">{paymentData.formattedAmount}</span>
+                </div>
+                
+                <div className="flex justify-between items-center border-b border-gray-200 pb-3">
+                  <span className="text-gray-600">Reference:</span>
+                  <span className="text-gray-900">{paymentData.reference}</span>
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">Status:</span>
+                  <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                    {paymentData.status || 'Successful'}
+                  </span>
+                </div>
               </div>
-              {paymentDetails && (
-                <>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Amount:</span>
-                    <span className="font-medium text-gray-900">{paymentDetails.formattedAmount || '$0.00'}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Status:</span>
-                    <span className="font-medium text-green-600">Completed</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Date:</span>
-                    <span className="font-medium text-gray-900">
-                      {new Date().toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </span>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-          
-          <div className="text-center space-y-6">
-            <p className="text-gray-700">
-              We've sent a receipt to your email address. Thank you for your generosity and for helping us make dreams come true!
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/" className="px-6 py-3 bg-[#1D942C] text-white rounded-lg font-medium hover:bg-[#167623] transition-colors">
-                Return to Home
-              </Link>
-              <Link href="/impact" className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors">
-                See Your Impact
-              </Link>
             </div>
             
-            <div className="pt-6 border-t border-gray-100">
-              <p className="text-sm text-gray-500">
-                Have questions about your donation? Contact us at <a href="mailto:support@robertosavedreams.org" className="text-[#1D942C] hover:underline">support@robertosavedreams.org</a>
-              </p>
+            <div className="text-center space-y-6">
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Your Impact</h3>
+                <p className="text-gray-600">
+                  Your donation will help provide education, healthcare, and economic opportunities to those in need.
+                </p>
+              </div>
+              
+              <div className="pt-6 border-t border-gray-200">
+                <p className="text-sm text-gray-500 mb-4">
+                  You will receive an email confirmation with details of your donation shortly.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link 
+                    href="/donate"
+                    className="py-3 px-6 bg-[#1D942C] text-white rounded-lg font-medium hover:bg-[#167623] transition-colors"
+                  >
+                    Donate Again
+                  </Link>
+                  
+                  <Link 
+                    href="/"
+                    className="py-3 px-6 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                  >
+                    Return Home
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
-        </>
-      )}
-    </motion.div>
+        </div>
+      </div>
+    </div>
   );
 }
 
+// Wrap the component with Suspense to fix the searchParams error
 export default function DonationSuccessPage() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative h-[40vh] bg-gradient-to-br from-[#1D942C] to-[#167623] overflow-hidden">
-        <div className="absolute inset-0 bg-black/20" />
-        
-        <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Thank You
-              <span className="block text-[#ffc500] mt-2">For Your Donation</span>
-            </h1>
-          </motion.div>
+    <Suspense fallback={
+      <div className="min-h-screen bg-white flex items-center justify-center p-4">
+        <div className="w-full max-w-md text-center">
+          <div className="w-16 h-16 border-4 border-[#1D942C]/30 border-t-[#1D942C] rounded-full animate-spin mx-auto mb-4"></div>
+          <h2 className="text-xl font-bold text-gray-800">Loading...</h2>
         </div>
-      </section>
-
-      {/* Main Content */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <Suspense fallback={<LoadingDonationStatus />}>
-          <DonationContent />
-        </Suspense>
       </div>
-    </div>
+    }>
+      <DonationSuccess />
+    </Suspense>
   );
 } 
