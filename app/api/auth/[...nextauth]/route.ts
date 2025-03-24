@@ -23,6 +23,13 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
           console.log('Looking up user:', credentials.email);
           const user = await prisma.user.findUnique({
             where: { email: credentials.email },
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              password: true,
+              role: true,
+            },
           });
 
           if (!user || !user.password) {
@@ -30,10 +37,13 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
             return null;
           }
 
+          console.log('Found user, comparing passwords');
           const isPasswordValid = await bcrypt.compare(
             credentials.password,
             user.password
           );
+
+          console.log('Password valid:', isPasswordValid);
 
           if (!isPasswordValid) {
             console.log('Invalid password');
@@ -41,12 +51,14 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
           }
 
           console.log('User authenticated successfully:', user.id);
-          return {
+          const userWithoutPassword = {
             id: user.id,
             name: user.name,
             email: user.email,
             role: user.role,
           };
+          console.log('Returning user:', userWithoutPassword);
+          return userWithoutPassword;
         } catch (error) {
           console.error('Error during authentication:', error);
           return null;
@@ -54,50 +66,36 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
-  session: {
-    strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
-  callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      console.log('SignIn callback executed for user:', user?.email);
-      return true;
-    },
-    async jwt({ token, user }) {
-      console.log('JWT callback - token:', token?.id, 'user:', user?.id);
-      if (user) {
-        token.id = user.id;
-        token.role = user.role;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      console.log('Session callback - user:', session?.user?.email, 'token:', token?.id);
-      if (session.user) {
-        session.user.id = token.id as string;
-        session.user.role = token.role as string;
-      }
-      return session;
-    },
-  },
   pages: {
     signIn: '/signin',
     signOut: '/',
     error: '/signin',
   },
-  debug: true,
-  trustHost: true,
-  cookies: {
-    sessionToken: {
-      name: `next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-        secure: true
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  callbacks: {
+    async jwt({ token, user, account, profile }) {
+      console.log('JWT callback - incoming token:', token, 'user:', user);
+      if (user) {
+        token.id = user.id;
+        token.role = user.role;
       }
+      console.log('JWT callback - outgoing token:', token);
+      return token;
+    },
+    async session({ session, token }) {
+      console.log('Session callback - incoming session:', session, 'token:', token);
+      if (session.user) {
+        session.user.id = token.id;
+        session.user.role = token.role;
+      }
+      console.log('Session callback - outgoing session:', session);
+      return session;
     },
   },
-  site: 'https://robertosavedreamsfoundation.org',
+  debug: true,
+  secret: process.env.NEXTAUTH_SECRET,
+  trustHost: true,
 }); 

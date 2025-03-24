@@ -1,109 +1,142 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import data from '@/app/data/grants.json';
+import LencoPayment from '@/app/components/LencoPayment';
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 }
-};
-
-// Define the content type
-interface GrantsContent {
-  hero: {
-    title: string;
-    subtitle: string;
-    description: string;
-  };
-  overview: {
-    title: string;
-    description: string;
-  };
-  grants: Array<{
-    id: string;
-    title: string;
-    amount: string;
-    deadline: string;
-    description: string;
-    icon: string;
-    iconColor: string;
-    requirements: string[];
-  }>;
-  applicationProcess: {
-    title: string;
-    steps: Array<{
-      title: string;
-      description: string;
-      icon: string;
-    }>;
-  };
-  faqs: Array<{
-    question: string;
-    answer: string;
-  }>;
+interface InvestmentOpportunity {
+  id: string;
+  title: string;
+  targetAmount: string;
+  currentRaise: string;
+  description: string;
+  icon: string;
+  iconColor: string;
+  highlights: string[];
+  metrics: Record<string, string>;
 }
 
-export default function GrantsPage() {
-  const [selectedGrant, setSelectedGrant] = useState<string | null>(null);
-  const [content, setContent] = useState<GrantsContent | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const investmentFormSchema = z.object({
+  name: z.string().min(2, 'Name is required'),
+  email: z.string().email('Valid email is required'),
+  organization: z.string().min(2, 'Organization name is required'),
+  investmentAmount: z.string().min(1, 'Investment amount is required'),
+  investmentType: z.enum(['impact-fund', 'angel-partnership', 'innovation-fund']),
+  message: z.string().optional(),
+});
 
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/grants');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch grants content');
-        }
-        
-        const data = await response.json();
-        setContent(data);
-      } catch (err) {
-        console.error('Error fetching grants content:', err);
-        setError('Failed to load content. Please try again later.');
-      } finally {
-        setLoading(false);
+type InvestmentFormData = z.infer<typeof investmentFormSchema>;
+
+export default function InvestmentPage() {
+  const [activeTab, setActiveTab] = useState('impact-fund');
+  const [showForm, setShowForm] = useState(false);
+  const [selectedOpportunity, setSelectedOpportunity] = useState<InvestmentOpportunity | null>(null);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [investmentAmount, setInvestmentAmount] = useState(50000);
+  const [customAmount, setCustomAmount] = useState('');
+  const [investorInfo, setInvestorInfo] = useState({
+    name: '',
+    email: '',
+    organization: '',
+    phone: '',
+    country: ''
+  });
+  const [paymentMethod, setPaymentMethod] = useState('card');
+
+  const handlePresetAmount = (amount: number | string) => {
+    if (amount === 'Custom') {
+      document.getElementById('customAmount')?.focus();
+    } else {
+      setInvestmentAmount(amount as number);
+      setCustomAmount('');
+    }
+  };
+
+  const handleCustomAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setCustomAmount(value);
+    const numValue = parseFloat(value);
+    if (!isNaN(numValue)) {
+      setInvestmentAmount(numValue);
+    }
+  };
+
+  const handleInvestorInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInvestorInfo(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleNextStep = () => {
+    if (currentStep === 1 && investmentAmount > 0) {
+      setCurrentStep(2);
+    } else if (currentStep === 2 && 
+      investorInfo.name && 
+      investorInfo.email && 
+      investorInfo.organization && 
+      investorInfo.phone && 
+      investorInfo.country) {
+      setCurrentStep(3);
+    }
+  };
+
+  const handleBackStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handlePaymentSuccess = (reference: string) => {
+    // Redirect to success page with reference
+    window.location.href = `/grants/success?reference=${reference}`;
+  };
+
+  const handlePaymentError = (error: string) => {
+    // Show error message
+    alert(error);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm<InvestmentFormData>({
+    resolver: zodResolver(investmentFormSchema)
+  });
+
+  const onSubmit = async (data: InvestmentFormData) => {
+    try {
+      // TODO: Implement form submission
+      console.log('Form data:', data);
+      // Reset form and show success message
+      reset();
+      setShowForm(false);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
+
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+
+  const stagger = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
       }
-    };
-
-    fetchContent();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-t-[#1D942C] border-[#1D942C]/20 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading grants information...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !content) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="text-center max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
-          <svg className="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Error Loading Content</h2>
-          <p className="text-gray-600 mb-4">{error || 'Unable to load grants information'}</p>
-          <button 
-            onClick={() => window.location.reload()}
-            className="bg-[#1D942C] hover:bg-[#167623] text-white px-4 py-2 rounded transition-colors"
-          >
-            Try Again
-          </button>
-        </div>
-      </div>
-    );
-  }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -149,12 +182,24 @@ export default function GrantsPage() {
             className="text-center max-w-3xl mx-auto"
           >
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              {content.hero.title}
-              <span className="block text-[#ffc500] mt-2">{content.hero.subtitle}</span>
+              {data.hero.title}
+              <span className="block text-[#ffc500] mt-2">{data.hero.subtitle}</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/90">
-              {content.hero.description}
+              {data.hero.description}
             </p>
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              onClick={() => {
+                setShowForm(true);
+                setSelectedOpportunity(data.investmentOpportunities[0] as unknown as InvestmentOpportunity);
+              }}
+              className="mt-8 bg-[#ffc500] text-[#1D942C] px-8 py-4 rounded-xl font-bold text-lg hover:bg-[#ffd23d] transform hover:-translate-y-1 transition-all duration-300"
+            >
+              Become an Investor
+            </motion.button>
           </motion.div>
         </div>
 
@@ -179,187 +224,633 @@ export default function GrantsPage() {
         </motion.div>
       </section>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-white">
-        {/* Overview Section */}
-        <motion.section
-          {...fadeInUp}
-          className="mb-16"
-        >
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold text-[#1D942C] mb-4">{content.overview.title}</h2>
-            <div className="w-20 h-1 bg-[#1D942C] mx-auto rounded-full mb-4" />
-            <p className="text-lg text-gray-600">
-              {content.overview.description}
-            </p>
-          </div>
-        </motion.section>
-
-        {/* Grants Grid */}
-        <motion.section
-          {...fadeInUp}
-          className="mb-16"
-        >
-          <div className="grid md:grid-cols-3 gap-8">
-            {content.grants.map((grant, index) => (
+      {/* Impact Metrics */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={stagger}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+          >
+            {data.impactMetrics.metrics.map((metric, index) => (
               <motion.div
-                key={grant.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-                className="group"
+                key={index}
+                variants={fadeIn}
+                className="text-center p-6 rounded-xl bg-white shadow-xl hover:shadow-2xl transition-shadow"
               >
-                <div
-                  className={`bg-white rounded-2xl p-8 shadow-lg border border-[#1D942C]/10 cursor-pointer transition-all duration-300 hover:shadow-2xl relative overflow-hidden ${
-                    selectedGrant === grant.id ? 'ring-2 ring-[#1D942C]' : ''
-                  }`}
-                  onClick={() => setSelectedGrant(selectedGrant === grant.id ? null : grant.id)}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#1D942C]/5 via-transparent to-[#ffc500]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="relative z-10">
-                    <div className="w-16 h-16 bg-white rounded-xl shadow-md flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-[#1D942C]/10">
-                      <svg 
-                        className="h-8 w-8" 
-                        fill="none" 
-                        viewBox="0 0 24 24" 
-                        stroke={grant.iconColor}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={grant.icon} />
-                      </svg>
-                    </div>
-                    <h3 className="text-xl font-bold text-[#1D942C] mb-2">{grant.title}</h3>
-                    <div className="text-[#1D942C] font-semibold mb-2">{grant.amount}</div>
-                    <div className="text-sm text-gray-500 mb-4">Deadline: {grant.deadline}</div>
-                    <p className="text-gray-600 mb-4">{grant.description}</p>
-                    
-                    <AnimatePresence>
-                      {selectedGrant === grant.id && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="mt-4"
-                        >
-                          <h4 className="font-semibold text-[#1D942C] mb-2">Requirements:</h4>
-                          <ul className="space-y-2">
-                            {grant.requirements.map((req, index) => (
-                              <motion.li
-                                key={index}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: index * 0.1 }}
-                                className="flex items-center space-x-2 text-gray-600"
-                              >
-                                <svg className="w-5 h-5 text-[#1D942C] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span>{req}</span>
-                              </motion.li>
-                            ))}
-                          </ul>
-                          <motion.button
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3 }}
-                            className="mt-6 w-full bg-gradient-to-r from-[#1D942C] to-[#167623] text-white py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300"
-                          >
-                            Apply Now
-                          </motion.button>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                <h3 className="text-4xl font-bold text-[#1D942C] mb-2">
+                  {metric.number}
+                </h3>
+                <p className="text-xl font-semibold text-gray-800 mb-2">
+                  {metric.label}
+                </p>
+                <p className="text-gray-600">
+                  {metric.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Investment Opportunities */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <motion.h2
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeIn}
+            className="text-4xl font-bold text-center mb-16"
+          >
+            Investment Opportunities
+          </motion.h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {(data.investmentOpportunities as unknown as InvestmentOpportunity[]).map((opportunity, index) => (
+              <motion.div
+                key={opportunity.id}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeIn}
+                transition={{ delay: index * 0.2 }}
+                className="bg-white rounded-xl shadow-xl overflow-hidden hover:shadow-2xl transition-all transform hover:-translate-y-1"
+              >
+                <div className="p-6">
+                  <div className="w-12 h-12 bg-[#1D942C]/10 rounded-full flex items-center justify-center mb-4">
+                    <svg
+                      className="w-6 h-6 text-[#1D942C]"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d={opportunity.icon}
+                      />
+                    </svg>
                   </div>
+                  <h3 className="text-2xl font-bold mb-2">{opportunity.title}</h3>
+                  <p className="text-gray-600 mb-4">{opportunity.description}</p>
+                  <div className="mb-4">
+                    <div className="flex justify-between mb-2">
+                      <span className="text-sm text-gray-600">Progress</span>
+                      <span className="text-sm font-semibold">
+                        {opportunity.currentRaise} / {opportunity.targetAmount}
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div
+                        className="bg-[#1D942C] h-2 rounded-full"
+                        style={{
+                          width: `${(parseInt(opportunity.currentRaise.replace(/\$|,/g, '')) / 
+                            parseInt(opportunity.targetAmount.replace(/\$|,/g, ''))) * 100}%`
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <ul className="space-y-2 mb-6">
+                    {opportunity.highlights.map((highlight, i) => (
+                      <li key={i} className="flex items-center text-gray-600">
+                        <svg
+                          className="w-4 h-4 text-[#1D942C] mr-2"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                        {highlight}
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    onClick={() => {
+                      setShowForm(true);
+                      setSelectedOpportunity(opportunity);
+                    }}
+                    className="w-full bg-[#1D942C] text-white py-3 rounded-lg hover:bg-[#167623] transition-colors"
+                  >
+                    Invest Now
+                  </button>
                 </div>
               </motion.div>
             ))}
           </div>
-        </motion.section>
+        </div>
+      </section>
 
-        {/* Application Process */}
-        <motion.section
-          {...fadeInUp}
-          className="mb-16 bg-white rounded-2xl p-8 shadow-lg border border-[#1D942C]/10"
-        >
-          <h2 className="text-3xl font-bold text-[#1D942C] mb-4 text-center">{content.applicationProcess.title}</h2>
-          <div className="w-20 h-1 bg-[#1D942C] mx-auto rounded-full mb-8" />
-          
-          <div className="relative">
-            {/* Progress Line */}
-            <div className="absolute top-8 left-0 w-full h-1 bg-[#1D942C]/10 hidden md:block">
-              <motion.div
-                className="h-full bg-[#1D942C]"
-                initial={{ width: "0%" }}
-                whileInView={{ width: "100%" }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.5, ease: "easeInOut" }}
-              />
-            </div>
-
-            {/* Steps */}
-            <div className="relative grid md:grid-cols-4 gap-8">
-              {content.applicationProcess.steps.map((step, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.2 }}
-                  className="relative group"
-                >
-                  <div className="relative z-10">
-                    <div className="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center mx-auto mb-4 border-2 border-[#1D942C] group-hover:scale-110 transition-transform duration-300">
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        whileInView={{ scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: index * 0.2 + 0.2 }}
-                        className="w-12 h-12 bg-[#1D942C] rounded-full flex items-center justify-center text-white"
-                      >
-                        <span className="text-xl font-bold">{index + 1}</span>
-                      </motion.div>
-                    </div>
-                    <div className="text-center group-hover:-translate-y-1 transition-transform duration-300">
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">{step.title}</h3>
-                      <p className="text-gray-600">{step.description}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.section>
-
-        {/* FAQ Section */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="bg-white rounded-2xl p-8 shadow-lg border border-[#1D942C]/10"
-        >
-          <h2 className="text-3xl font-bold text-[#1D942C] mb-4 text-center">Frequently Asked Questions</h2>
-          <div className="w-20 h-1 bg-[#1D942C] mx-auto rounded-full mb-8" />
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            {content.faqs.map((faq, index) => (
+      {/* Investment Process */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.h2
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeIn}
+            className="text-4xl font-bold text-center mb-16"
+          >
+            {data.investmentProcess.title}
+          </motion.h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {data.investmentProcess.steps.map((step, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial="hidden"
+                whileInView="visible"
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 border border-[#1D942C]/10"
+                variants={fadeIn}
+                transition={{ delay: index * 0.2 }}
+                className="relative"
               >
-                <h3 className="text-lg font-semibold text-[#1D942C] mb-2">{faq.question}</h3>
+                <div className="bg-white rounded-xl shadow-lg p-6 relative z-10">
+                  <div className="w-12 h-12 bg-[#1D942C]/10 rounded-full flex items-center justify-center mb-4">
+                    <svg
+                      className="w-6 h-6 text-[#1D942C]"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d={step.icon}
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">{step.title}</h3>
+                  <p className="text-gray-600">{step.description}</p>
+                </div>
+                {index < data.investmentProcess.steps.length - 1 && (
+                  <div className="hidden md:block absolute top-1/2 right-0 w-full h-0.5 bg-gray-200 transform translate-y-[-50%] z-0" />
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQs */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <motion.h2
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeIn}
+            className="text-4xl font-bold text-center mb-16"
+          >
+            Frequently Asked Questions
+          </motion.h2>
+          <div className="max-w-3xl mx-auto">
+            {data.faqs.map((faq, index) => (
+              <motion.div
+                key={index}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeIn}
+                transition={{ delay: index * 0.1 }}
+                className="mb-6"
+              >
+                <h3 className="text-xl font-bold mb-2">{faq.question}</h3>
                 <p className="text-gray-600">{faq.answer}</p>
               </motion.div>
             ))}
           </div>
-        </motion.section>
-      </div>
+        </div>
+      </section>
+
+      {/* Investment Form Modal */}
+      {showForm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="bg-white rounded-xl p-8 max-w-5xl w-full mx-4 max-h-[90vh] overflow-y-auto"
+          >
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-2xl font-bold">Investment Application</h2>
+              <button
+                onClick={() => setShowForm(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+              <div className="lg:col-span-3">
+                <div className="flex items-center mb-8">
+                  {[1, 2, 3].map((step) => (
+                    <div key={step} className="flex items-center">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                        step === currentStep
+                          ? 'bg-[#1D942C] text-white'
+                          : step < currentStep
+                          ? 'bg-[#1D942C]/20 text-[#1D942C]'
+                          : 'bg-gray-200 text-gray-500'
+                      }`}>
+                        {step}
+                      </div>
+                      {step < 3 && (
+                        <div className={`w-16 h-1 mx-2 ${
+                          step < currentStep ? 'bg-[#1D942C]' : 'bg-gray-200'
+                        }`} />
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {currentStep === 1 && (
+                  <>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Choose Your Investment Amount</h3>
+                    
+                    {/* Preset Amounts */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+                      {[50000, 100000, 250000, 500000, 1000000, 2000000, 5000000, 'Custom'].map((amount) => (
+                        <button
+                          key={amount}
+                          type="button"
+                          onClick={() => handlePresetAmount(amount)}
+                          className={`py-3 px-4 rounded-lg border-2 transition-all duration-200 ${
+                            amount === investmentAmount && customAmount === ''
+                              ? 'border-[#1D942C] bg-[#1D942C]/10 text-[#1D942C] font-medium'
+                              : 'border-gray-200 text-gray-700 hover:border-[#1D942C]/20'
+                          }`}
+                        >
+                          {amount === 'Custom' ? 'Custom' : `$${amount.toLocaleString()}`}
+                        </button>
+                      ))}
+                    </div>
+                    
+                    {/* Custom Amount Input */}
+                    <div className="mb-8">
+                      <label htmlFor="customAmount" className="block text-sm font-medium text-gray-700 mb-2">
+                        Custom Amount
+                      </label>
+                      <div className="relative rounded-lg shadow-sm">
+                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                          <span className="text-gray-500 sm:text-sm">$</span>
+                        </div>
+                        <input
+                          type="text"
+                          name="customAmount"
+                          id="customAmount"
+                          value={customAmount}
+                          onChange={handleCustomAmountChange}
+                          className="block w-full rounded-lg border-gray-300 pl-7 pr-12 focus:border-[#1D942C] focus:ring-[#1D942C]"
+                          placeholder="0.00"
+                          aria-describedby="price-currency"
+                        />
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                          <span className="text-gray-500 sm:text-sm" id="price-currency">USD</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Investment Type */}
+                    <div className="mb-8">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Investment Type
+                      </label>
+                      <div className="grid grid-cols-3 gap-3">
+                        {['Impact Fund', 'Angel Partnership', 'Innovation Fund'].map((type) => (
+                          <button
+                            key={type}
+                            type="button"
+                            onClick={() => setActiveTab(type.toLowerCase().replace(' ', '-'))}
+                            className={`py-3 px-4 rounded-lg border-2 transition-all duration-200 ${
+                              activeTab === type.toLowerCase().replace(' ', '-')
+                                ? 'border-[#1D942C] bg-[#1D942C]/10 text-[#1D942C] font-medium'
+                                : 'border-gray-200 text-gray-700 hover:border-[#1D942C]/20'
+                            }`}
+                          >
+                            {type}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {currentStep === 2 && (
+                  <>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Your Information</h3>
+                    
+                    <div className="space-y-6">
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                          Full Name
+                        </label>
+                        <input
+                          type="text"
+                          id="name"
+                          name="name"
+                          value={investorInfo.name}
+                          onChange={handleInvestorInfoChange}
+                          className="block w-full rounded-lg border-gray-300 focus:border-[#1D942C] focus:ring-[#1D942C]"
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                          Email Address
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          value={investorInfo.email}
+                          onChange={handleInvestorInfoChange}
+                          className="block w-full rounded-lg border-gray-300 focus:border-[#1D942C] focus:ring-[#1D942C]"
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="organization" className="block text-sm font-medium text-gray-700 mb-2">
+                          Organization
+                        </label>
+                        <input
+                          type="text"
+                          id="organization"
+                          name="organization"
+                          value={investorInfo.organization}
+                          onChange={handleInvestorInfoChange}
+                          className="block w-full rounded-lg border-gray-300 focus:border-[#1D942C] focus:ring-[#1D942C]"
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                          Phone Number
+                        </label>
+                        <input
+                          type="tel"
+                          id="phone"
+                          name="phone"
+                          value={investorInfo.phone}
+                          onChange={handleInvestorInfoChange}
+                          className="block w-full rounded-lg border-gray-300 focus:border-[#1D942C] focus:ring-[#1D942C]"
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-2">
+                          Country
+                        </label>
+                        <input
+                          type="text"
+                          id="country"
+                          name="country"
+                          value={investorInfo.country}
+                          onChange={handleInvestorInfoChange}
+                          className="block w-full rounded-lg border-gray-300 focus:border-[#1D942C] focus:ring-[#1D942C]"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {currentStep === 3 && (
+                  <>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Payment Information</h3>
+                    <div className="bg-gray-50 rounded-xl p-6 mb-8">
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4">Investment Summary</h4>
+                      <div className="space-y-3">
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Amount:</span>
+                          <span className="font-medium text-gray-900">${investmentAmount.toLocaleString()}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Investment Type:</span>
+                          <span className="font-medium text-gray-900">{activeTab.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Name:</span>
+                          <span className="font-medium text-gray-900">{investorInfo.name}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Organization:</span>
+                          <span className="font-medium text-gray-900">{investorInfo.organization}</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-white rounded-xl border border-gray-200 p-6">
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4">Payment Method</h4>
+                      
+                      {/* Payment Method Toggle */}
+                      <div className="flex space-x-4 mb-6">
+                        <button
+                          onClick={() => setPaymentMethod('card')}
+                          className={`flex-1 py-3 px-4 rounded-lg border-2 transition-all duration-200 ${
+                            paymentMethod === 'card'
+                              ? 'border-[#1D942C] bg-[#1D942C]/10 text-[#1D942C] font-medium'
+                              : 'border-gray-200 text-gray-700 hover:border-[#1D942C]/20'
+                          }`}
+                        >
+                          <div className="flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                            </svg>
+                            Credit Card
+                          </div>
+                        </button>
+                        <button
+                          onClick={() => setPaymentMethod('bank')}
+                          className={`flex-1 py-3 px-4 rounded-lg border-2 transition-all duration-200 ${
+                            paymentMethod === 'bank'
+                              ? 'border-[#1D942C] bg-[#1D942C]/10 text-[#1D942C] font-medium'
+                              : 'border-gray-200 text-gray-700 hover:border-[#1D942C]/20'
+                          }`}
+                        >
+                          <div className="flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+                            </svg>
+                            Bank Transfer
+                          </div>
+                        </button>
+                      </div>
+
+                      {/* Payment Forms */}
+                      {paymentMethod === 'card' ? (
+                        <div>
+                          <LencoPayment
+                            amount={investmentAmount}
+                            frequency="one-time"
+                            donorInfo={investorInfo}
+                            onSuccess={handlePaymentSuccess}
+                            onError={handlePaymentError}
+                          />
+                          <p className="text-gray-600 text-sm mt-4">
+                            Your payment will be processed securely through Lenco Payment Gateway.
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="space-y-6">
+                          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <h5 className="text-blue-900 font-medium mb-2">Bank Transfer Instructions</h5>
+                            <p className="text-blue-800 text-sm mb-4">
+                              Please transfer the investment amount to the following bank account. Include your name and organization in the transfer reference.
+                            </p>
+                            <div className="space-y-3">
+                              <div className="flex justify-between">
+                                <span className="text-blue-700">Bank Name:</span>
+                                <span className="font-medium text-blue-900">Roberto Save Dreams Bank</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-blue-700">Account Name:</span>
+                                <span className="font-medium text-blue-900">Roberto Save Dreams Foundation</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-blue-700">Account Number:</span>
+                                <span className="font-medium text-blue-900">1234567890</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-blue-700">Routing Number:</span>
+                                <span className="font-medium text-blue-900">021000021</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-blue-700">SWIFT Code:</span>
+                                <span className="font-medium text-blue-900">RSDBUS33</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                            <div className="flex items-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-600 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                              </svg>
+                              <p className="text-yellow-800 text-sm">
+                                After making the transfer, please email a copy of the transfer receipt to <span className="font-medium">investments@robertosavedreams.org</span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+
+                <div className="mt-8 flex justify-between">
+                  {currentStep > 1 && (
+                    <button
+                      type="button"
+                      onClick={handleBackStep}
+                      className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                    >
+                      Back
+                    </button>
+                  )}
+                  
+                  {currentStep < 3 && (
+                    <button
+                      type="button"
+                      onClick={handleNextStep}
+                      className="px-6 py-3 bg-[#1D942C] text-white rounded-lg font-medium hover:bg-[#167623] transition-colors ml-auto"
+                    >
+                      Continue
+                    </button>
+                  )}
+                </div>
+              </div>
+              
+              <div className="lg:col-span-2 bg-gradient-to-br from-[#ffc500]/5 to-white rounded-xl p-6 border border-gray-100">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Investment Impact</h3>
+                
+                <div className="space-y-4 mb-6">
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 rounded-full bg-[#1D942C]/10 flex items-center justify-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#1D942C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div className="ml-4">
+                      <p className="text-sm font-medium text-gray-900">${investmentAmount.toLocaleString()} investment can:</p>
+                      <p className="text-sm text-gray-600">Support {Math.floor(investmentAmount / 10000)} small businesses</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 rounded-full bg-[#ffc500]/10 flex items-center justify-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#ffc500]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <div className="ml-4">
+                      <p className="text-sm font-medium text-gray-900">Create job opportunities</p>
+                      <p className="text-sm text-gray-600">Estimated {Math.floor(investmentAmount / 5000)} new jobs</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 rounded-full bg-[#1D942C]/10 flex items-center justify-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#1D942C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                    </div>
+                    <div className="ml-4">
+                      <p className="text-sm font-medium text-gray-900">Community Impact</p>
+                      <p className="text-sm text-gray-600">Benefit {Math.floor(investmentAmount / 1000)} community members</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="border-t border-gray-200 pt-4">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#1D942C]" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <p className="ml-2 text-sm text-gray-600">Secure investment process</p>
+                  </div>
+                  
+                  <div className="flex items-center mt-2">
+                    <div className="flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#1D942C]" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <p className="ml-2 text-sm text-gray-600">Regular impact reports</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
