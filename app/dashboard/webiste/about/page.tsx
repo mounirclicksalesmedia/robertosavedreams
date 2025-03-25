@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
 
 // Define types for our content
 interface AboutContent {
@@ -499,22 +501,85 @@ export default function AboutContentEditor() {
                 </div>
                 
                 <div className="form-group">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Image Path</label>
-                  <input
-                    type="text"
-                    className="w-full border rounded-md p-2"
-                    value={member.image}
-                    onChange={(e) => handleChange('team', `team.members[${index}].image`, e.target.value)}
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Team Member Image</label>
+                  <div className="space-y-2">
+                    {member.image && (
+                      <div className="relative h-40 w-40 rounded-md overflow-hidden border border-gray-300">
+                        <Image
+                          src={member.image}
+                          alt={member.name || 'Team member'}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                    <div className="flex items-center space-x-3">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          
+                          try {
+                            const formData = new FormData();
+                            formData.append('file', file);
+                            formData.append('directory', 'team'); // Specify the target directory
+                            
+                            const response = await fetch('/api/upload', {
+                              method: 'POST',
+                              body: formData,
+                            });
+                            
+                            const result = await response.json();
+                            
+                            if (!response.ok || !result.success) {
+                              throw new Error(result.error || 'Failed to upload image');
+                            }
+                            
+                            // Update the member's image path
+                            handleChange('team', `team.members[${index}].image`, result.path);
+                          } catch (error) {
+                            console.error('Error uploading image:', error);
+                            alert('Failed to upload image. Please try again.');
+                          }
+                        }}
+                        className="hidden"
+                        id={`team-member-image-${index}`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => document.getElementById(`team-member-image-${index}`)?.click()}
+                        className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                      >
+                        {member.image ? 'Change Image' : 'Upload Image'}
+                      </button>
+                      {member.image && (
+                        <button
+                          type="button"
+                          onClick={() => handleChange('team', `team.members[${index}].image`, '')}
+                          className="px-4 py-2 border border-red-300 rounded-md text-red-700 hover:bg-red-50"
+                        >
+                          Remove Image
+                        </button>
+                      )}
+                    </div>
+                    <p className="text-sm text-gray-500">
+                      Recommended: Square image, at least 400x400 pixels
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
             <button
               type="button"
               onClick={() => handleArrayAddItem('team.members', { name: '', role: '', image: '' })}
-              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
+              className="mt-4 w-full flex items-center justify-center px-4 py-3 bg-[#1D942C] text-white rounded-md hover:bg-[#1D942C]/90 font-medium"
             >
-              Add Team Member
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+              </svg>
+              Add New Team Member
             </button>
           </div>
         );
@@ -739,7 +804,7 @@ export default function AboutContentEditor() {
             <button
               onClick={handleSave}
               disabled={saving}
-              className={`px-4 py-2 rounded-md text-white font-medium ${saving ? 'bg-gray-400' : 'bg-primary hover:bg-primary/90'}`}
+              className={`px-4 py-2 rounded-md text-white font-medium ${saving ? 'bg-gray-400' : 'bg-[#1D942C] hover:bg-[#1D942C]/90'}`}
             >
               {saving ? 'Saving...' : 'Save Changes'}
             </button>

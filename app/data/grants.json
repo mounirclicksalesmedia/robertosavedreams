@@ -8,25 +8,74 @@
     "title": "Why Invest With Us",
     "description": "Roberto Save Dreams Foundation offers unique opportunities for impact investors and angel capitals to create meaningful change while achieving sustainable returns through social impact."
   },
+  "impactMetrics": {
+    "metrics": [
+      {
+        "number": "50+",
+        "label": "Businesses Supported",
+        "description": "Small and medium enterprises empowered through our programs"
+      },
+      {
+        "number": "1000+",
+        "label": "Jobs Created",
+        "description": "Direct and indirect employment opportunities generated"
+      },
+      {
+        "number": "25K+",
+        "label": "Community Members",
+        "description": "Lives positively impacted through our initiatives"
+      },
+      {
+        "number": "$2M+",
+        "label": "Investment Impact",
+        "description": "Total investment deployed in sustainable projects"
+      }
+    ]
+  },
+  "investmentProcess": {
+    "title": "Investment Process",
+    "steps": [
+      {
+        "title": "Initial Consultation",
+        "description": "Schedule a meeting with our investment team to discuss your goals and interests",
+        "icon": "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+      },
+      {
+        "title": "Due Diligence",
+        "description": "Review detailed investment memorandum and impact assessment reports",
+        "icon": "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+      },
+      {
+        "title": "Investment Agreement",
+        "description": "Complete legal documentation and finalize investment terms",
+        "icon": "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+      },
+      {
+        "title": "Fund Transfer",
+        "description": "Secure transfer of investment funds through our platform",
+        "icon": "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      }
+    ]
+  },
   "investmentOpportunities": [
     {
       "id": "impact-fund",
       "title": "Impact Investment Fund",
       "targetAmount": "$500,000",
-      "currentRaise": "$150,000",
-      "description": "Our flagship fund focusing on sustainable development projects across Africa, with a particular emphasis on women and youth empowerment.",
-      "icon": "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+      "currentRaise": "$250,000",
+      "description": "Join our flagship impact investment fund focused on sustainable development projects across Africa.",
+      "icon": "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
       "iconColor": "#1D942C",
       "highlights": [
-        "Focused on UN SDGs 1, 4, 5, and 8",
-        "Quarterly impact reporting",
-        "Direct community engagement",
-        "Transparent fund management"
+        "Portfolio diversification",
+        "Quarterly impact reports",
+        "Advisory board access",
+        "Co-investment rights"
       ],
       "metrics": {
-        "impactReach": "50,000+ beneficiaries",
-        "projectSuccess": "85% success rate",
-        "returnTarget": "Social + Financial Returns"
+        "projectsSupported": "25+ active projects",
+        "averageReturn": "12-15% target IRR",
+        "impactReach": "100,000+ beneficiaries"
       }
     },
     {
@@ -34,93 +83,131 @@
       "title": "Angel Partnership Program",
       "targetAmount": "$250,000",
       "currentRaise": "$100,000",
-      "description": "Strategic partnership opportunity for angel investors to directly support high-impact community projects.",
-      "icon": "M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122",
+      "description": "Partner directly with promising African entrepreneurs and support their growth journey.",
+      "icon": "M13 10V3L4 14h7v7l9-11h-7z",
       "iconColor": "#ffc500",
       "highlights": [
-        "Direct project involvement",
-        "Mentorship opportunities",
+        "Direct business mentorship",
+        "Equity participation",
         "Network access",
-        "Priority project selection"
+        "Priority co-investment"
       ],
       "metrics": {
-        "projectAccess": "Priority access to 20+ projects",
-        "mentorshipHours": "100+ hours contributed",
-        "communityImpact": "25,000+ lives improved"
+        "projectsSupported": "10+ startups",
+        "averageReturn": "15-20% target IRR",
+        "impactReach": "50,000+ beneficiaries"
       }
     },
     {
       "id": "innovation-fund",
-      "title": "Social Innovation Fund",
-      "targetAmount": "$300,000",
-      "currentRaise": "$75,000",
-      "description": "Investment in innovative solutions addressing critical social challenges in African communities.",
-      "icon": "M13 10V3L4 14h7v7l9-11h-7z",
+      "title": "Innovation Fund",
+      "targetAmount": "$1,000,000",
+      "currentRaise": "$400,000",
+      "description": "Support cutting-edge solutions addressing Africa's most pressing challenges.",
+      "icon": "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z",
       "iconColor": "#1D942C",
       "highlights": [
-        "Technology-driven solutions",
-        "Scalable impact models",
-        "Innovation partnerships",
-        "Research & Development"
+        "Technology focus",
+        "Research support",
+        "Patent rights",
+        "Global partnerships"
       ],
       "metrics": {
-        "innovationProjects": "15+ active projects",
-        "techAdoption": "90% solution adoption",
-        "scalabilityPotential": "Pan-African reach"
+        "projectsSupported": "5+ innovations",
+        "averageReturn": "18-25% target IRR",
+        "impactReach": "200,000+ beneficiaries"
       }
     }
   ],
-  "investmentProcess": {
-    "title": "Investment Process",
+  "grants": [
+    {
+      "id": "education",
+      "title": "Education Empowerment Grant",
+      "amount": "$5,000 - $20,000",
+      "deadline": "June 30, 2024",
+      "description": "Support for educational initiatives, scholarships, and learning resources.",
+      "icon": "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253",
+      "iconColor": "#1D942C",
+      "requirements": [
+        "Non-profit organization or educational institution",
+        "Focus on women and girls education",
+        "Clear project timeline and budget",
+        "Demonstrated community impact"
+      ]
+    },
+    {
+      "id": "business",
+      "title": "Women Entrepreneurs Grant",
+      "amount": "$2,500 - $10,000",
+      "deadline": "July 15, 2024",
+      "description": "Funding for women-led businesses and entrepreneurial ventures.",
+      "icon": "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+      "iconColor": "#ffc500",
+      "requirements": [
+        "Women-owned business or startup",
+        "Business plan and financial projections",
+        "Market analysis and growth strategy",
+        "Community employment potential"
+      ]
+    },
+    {
+      "id": "healthcare",
+      "title": "Healthcare Access Grant",
+      "amount": "$10,000 - $30,000",
+      "deadline": "August 1, 2024",
+      "description": "Support for healthcare initiatives and medical services.",
+      "icon": "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
+      "iconColor": "#1D942C",
+      "requirements": [
+        "Healthcare provider or medical organization",
+        "Focus on women and children health",
+        "Service delivery plan",
+        "Partnership with local healthcare providers"
+      ]
+    }
+  ],
+  "applicationProcess": {
+    "title": "Application Process",
     "steps": [
       {
-        "title": "Initial Consultation",
-        "description": "Schedule a meeting to discuss your investment goals and impact preferences",
-        "icon": "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+        "title": "Review Guidelines",
+        "description": "Read through grant requirements and eligibility criteria",
+        "icon": "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
       },
       {
-        "title": "Due Diligence",
-        "description": "Review our comprehensive impact reports, financials, and project pipeline",
+        "title": "Prepare Documents",
+        "description": "Gather required documentation and project proposal",
+        "icon": "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+      },
+      {
+        "title": "Submit Application",
+        "description": "Complete and submit your application online",
+        "icon": "M5 13l4 4L19 7"
+      },
+      {
+        "title": "Review Process",
+        "description": "Applications reviewed by our expert panel",
         "icon": "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-      },
-      {
-        "title": "Investment Agreement",
-        "description": "Finalize investment terms and complete documentation",
-        "icon": "M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
-      },
-      {
-        "title": "Active Partnership",
-        "description": "Regular updates, involvement opportunities, and impact tracking",
-        "icon": "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-      }
-    ]
-  },
-  "impactMetrics": {
-    "title": "Our Impact Metrics",
-    "metrics": [
-      {
-        "number": "100,000+",
-        "label": "Lives Impacted",
-        "description": "Direct beneficiaries of our programs"
-      },
-      {
-        "number": "85%",
-        "label": "Project Success Rate",
-        "description": "Successful project completion and sustainability"
-      },
-      {
-        "number": "30+",
-        "label": "Active Projects",
-        "description": "Across multiple African countries"
-      },
-      {
-        "number": "$2.5M",
-        "label": "Funds Managed",
-        "description": "Total investment portfolio"
       }
     ]
   },
   "faqs": [
+    {
+      "question": "Who can apply for grants?",
+      "answer": "Our grants are open to registered non-profits, educational institutions, and women-led businesses that align with our mission and meet the specific grant requirements."
+    },
+    {
+      "question": "What is the selection process?",
+      "answer": "Applications are reviewed by our expert panel based on impact potential, sustainability, and alignment with our mission. The process typically takes 4-6 weeks."
+    },
+    {
+      "question": "Can I apply for multiple grants?",
+      "answer": "Yes, you can apply for multiple grants if your organization meets the eligibility criteria for each grant category."
+    },
+    {
+      "question": "How are funds disbursed?",
+      "answer": "Funds are disbursed in phases based on project milestones and reporting requirements outlined in the grant agreement."
+    },
     {
       "question": "What investment options are available?",
       "answer": "We offer various investment tiers starting from $10,000, with options for both direct project funding and portfolio investment across multiple initiatives."

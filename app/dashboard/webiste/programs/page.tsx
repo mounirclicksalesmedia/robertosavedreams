@@ -290,8 +290,8 @@ export default function ProgramsContentEditor() {
               onClick={handleSave}
               disabled={isSaving}
               className={`inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-                isSaving ? 'bg-gray-400' : 'bg-primary hover:bg-primary-dark'
-              } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary`}
+                isSaving ? 'bg-gray-400' : 'bg-[#1D942C] hover:bg-[#1D942C]/90'
+              } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1D942C]`}
             >
               {isSaving ? (
                 <>
@@ -523,8 +523,8 @@ export default function ProgramsContentEditor() {
             onClick={handleSave}
             disabled={isSaving}
             className={`inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-              isSaving ? 'bg-gray-400' : 'bg-primary hover:bg-primary-dark'
-            } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary`}
+              isSaving ? 'bg-gray-400' : 'bg-[#1D942C] hover:bg-[#1D942C]/90'
+            } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1D942C]`}
           >
             {isSaving ? (
               <>

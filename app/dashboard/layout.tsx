@@ -141,6 +141,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({
     website: true, // Default expanded
+    loans: true, // Add loans to default expanded items
   });
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
@@ -166,6 +167,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </svg>
       ),
       text: 'Loans',
+      subItems: [
+        { href: '/dashboard/loanapplications', text: 'Loan Applications' },
+        { href: '/dashboard/investments', text: 'Investment Applications' },
+      ],
     },
     {
       href: '/dashboard/contact',
@@ -217,9 +222,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-gray-50">
       {/* Mobile menu button */}
-      <div className="md:hidden fixed top-4 left-4 z-20">
+      <div className="md:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
           className="p-2 rounded-md bg-white shadow-md text-gray-600"
@@ -249,169 +254,69 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </button>
       </div>
 
-      {/* Dashboard layout structure */}
-      <div className="flex flex-1">
-        {/* Sidebar for desktop */}
-        <aside className={`w-64 bg-white border-r border-gray-200 hidden md:flex flex-col h-screen sticky top-0`}>
-          <div className="p-5 border-b border-gray-200 flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-full bg-[#1D942C] flex items-center justify-center text-white font-bold text-lg">
-              R
-            </div>
-            <h1 className="text-xl font-bold text-gray-900">Roberto</h1>
-          </div>
-          <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-            {sidebarItems.map((item) => {
-              const isItemActive = item.href === pathname || pathname.startsWith(item.href + '/');
-              const isExpanded = expandedItems[item.text.toLowerCase()];
-
-              return (
-                <div key={item.href} className="space-y-1">
-                  {/* Main item */}
-                  {item.subItems ? (
-                    <button
-                      onClick={() => toggleExpanded(item.text)}
-                      className={clsx(
-                        'w-full flex items-center justify-between px-3 py-2 rounded-md transition-colors',
-                        isItemActive && !pathname.includes('/webiste/') ? 'bg-[#1D942C] text-white' : 'text-gray-700 hover:bg-gray-100'
-                      )}
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className="w-5 h-5">{item.icon}</div>
-                        <span>{item.text}</span>
-                      </div>
-                      <svg
-                        className={clsx(
-                          'w-4 h-4 transition-transform',
-                          isExpanded ? 'transform rotate-180' : ''
-                        )}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                  ) : (
-                    <SidebarLink
-                      href={item.href}
-                      icon={item.icon}
-                      text={item.text}
-                      isActive={isItemActive}
-                    />
-                  )}
-
-                  {/* Sub items */}
-                  {item.subItems && isExpanded && (
-                    <div className="mt-1 space-y-1">
-                      {item.subItems.map((subItem) => (
-                        <SidebarLink
-                          key={subItem.href}
-                          href={subItem.href}
-                          icon={null}
-                          text={subItem.text}
-                          isActive={subItem.href === pathname}
-                          isSubItem
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </nav>
-        </aside>
-
-        {/* Mobile sidebar */}
-        {isMobileSidebarOpen && (
-          <div className="fixed inset-0 z-10 bg-gray-600 bg-opacity-75 md:hidden" onClick={() => setIsMobileSidebarOpen(false)} />
-        )}
-
-        <aside 
-          className={`w-64 bg-white border-r border-gray-200 fixed top-0 left-0 h-full z-20 transform transition-transform duration-300 ease-in-out md:hidden ${
-            isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
+      <div className="flex">
+        {/* Sidebar */}
+        <aside
+          className={clsx(
+            'fixed inset-y-0 left-0 bg-white w-64 border-r border-gray-200 transform transition-transform duration-200 ease-in-out z-40',
+            isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+          )}
         >
-          <div className="p-5 border-b border-gray-200 flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-full bg-[#1D942C] flex items-center justify-center text-white font-bold text-lg">
-              R
-            </div>
-            <h1 className="text-xl font-bold text-gray-900">Roberto</h1>
+          <div className="p-6">
+            <Link href="/" className="flex items-center space-x-2">
+              <Image src="/logo.png" alt="Logo" width={40} height={40} />
+              <span className="text-xl font-bold">Roberto Save Dreams</span>
+            </Link>
           </div>
-          <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-            {sidebarItems.map((item) => {
-              const isItemActive = item.href === pathname || pathname.startsWith(item.href + '/');
-              const isExpanded = expandedItems[item.text.toLowerCase()];
 
-              return (
-                <div key={item.href} className="space-y-1">
-                  {/* Main item */}
-                  {item.subItems ? (
-                    <button
-                      onClick={() => toggleExpanded(item.text)}
-                      className={clsx(
-                        'w-full flex items-center justify-between px-3 py-2 rounded-md transition-colors',
-                        isItemActive && !pathname.includes('/webiste/') ? 'bg-[#1D942C] text-white' : 'text-gray-700 hover:bg-gray-100'
-                      )}
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className="w-5 h-5">{item.icon}</div>
-                        <span>{item.text}</span>
-                      </div>
-                      <svg
-                        className={clsx(
-                          'w-4 h-4 transition-transform',
-                          isExpanded ? 'transform rotate-180' : ''
-                        )}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                  ) : (
-                    <SidebarLink
-                      href={item.href}
-                      icon={item.icon}
-                      text={item.text}
-                      isActive={isItemActive}
-                      onClick={() => setIsMobileSidebarOpen(false)}
-                    />
-                  )}
-
-                  {/* Sub items */}
-                  {item.subItems && isExpanded && (
-                    <div className="mt-1 space-y-1">
-                      {item.subItems.map((subItem) => (
-                        <SidebarLink
-                          key={subItem.href}
-                          href={subItem.href}
-                          icon={null}
-                          text={subItem.text}
-                          isActive={subItem.href === pathname}
-                          isSubItem
-                          onClick={() => setIsMobileSidebarOpen(false)}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+          <nav className="mt-6 px-3 space-y-1">
+            {sidebarItems.map((item) => (
+              <div key={item.href}>
+                <SidebarLink
+                  href={item.subItems ? '#' : item.href}
+                  icon={item.icon}
+                  text={item.text}
+                  isActive={pathname === item.href}
+                  onClick={item.subItems ? () => toggleExpanded(item.text) : undefined}
+                />
+                {item.subItems && expandedItems[item.text.toLowerCase()] && (
+                  <div className="mt-1 space-y-1">
+                    {item.subItems.map((subItem) => (
+                      <SidebarLink
+                        key={subItem.href}
+                        href={subItem.href}
+                        icon={null}
+                        text={subItem.text}
+                        isActive={pathname === subItem.href}
+                        isSubItem={true}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
           </nav>
         </aside>
 
         {/* Main content */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 md:ml-64">
           {/* Dashboard header */}
           <DashboardHeader />
           
           {/* Main content */}
-          <main className="flex-1 p-6">
+          <main className="p-6">
             {children}
           </main>
         </div>
       </div>
+
+      {/* Mobile overlay */}
+      {isMobileSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-gray-600 bg-opacity-75 z-30 md:hidden" 
+          onClick={() => setIsMobileSidebarOpen(false)}
+        />
+      )}
     </div>
   );
 } 

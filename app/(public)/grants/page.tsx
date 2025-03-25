@@ -5,20 +5,9 @@ import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import data from '@/app/data/grants.json';
+import type { GrantsData, InvestmentOpportunity, ProcessStep, ImpactMetric } from '@/app/types/grants';
+import defaultData from '@/app/data/grants.json';
 import LencoPayment from '@/app/components/LencoPayment';
-
-interface InvestmentOpportunity {
-  id: string;
-  title: string;
-  targetAmount: string;
-  currentRaise: string;
-  description: string;
-  icon: string;
-  iconColor: string;
-  highlights: string[];
-  metrics: Record<string, string>;
-}
 
 const investmentFormSchema = z.object({
   name: z.string().min(2, 'Name is required'),
@@ -30,6 +19,51 @@ const investmentFormSchema = z.object({
 });
 
 type InvestmentFormData = z.infer<typeof investmentFormSchema>;
+
+const getGrantsData = (): GrantsData => {
+  try {
+    // Import the data directly from the JSON file
+    const importedData = defaultData as GrantsData;
+    
+    // Validate that we have all the required sections
+    if (!importedData.grants || !importedData.applicationProcess || !importedData.faqs) {
+      console.error('Missing required sections in grants data');
+    }
+
+    return importedData;
+  } catch (error) {
+    console.error('Error loading grants data:', error);
+    // Return a minimal default structure if there's an error
+    return {
+      hero: {
+        title: "Investment Opportunities",
+        subtitle: "Partner in Impact",
+        description: "Join us in creating sustainable change across Africa by investing in our mission-driven initiatives"
+      },
+      overview: {
+        title: "Why Invest With Us",
+        description: "Roberto Save Dreams Foundation offers unique opportunities for impact investors and angel capitals to create meaningful change while achieving sustainable returns through social impact."
+      },
+      impactMetrics: {
+        metrics: []
+      },
+      investmentOpportunities: [],
+      investmentProcess: {
+        title: "Investment Process",
+        steps: []
+      },
+      grants: [],
+      applicationProcess: {
+        title: "Application Process",
+        steps: []
+      },
+      faqs: []
+    };
+  }
+};
+
+// Use the function to get the data
+const grantsData = getGrantsData();
 
 export default function InvestmentPage() {
   const [activeTab, setActiveTab] = useState('impact-fund');
@@ -182,11 +216,11 @@ export default function InvestmentPage() {
             className="text-center max-w-3xl mx-auto"
           >
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              {data.hero.title}
-              <span className="block text-[#ffc500] mt-2">{data.hero.subtitle}</span>
+              {grantsData.hero.title}
+              <span className="block text-[#ffc500] mt-2">{grantsData.hero.subtitle}</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/90">
-              {data.hero.description}
+              {grantsData.hero.description}
             </p>
             <motion.button
               initial={{ opacity: 0, y: 20 }}
@@ -194,7 +228,7 @@ export default function InvestmentPage() {
               transition={{ duration: 0.5, delay: 0.4 }}
               onClick={() => {
                 setShowForm(true);
-                setSelectedOpportunity(data.investmentOpportunities[0] as unknown as InvestmentOpportunity);
+                setSelectedOpportunity(grantsData.investmentOpportunities[0]);
               }}
               className="mt-8 bg-[#ffc500] text-[#1D942C] px-8 py-4 rounded-xl font-bold text-lg hover:bg-[#ffd23d] transform hover:-translate-y-1 transition-all duration-300"
             >
@@ -234,7 +268,7 @@ export default function InvestmentPage() {
             variants={stagger}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
           >
-            {data.impactMetrics.metrics.map((metric, index) => (
+            {grantsData?.impactMetrics?.metrics?.map((metric: ImpactMetric, index: number) => (
               <motion.div
                 key={index}
                 variants={fadeIn}
@@ -250,9 +284,33 @@ export default function InvestmentPage() {
                   {metric.description}
                 </p>
               </motion.div>
-            ))}
+            )) || (
+              // Fallback metrics if data is not available
+              <>
+                <motion.div variants={fadeIn} className="text-center p-6 rounded-xl bg-white shadow-xl hover:shadow-2xl transition-shadow">
+                  <h3 className="text-4xl font-bold text-[#1D942C] mb-2">50+</h3>
+                  <p className="text-xl font-semibold text-gray-800 mb-2">Businesses Supported</p>
+                  <p className="text-gray-600">Small and medium enterprises empowered through our programs</p>
+                </motion.div>
+                <motion.div variants={fadeIn} className="text-center p-6 rounded-xl bg-white shadow-xl hover:shadow-2xl transition-shadow">
+                  <h3 className="text-4xl font-bold text-[#1D942C] mb-2">1000+</h3>
+                  <p className="text-xl font-semibold text-gray-800 mb-2">Jobs Created</p>
+                  <p className="text-gray-600">Direct and indirect employment opportunities generated</p>
+                </motion.div>
+                <motion.div variants={fadeIn} className="text-center p-6 rounded-xl bg-white shadow-xl hover:shadow-2xl transition-shadow">
+                  <h3 className="text-4xl font-bold text-[#1D942C] mb-2">25K+</h3>
+                  <p className="text-xl font-semibold text-gray-800 mb-2">Community Members</p>
+                  <p className="text-gray-600">Lives positively impacted through our initiatives</p>
+                </motion.div>
+                <motion.div variants={fadeIn} className="text-center p-6 rounded-xl bg-white shadow-xl hover:shadow-2xl transition-shadow">
+                  <h3 className="text-4xl font-bold text-[#1D942C] mb-2">$2M+</h3>
+                  <p className="text-xl font-semibold text-gray-800 mb-2">Investment Impact</p>
+                  <p className="text-gray-600">Total investment deployed in sustainable projects</p>
+                </motion.div>
+              </>
+            )}
           </motion.div>
-        </div>
+          </div>
       </section>
 
       {/* Investment Opportunities */}
@@ -268,7 +326,28 @@ export default function InvestmentPage() {
             Investment Opportunities
           </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {(data.investmentOpportunities as unknown as InvestmentOpportunity[]).map((opportunity, index) => (
+            {(grantsData.investmentOpportunities || [
+              {
+                id: "impact-fund",
+                title: "Impact Investment Fund",
+                targetAmount: "$500,000",
+                currentRaise: "$250,000",
+                description: "Join our flagship impact investment fund focused on sustainable development projects across Africa.",
+                icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+                iconColor: "#1D942C",
+                highlights: [
+                  "Portfolio diversification",
+                  "Quarterly impact reports",
+                  "Advisory board access",
+                  "Co-investment rights"
+                ],
+                metrics: {
+                  projectsSupported: "25+ active projects",
+                  averageReturn: "12-15% target IRR",
+                  impactReach: "100,000+ beneficiaries"
+                }
+              }
+            ]).map((opportunity, index) => (
               <motion.div
                 key={opportunity.id}
                 initial="hidden"
@@ -282,9 +361,9 @@ export default function InvestmentPage() {
                   <div className="w-12 h-12 bg-[#1D942C]/10 rounded-full flex items-center justify-center mb-4">
                     <svg
                       className="w-6 h-6 text-[#1D942C]"
-                      fill="none"
+                        fill="none" 
                       stroke="currentColor"
-                      viewBox="0 0 24 24"
+                        viewBox="0 0 24 24" 
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
@@ -293,7 +372,7 @@ export default function InvestmentPage() {
                         strokeWidth={2}
                         d={opportunity.icon}
                       />
-                    </svg>
+                      </svg>
                   </div>
                   <h3 className="text-2xl font-bold mb-2">{opportunity.title}</h3>
                   <p className="text-gray-600 mb-4">{opportunity.description}</p>
@@ -329,11 +408,11 @@ export default function InvestmentPage() {
                             strokeWidth={2}
                             d="M5 13l4 4L19 7"
                           />
-                        </svg>
+                                </svg>
                         {highlight}
                       </li>
-                    ))}
-                  </ul>
+                            ))}
+                          </ul>
                   <button
                     onClick={() => {
                       setShowForm(true);
@@ -351,27 +430,15 @@ export default function InvestmentPage() {
       </section>
 
       {/* Investment Process */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <motion.h2
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-            className="text-4xl font-bold text-center mb-16"
-          >
-            {data.investmentProcess.title}
-          </motion.h2>
+          <h2 className="text-3xl font-bold text-center mb-12">{grantsData.investmentProcess.title}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {data.investmentProcess.steps.map((step, index) => (
-              <motion.div
-                key={index}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
+            {grantsData.investmentProcess.steps.map((step: ProcessStep, index: number) => (
+                <motion.div
+                  key={index}
                 variants={fadeIn}
-                transition={{ delay: index * 0.2 }}
-                className="relative"
+                className="text-center p-6"
               >
                 <div className="bg-white rounded-xl shadow-lg p-6 relative z-10">
                   <div className="w-12 h-12 bg-[#1D942C]/10 rounded-full flex items-center justify-center mb-4">
@@ -392,13 +459,13 @@ export default function InvestmentPage() {
                   <h3 className="text-xl font-bold mb-2">{step.title}</h3>
                   <p className="text-gray-600">{step.description}</p>
                 </div>
-                {index < data.investmentProcess.steps.length - 1 && (
+                {index < grantsData.investmentProcess.steps.length - 1 && (
                   <div className="hidden md:block absolute top-1/2 right-0 w-full h-0.5 bg-gray-200 transform translate-y-[-50%] z-0" />
                 )}
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
       </section>
 
       {/* FAQs */}
@@ -407,14 +474,14 @@ export default function InvestmentPage() {
           <motion.h2
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
+          viewport={{ once: true }}
             variants={fadeIn}
             className="text-4xl font-bold text-center mb-16"
           >
             Frequently Asked Questions
           </motion.h2>
           <div className="max-w-3xl mx-auto">
-            {data.faqs.map((faq, index) => (
+            {grantsData.faqs.map((faq: { question: string; answer: string }, index: number) => (
               <motion.div
                 key={index}
                 initial="hidden"
@@ -849,7 +916,7 @@ export default function InvestmentPage() {
               </div>
             </div>
           </motion.div>
-        </div>
+      </div>
       )}
     </div>
   );

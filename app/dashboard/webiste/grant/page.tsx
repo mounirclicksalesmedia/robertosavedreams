@@ -41,7 +41,23 @@ interface GrantsContent {
 }
 
 export default function GrantsEditor() {
-  const [content, setContent] = useState<GrantsContent | null>(null);
+  const [content, setContent] = useState<GrantsContent>({
+    hero: {
+      title: '',
+      subtitle: '',
+      description: ''
+    },
+    overview: {
+      title: '',
+      description: ''
+    },
+    grants: [],
+    applicationProcess: {
+      title: '',
+      steps: []
+    },
+    faqs: []
+  });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
@@ -57,13 +73,50 @@ export default function GrantsEditor() {
       try {
         const response = await fetch('/api/grants');
         if (!response.ok) {
-          throw new Error('Failed to fetch content');
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to fetch content');
         }
         const data = await response.json();
-        setContent(data);
+        
+        // Ensure the data has the correct structure
+        const validatedData: GrantsContent = {
+          hero: {
+            title: data.hero?.title || '',
+            subtitle: data.hero?.subtitle || '',
+            description: data.hero?.description || ''
+          },
+          overview: {
+            title: data.overview?.title || '',
+            description: data.overview?.description || ''
+          },
+          grants: Array.isArray(data.grants) ? data.grants.map((grant: any) => ({
+            id: grant.id || Date.now().toString(),
+            title: grant.title || '',
+            amount: grant.amount || '',
+            deadline: grant.deadline || '',
+            description: grant.description || '',
+            icon: grant.icon || '',
+            iconColor: grant.iconColor || '#1D942C',
+            requirements: Array.isArray(grant.requirements) ? grant.requirements : []
+          })) : [],
+          applicationProcess: {
+            title: data.applicationProcess?.title || '',
+            steps: Array.isArray(data.applicationProcess?.steps) ? data.applicationProcess.steps.map((step: any) => ({
+              title: step.title || '',
+              description: step.description || '',
+              icon: step.icon || ''
+            })) : []
+          },
+          faqs: Array.isArray(data.faqs) ? data.faqs.map((faq: any) => ({
+            question: faq.question || '',
+            answer: faq.answer || ''
+          })) : []
+        };
+        
+        setContent(validatedData);
       } catch (error) {
         console.error('Error loading content:', error);
-        setErrorMessage('Failed to load content');
+        setErrorMessage(error instanceof Error ? error.message : 'Failed to load content');
       } finally {
         setLoading(false);
       }
@@ -89,9 +142,11 @@ export default function GrantsEditor() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to save content');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to save content');
       }
 
+      const result = await response.json();
       setSuccessMessage('Content saved successfully!');
       
       // Clear success message after 3 seconds
@@ -100,7 +155,7 @@ export default function GrantsEditor() {
       }, 3000);
     } catch (error) {
       console.error('Error saving content:', error);
-      setErrorMessage('Failed to save content. Please try again.');
+      setErrorMessage(error instanceof Error ? error.message : 'Failed to save content. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -209,6 +264,8 @@ export default function GrantsEditor() {
   }
 
   const renderEditor = () => {
+    if (!content) return null;
+
     switch (activeSection) {
       case 'hero':
         return (
@@ -275,67 +332,49 @@ export default function GrantsEditor() {
       case 'grants':
         return (
           <div className="space-y-4">
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-medium">Grant Programs</h2>
               <button
-                type="button"
-                className="flex items-center text-sm bg-green-50 text-green-600 px-3 py-1 rounded hover:bg-green-100"
                 onClick={() => handleAddItem('grants', 'grants', {
-                  id: `grant-${Date.now()}`,
-                  title: 'New Grant Program',
-                  amount: '$1,000 - $5,000',
-                  deadline: 'December 31, 2024',
-                  description: 'Description of the grant program',
-                  icon: 'M12 6v6m0 0v6m0-6h6m-6 0H6',
+                  id: Date.now().toString(),
+                  title: '',
+                  amount: '',
+                  deadline: '',
+                  description: '',
+                  icon: '',
                   iconColor: '#1D942C',
-                  requirements: ['Requirement 1', 'Requirement 2']
+                  requirements: []
                 })}
+                className="flex items-center text-[#1D942C] hover:text-[#167623]"
               >
-                <PlusCircle className="w-4 h-4 mr-1" />
+                <PlusCircle className="w-5 h-5 mr-1" />
                 Add Grant Program
               </button>
             </div>
             
-            {content.grants.map((grant, index) => (
-              <div key={index} className="border p-4 rounded-md mb-4">
+            {Array.isArray(content.grants) && content.grants.map((grant, index) => (
+              <div key={grant.id || index} className="border p-4 rounded-md mb-4">
                 <div className="flex justify-between items-center mb-3">
                   <h4 className="font-medium">Grant Program {index + 1}</h4>
                   <button
-                    type="button"
-                    className="text-red-500 hover:text-red-700"
                     onClick={() => handleRemoveItem('grants', 'grants', index)}
-                    disabled={content.grants.length <= 1}
+                    className="text-red-500 hover:text-red-700"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-5 h-5" />
                   </button>
                 </div>
-                
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div className="form-group">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">ID</label>
-                    <input
-                      type="text"
-                      className="w-full border rounded-md p-2"
-                      value={grant.id}
-                      onChange={(e) => handleChange('grants', `grants[${index}].id`, e.target.value)}
-                    />
-                    <p className="text-xs text-gray-500 mt-1">
-                      Unique identifier for this grant (no spaces)
-                    </p>
-                  </div>
-                  
+
+                <div className="space-y-4">
                   <div className="form-group">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
                     <input
                       type="text"
                       className="w-full border rounded-md p-2"
-                      value={grant.title}
+                      value={grant.title || ''}
                       onChange={(e) => handleChange('grants', `grants[${index}].title`, e.target.value)}
                     />
                   </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4 mb-4">
+                  
                   <div className="form-group">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Amount</label>
                     <input
@@ -355,18 +394,16 @@ export default function GrantsEditor() {
                       onChange={(e) => handleChange('grants', `grants[${index}].deadline`, e.target.value)}
                     />
                   </div>
-                </div>
-                
-                <div className="form-group mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                  <textarea
-                    className="w-full border rounded-md p-2"
-                    value={grant.description}
-                    onChange={(e) => handleChange('grants', `grants[${index}].description`, e.target.value)}
-                  />
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4 mb-4">
+                  
+                  <div className="form-group">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea
+                      className="w-full border rounded-md p-2"
+                      value={grant.description}
+                      onChange={(e) => handleChange('grants', `grants[${index}].description`, e.target.value)}
+                    />
+                  </div>
+                  
                   <div className="form-group">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Icon (SVG Path)</label>
                     <input
@@ -472,7 +509,7 @@ export default function GrantsEditor() {
               <input
                 type="text"
                 className="w-full border rounded-md p-2"
-                value={content.applicationProcess.title}
+                value={content?.applicationProcess?.title || ''}
                 onChange={(e) => handleChange('applicationProcess', 'applicationProcess.title', e.target.value)}
               />
             </div>
@@ -481,19 +518,19 @@ export default function GrantsEditor() {
               <h3 className="text-lg font-medium">Process Steps</h3>
               <button
                 type="button"
-                className="flex items-center text-sm bg-green-50 text-green-600 px-3 py-1 rounded hover:bg-green-100"
+                className="flex items-center text-[#1D942C] hover:text-[#167623]"
                 onClick={() => handleAddItem('applicationProcess', 'applicationProcess.steps', {
-                  title: 'New Step',
-                  description: 'Description of the step',
-                  icon: 'M12 6v6m0 0v6m0-6h6m-6 0H6'
+                  title: '',
+                  description: '',
+                  icon: ''
                 })}
               >
-                <PlusCircle className="w-4 h-4 mr-1" />
+                <PlusCircle className="w-5 h-5 mr-1" />
                 Add Step
               </button>
             </div>
             
-            {content.applicationProcess.steps.map((step, index) => (
+            {Array.isArray(content?.applicationProcess?.steps) && content.applicationProcess.steps.map((step, index) => (
               <div key={index} className="border p-4 rounded-md mb-4">
                 <div className="flex justify-between items-center mb-3">
                   <h4 className="font-medium">Step {index + 1}</h4>
@@ -501,19 +538,18 @@ export default function GrantsEditor() {
                     type="button"
                     className="text-red-500 hover:text-red-700"
                     onClick={() => handleRemoveItem('applicationProcess', 'applicationProcess.steps', index)}
-                    disabled={content.applicationProcess.steps.length <= 1}
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-5 h-5" />
                   </button>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="space-y-4">
                   <div className="form-group">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
                     <input
                       type="text"
                       className="w-full border rounded-md p-2"
-                      value={step.title}
+                      value={step?.title || ''}
                       onChange={(e) => handleChange('applicationProcess', `applicationProcess.steps[${index}].title`, e.target.value)}
                     />
                   </div>
@@ -523,19 +559,22 @@ export default function GrantsEditor() {
                     <input
                       type="text"
                       className="w-full border rounded-md p-2 font-mono text-sm"
-                      value={step.icon}
+                      value={step?.icon || ''}
                       onChange={(e) => handleChange('applicationProcess', `applicationProcess.steps[${index}].icon`, e.target.value)}
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      SVG path data for the icon. Find icons at <a href="https://heroicons.com/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">heroicons.com</a>
+                    </p>
                   </div>
-                </div>
-                
-                <div className="form-group">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                  <textarea
-                    className="w-full border rounded-md p-2"
-                    value={step.description}
-                    onChange={(e) => handleChange('applicationProcess', `applicationProcess.steps[${index}].description`, e.target.value)}
-                  />
+                  
+                  <div className="form-group">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea
+                      className="w-full border rounded-md p-2"
+                      value={step?.description || ''}
+                      onChange={(e) => handleChange('applicationProcess', `applicationProcess.steps[${index}].description`, e.target.value)}
+                    />
+                  </div>
                 </div>
               </div>
             ))}

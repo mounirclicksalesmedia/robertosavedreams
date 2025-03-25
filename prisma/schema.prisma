@@ -21,6 +21,7 @@ model User {
   loanApplications   LoanApplication[]
   grantApplications  GrantApplication[]
   fundingApplications FundingApplication[]
+  investmentApplications InvestmentApplication[]
   donations      Donation[]
   blogPosts      BlogPost[]
 }
@@ -30,6 +31,7 @@ enum Role {
   MANAGER
   STAFF
   USER
+  INVESTOR
 }
 
 model LoanApplication {
@@ -106,6 +108,21 @@ model BlogPost {
   updatedAt      DateTime  @updatedAt
 }
 
+model InvestmentApplication {
+  id             String    @id @default(cuid())
+  amount         Float
+  type           String
+  organizationName String
+  message        String    @db.Text
+  status         ApplicationStatus @default(PENDING)
+  investorId     String
+  investor       User      @relation(fields: [investorId], references: [id])
+  metadata       Json?
+  documents      Document[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
 model Document {
   id                  String    @id @default(cuid())
   name                String
@@ -117,6 +134,8 @@ model Document {
   grantApplication    GrantApplication? @relation(fields: [grantApplicationId], references: [id])
   fundingApplicationId String?
   fundingApplication  FundingApplication? @relation(fields: [fundingApplicationId], references: [id])
+  investmentApplicationId String?
+  investmentApplication InvestmentApplication? @relation(fields: [investmentApplicationId], references: [id])
   createdAt           DateTime  @default(now())
 }
 

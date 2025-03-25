@@ -667,7 +667,7 @@ export default function HomeContentEditor() {
             <button
               onClick={handleSave}
               disabled={saving}
-              className={`px-4 py-2 rounded-md text-white font-medium ${saving ? 'bg-gray-400' : 'bg-primary hover:bg-primary/90'}`}
+              className={`px-4 py-2 rounded-md text-white font-medium ${saving ? 'bg-gray-400' : 'bg-[#1D942C] hover:bg-[#1D942C]/90'}`}
             >
               {saving ? 'Saving...' : 'Save Changes'}
             </button>
