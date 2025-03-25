@@ -1,6 +1,5 @@
-'use client';
-
-import { useState, useEffect } from 'react';
+'use client'
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -16,7 +15,8 @@ const signInSchema = z.object({
 
 type SignInFormData = z.infer<typeof signInSchema>;
 
-export default function SignIn() {
+// Client component that uses useSearchParams
+function SignInContent() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
@@ -202,5 +202,26 @@ export default function SignIn() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Wrap the main component with Suspense
+export default function SignIn() {
+  return (
+    <Suspense fallback={
+      <div className="space-y-6">
+        <div className="text-center space-y-2">
+          <div className="h-8 w-48 bg-gray-200 rounded animate-pulse mx-auto"></div>
+          <div className="h-4 w-64 bg-gray-200 rounded animate-pulse mx-auto"></div>
+        </div>
+        <div className="space-y-4">
+          <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+          <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+          <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+        </div>
+      </div>
+    }>
+      <SignInContent />
+    </Suspense>
   );
 }
