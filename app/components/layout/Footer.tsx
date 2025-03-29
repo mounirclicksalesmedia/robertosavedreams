@@ -77,10 +77,13 @@ export default function Footer() {
                 <span className="font-medium">Email:</span> info@robertosavedreams.org
               </li>
               <li className="text-base text-gray-600">
-                <span className="font-medium">Phone:</span> +1 (123) 456-7890
+                <span className="font-medium">Address:</span> Kabwe, Zambia
               </li>
               <li className="text-base text-gray-600">
-                <span className="font-medium">Address:</span> 123 Hope Street, City, Country
+                 <span className="font-medium">Address:</span> Luanda, Angola
+              </li>
+               <li className="text-base text-gray-600">
+                 <span className="font-medium">WhatsApp:</span> +244972131418
               </li>
             </ul>
           </div>
