@@ -1,38 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-
 export default function WhatsAppButton() {
-  const [isVisible, setIsVisible] = useState(true);
   const phoneNumber = '244972131418';
-
-  // Optional: Hide the button when scrolling down
-  useEffect(() => {
-    let lastScrollY = window.scrollY;
-    
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setIsVisible(currentScrollY <= lastScrollY || currentScrollY < 100);
-      lastScrollY = currentScrollY;
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleWhatsAppClick = () => {
     window.open(`https://wa.me/${phoneNumber}`, '_blank');
   };
 
   return (
-    <div 
-      className={`fixed bottom-6 right-6 z-50 transition-all duration-300 ${
-        isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
-      }`}
-    >
+    <div className="fixed bottom-6 right-6 z-50">
       <button
         onClick={handleWhatsAppClick}
-        className="bg-[#25D366] text-white rounded-full p-3 md:p-4 shadow-lg hover:bg-[#20BD5C] transition-all flex items-center group"
+        className="bg-[#25D366] text-white rounded-full p-3 md:p-4 shadow-lg hover:bg-[#20BD5C] transition-all flex items-center justify-center group"
         aria-label="Contact us on WhatsApp"
       >
         {/* WhatsApp Icon */}
