@@ -168,7 +168,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">Email</h3>
-                  <p className="text-gray-600">[To be provided]</p>
+                  <p className="text-gray-600">info@robertosavedreamsfoundation.org</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -178,8 +178,8 @@ export default function ContactPage() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Phone</h3>
-                  <p className="text-gray-600">[To be provided]</p>
+                  <h3 className="text-lg font-semibold text-gray-900">WhatsApp</h3>
+                  <p className="text-gray-600">+244972131418</p>
                 </div>
               </div>
             </div>
@@ -198,7 +198,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">Zambia Office</h3>
-                  <p className="text-gray-600">[Address to be approved]</p>
+                  <p className="text-gray-600">Kabwe, Zambia</p>
                   <p className="text-gray-500 mt-1">Open Monday–Friday, 9 AM – 5 PM</p>
                 </div>
               </div>
@@ -211,7 +211,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">Angola Office</h3>
-                  <p className="text-gray-600">[Address to be approved]</p>
+                  <p className="text-gray-600">Luanda, Angola</p>
                   <p className="text-gray-500 mt-1">Open Monday–Friday, 9 AM – 5 PM</p>
                 </div>
               </div>
