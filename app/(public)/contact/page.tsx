@@ -380,7 +380,6 @@ export default function ContactPage() {
                     </svg>
                   </div>
                   <p className="text-gray-600 font-medium">{social.name}</p>
-                  <p className="text-sm text-gray-500">[To be added]</p>
                 </div>
               ))}
             </div>
