@@ -37,9 +37,10 @@ export default function RootLayout({
       className={`${heebo.variable} ${caveat.variable} light`}
     >
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <Script
           src="https://js.lenco.co/v1/lenco.js"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
         />
       </head>
       <body className="antialiased min-h-screen flex flex-col bg-white text-gray-900" suppressHydrationWarning={true}>

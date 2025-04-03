@@ -29,6 +29,12 @@ export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const [isClient, setIsClient] = useState(false);
+
+  // Mark when component is mounted on client
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -54,6 +60,12 @@ export default function Header() {
     setActiveDropdown(activeDropdown === name ? null : name);
   };
 
+  // Simpler animations for mobile devices
+  const buttonVariants = {
+    rest: { scale: 1 },
+    hover: { scale: isClient ? 1.05 : 1 }
+  };
+
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -61,7 +73,7 @@ export default function Header() {
           <div className="flex items-center">
             <Link href="/" className="flex items-center group">
               <motion.div 
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: isClient ? 1.05 : 1 }}
                 className="relative w-12 h-12"
               >
                 <Image
@@ -78,19 +90,22 @@ export default function Header() {
           {/* Desktop navigation */}
           <nav className="hidden lg:flex items-center space-x-1">
             {navItems.map((item) => (
-              <div key={item.name} className="relative" ref={item.dropdown ? dropdownRef : undefined}>
+              <div key={item.name} className="relative" ref={item.dropdown && activeDropdown === item.name ? dropdownRef : undefined}>
                 {item.dropdown ? (
-                  <div>
+                  <>
                     <button
                       onClick={() => toggleDropdown(item.name)}
-                      className={`px-3 py-2 rounded-md text-sm font-medium flex items-center hover:bg-[#1D942C]/5 transition-colors duration-200 ${
-                        activeDropdown === item.name ? 'text-primary' : 'text-gray-700'
+                      className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center ${
+                        activeDropdown === item.name
+                          ? 'text-[#1D942C] bg-[#1D942C]/5'
+                          : 'text-gray-700 hover:text-[#1D942C] hover:bg-gray-50'
                       }`}
+                      aria-expanded={activeDropdown === item.name}
                     >
                       {item.name}
                       <svg
-                        className={`ml-1 h-4 w-4 transition-transform duration-200 ${
-                          activeDropdown === item.name ? 'rotate-180 text-primary' : 'text-gray-500'
+                        className={`ml-1 h-4 w-4 transition-transform ${
+                          activeDropdown === item.name ? 'transform rotate-180' : ''
                         }`}
                         fill="none"
                         viewBox="0 0 24 24"
@@ -99,41 +114,42 @@ export default function Header() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
+                    
+                    {/* Dropdown menu */}
                     <AnimatePresence>
                       {activeDropdown === item.name && (
                         <motion.div
-                          initial={{ opacity: 0, y: 10 }}
+                          initial={{ opacity: 0, y: -10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
+                          exit={{ opacity: 0, y: -10 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+                          className="absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-100"
                         >
-                          <div className="py-1">
-                            {item.dropdown.map((dropdownItem) => (
-                              <Link
-                                key={dropdownItem.name}
-                                href={dropdownItem.href}
-                                className={`block px-4 py-2 text-sm hover:bg-[#1D942C]/5 transition-colors duration-200 ${
-                                  pathname === dropdownItem.href
-                                    ? 'text-primary font-medium'
-                                    : 'text-gray-700'
-                                }`}
-                              >
-                                {dropdownItem.name}
-                              </Link>
-                            ))}
-                          </div>
+                          {item.dropdown.map((dropdownItem) => (
+                            <Link
+                              key={dropdownItem.name}
+                              href={dropdownItem.href}
+                              className={`block px-4 py-2 text-sm transition-colors ${
+                                pathname === dropdownItem.href
+                                  ? 'text-[#1D942C] bg-[#1D942C]/5'
+                                  : 'text-gray-700 hover:text-[#1D942C] hover:bg-gray-50'
+                              }`}
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              {dropdownItem.name}
+                            </Link>
+                          ))}
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </div>
+                  </>
                 ) : (
                   <Link
                     href={item.href}
-                    className={`px-3 py-2 rounded-md text-sm font-medium hover:bg-[#1D942C]/5 transition-colors duration-200 ${
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       pathname === item.href
-                        ? 'text-primary'
-                        : 'text-gray-700'
+                        ? 'text-[#1D942C] bg-[#1D942C]/5'
+                        : 'text-gray-700 hover:text-[#1D942C] hover:bg-gray-50'
                     }`}
                   >
                     {item.name}
@@ -143,46 +159,65 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Donate button (desktop) */}
-          <div className="hidden lg:block">
-            <Link
-              href="/donate"
-              className="px-5 py-2.5 bg-[#3eb54d] text-white rounded-md shadow-md hover:bg-[#2d8a3a] hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 text-sm font-medium"
-            >
-              Donate Now
+          {/* Login/Signup */}
+          <div className="hidden lg:flex items-center space-x-2">
+            <Link href="/signin">
+              <motion.button 
+                variants={buttonVariants}
+                initial="rest"
+                whileHover="hover"
+                className="bg-white border border-[#1D942C] text-[#1D942C] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#1D942C]/5 transition-colors"
+              >
+                Sign In
+              </motion.button>
+            </Link>
+            <Link href="/signup">
+              <motion.button 
+                variants={buttonVariants}
+                initial="rest"
+                whileHover="hover"
+                className="bg-[#1D942C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#167623] transition-colors"
+              >
+                Sign Up
+              </motion.button>
             </Link>
           </div>
 
           {/* Mobile menu button */}
-          <div className="flex items-center lg:hidden">
+          <div className="lg:hidden">
             <button
               type="button"
+              className="text-gray-700 hover:text-[#1D942C] focus:outline-none"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-[#1D942C] hover:bg-[#1D942C]/5 focus:outline-none"
-              aria-expanded="false"
             >
               <span className="sr-only">Open main menu</span>
               {mobileMenuOpen ? (
                 <svg
-                  className="block h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  aria-hidden="true"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               ) : (
                 <svg
-                  className="block h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  aria-hidden="true"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 </svg>
               )}
             </button>
@@ -197,24 +232,26 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden overflow-hidden"
+            transition={{ duration: 0.2 }}
+            className="lg:hidden"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-gray-50 border-t border-gray-200">
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-white shadow-lg border-t border-gray-100">
               {navItems.map((item) => (
                 <div key={item.name}>
                   {item.dropdown ? (
-                    <div>
+                    <>
                       <button
                         onClick={() => toggleDropdown(item.name)}
-                        className={`w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium ${
-                          activeDropdown === item.name ? 'bg-[#1D942C]/5 text-primary' : 'text-gray-700 hover:bg-[#1D942C]/5'
+                        className={`w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors flex items-center justify-between ${
+                          activeDropdown === item.name
+                            ? 'text-[#1D942C] bg-[#1D942C]/5'
+                            : 'text-gray-700 hover:text-[#1D942C] hover:bg-gray-50'
                         }`}
                       >
                         {item.name}
                         <svg
-                          className={`ml-1 h-5 w-5 transition-transform duration-200 ${
-                            activeDropdown === item.name ? 'rotate-180 text-primary' : 'text-gray-500'
+                          className={`ml-1 h-4 w-4 transition-transform ${
+                            activeDropdown === item.name ? 'transform rotate-180' : ''
                           }`}
                           fill="none"
                           viewBox="0 0 24 24"
@@ -223,6 +260,8 @@ export default function Header() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </button>
+                      
+                      {/* Mobile dropdown */}
                       <AnimatePresence>
                         {activeDropdown === item.name && (
                           <motion.div
@@ -230,17 +269,21 @@ export default function Header() {
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="pl-4 mt-1 space-y-1"
+                            className="pl-4 py-1"
                           >
                             {item.dropdown.map((dropdownItem) => (
                               <Link
                                 key={dropdownItem.name}
                                 href={dropdownItem.href}
-                                className={`block px-3 py-2 rounded-md text-base font-medium ${
+                                className={`block px-4 py-2 text-base transition-colors ${
                                   pathname === dropdownItem.href
-                                    ? 'bg-[#1D942C]/5 text-primary'
-                                    : 'text-gray-700 hover:bg-[#1D942C]/5'
+                                    ? 'text-[#1D942C] bg-[#1D942C]/5 rounded-md'
+                                    : 'text-gray-700 hover:text-[#1D942C] hover:bg-gray-50 rounded-md'
                                 }`}
+                                onClick={() => {
+                                  setActiveDropdown(null);
+                                  setMobileMenuOpen(false);
+                                }}
                               >
                                 {dropdownItem.name}
                               </Link>
@@ -248,15 +291,16 @@ export default function Header() {
                           </motion.div>
                         )}
                       </AnimatePresence>
-                    </div>
+                    </>
                   ) : (
                     <Link
                       href={item.href}
-                      className={`block px-3 py-2 rounded-md text-base font-medium ${
+                      className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
                         pathname === item.href
-                          ? 'bg-[#1D942C]/5 text-primary'
-                          : 'text-gray-700 hover:bg-[#1D942C]/5'
+                          ? 'text-[#1D942C] bg-[#1D942C]/5'
+                          : 'text-gray-700 hover:text-[#1D942C] hover:bg-gray-50'
                       }`}
+                      onClick={() => setMobileMenuOpen(false)}
                     >
                       {item.name}
                     </Link>
@@ -264,13 +308,23 @@ export default function Header() {
                 </div>
               ))}
               
-              {/* Donate button (mobile) */}
-              <Link
-                href="/donate"
-                className="block px-3 py-3 mt-2 rounded-md text-base font-medium bg-[#3eb54d] text-white hover:bg-[#2d8a3a] transition-colors duration-200 text-center"
-              >
-                Donate Now
-              </Link>
+              {/* Mobile login/signup */}
+              <div className="pt-4 pb-2 border-t border-gray-200 flex flex-col space-y-2">
+                <Link
+                  href="/signin"
+                  className="px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#1D942C] hover:bg-gray-50 transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/signup"
+                  className="px-3 py-2 rounded-md text-base font-medium bg-[#1D942C] text-white hover:bg-[#167623] transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Sign Up
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -14,6 +14,12 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Mark page as loaded after initial render
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -59,20 +65,27 @@ export default function ContactPage() {
     }
   };
 
+  // Animation settings optimized for performance
+  const fadeInProps = {
+    initial: { opacity: isLoaded ? 0 : 1, y: isLoaded ? 20 : 0 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "0px 0px -100px 0px" },
+    transition: { duration: 0.5 }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative h-[80vh] bg-gradient-to-br from-[#1D942C] to-[#167623] overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
         
-        {/* Animated Background Elements */}
+        {/* Animated Background Elements - Less CPU intensive */}
         <div className="absolute inset-0">
           <motion.div 
             className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full bg-[#ffc500]/20 blur-3xl"
             animate={{ 
               scale: [1, 1.2, 1],
-              opacity: [0.3, 0.2, 0.3],
-              rotate: [0, 45, 0]
+              opacity: [0.3, 0.2, 0.3]
             }}
             transition={{ 
               duration: 8,
@@ -112,35 +125,34 @@ export default function ContactPage() {
           </motion.div>
         </div>
 
-        {/* Scroll Indicator */}
-        <motion.div 
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2 }}
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-6 h-10 border-2 border-white/50 rounded-full flex items-center justify-center"
+        {/* Scroll Indicator - only show after content is loaded */}
+        {isLoaded && (
+          <motion.div 
+            className="absolute bottom-8 left-1/2 -translate-x-1/2"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
           >
             <motion.div
-              animate={{ height: [6, 14, 6] }}
+              animate={{ y: [0, 10, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 bg-white/50 rounded-full"
-            />
+              className="w-6 h-10 border-2 border-white/50 rounded-full flex items-center justify-center"
+            >
+              <motion.div
+                animate={{ height: [6, 14, 6] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="w-1 bg-white/50 rounded-full"
+              />
+            </motion.div>
           </motion.div>
-        </motion.div>
+        )}
       </section>
 
-      {/* Main Content */}
+      {/* Main Content - Simplified animations for better performance */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Introduction */}
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          {...fadeInProps}
           className="text-center mb-16"
         >
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -150,10 +162,7 @@ export default function ContactPage() {
 
         {/* Contact Information Grid */}
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          {...fadeInProps}
           className="grid md:grid-cols-2 gap-8 mb-16"
         >
           {/* Contact Methods */}
@@ -219,12 +228,9 @@ export default function ContactPage() {
           </div>
         </motion.section>
 
-        {/* Contact Form Section */}
+        {/* Contact Form Section - Using the same fadeInProps for consistency */}
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          {...fadeInProps}
           className="mb-16"
         >
           <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
@@ -350,12 +356,9 @@ export default function ContactPage() {
           </div>
         </motion.section>
 
-        {/* Social Media Section */}
+        {/* Social Media Section - Same fadeInProps */}
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          {...fadeInProps}
           className="mb-16"
         >
           <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
@@ -386,12 +389,9 @@ export default function ContactPage() {
           </div>
         </motion.section>
 
-        {/* Additional Information */}
+        {/* Additional Information - Same fadeInProps */}
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          {...fadeInProps}
           className="mb-16"
         >
           <div className="bg-gradient-to-br from-[#1D942C] to-[#167623] rounded-2xl p-8 md:p-12 text-white relative overflow-hidden">
@@ -400,8 +400,7 @@ export default function ContactPage() {
                 className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-[#ffc500]/20 blur-3xl"
                 animate={{ 
                   scale: [1, 1.2, 1],
-                  opacity: [0.2, 0.1, 0.2],
-                  rotate: [0, 45, 0]
+                  opacity: [0.2, 0.1, 0.2]
                 }}
                 transition={{ 
                   duration: 8,
