@@ -161,24 +161,14 @@ export default function Header() {
 
           {/* Login/Signup */}
           <div className="hidden lg:flex items-center space-x-2">
-            <Link href="/signin">
+            <Link href="/donate">
               <motion.button 
                 variants={buttonVariants}
                 initial="rest"
                 whileHover="hover"
-                className="bg-white border border-[#1D942C] text-[#1D942C] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#1D942C]/5 transition-colors"
+                className="bg-[#1D942C] text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-[#167623] transition-colors shadow-md hover:shadow-lg"
               >
-                Sign In
-              </motion.button>
-            </Link>
-            <Link href="/signup">
-              <motion.button 
-                variants={buttonVariants}
-                initial="rest"
-                whileHover="hover"
-                className="bg-[#1D942C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#167623] transition-colors"
-              >
-                Sign Up
+                Donate Now
               </motion.button>
             </Link>
           </div>
@@ -311,18 +301,11 @@ export default function Header() {
               {/* Mobile login/signup */}
               <div className="pt-4 pb-2 border-t border-gray-200 flex flex-col space-y-2">
                 <Link
-                  href="/signin"
-                  className="px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#1D942C] hover:bg-gray-50 transition-colors"
+                  href="/donate"
+                  className="px-3 py-2 rounded-md text-base font-medium bg-[#1D942C] text-white hover:bg-[#167623] transition-colors text-center"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Sign In
-                </Link>
-                <Link
-                  href="/signup"
-                  className="px-3 py-2 rounded-md text-base font-medium bg-[#1D942C] text-white hover:bg-[#167623] transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Sign Up
+                  Donate Now
                 </Link>
               </div>
             </div>
