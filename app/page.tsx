@@ -682,7 +682,7 @@ export default function Home() {
                             Download Application Form
                           </Link>
                           <Link 
-                            href="/requirements/rsdf-requirement.pdf" 
+                            href="https://qrwse.s3.us-east-1.amazonaws.com/RSDF+-+MICROLOANS+AND+GRANTS+-+REQUIREMENTS+AND+CRITERIA+(2).pdf" 
                             className="text-[#1D942C] flex items-center hover:underline"
                             target="_blank"
                           >
@@ -727,7 +727,7 @@ export default function Home() {
                             Download Application Form
                           </Link>
                           <Link 
-                            href="/requirements/rsdf-requirement.pdf" 
+                            href="https://qrwse.s3.us-east-1.amazonaws.com/RSDF+-+MICROLOANS+AND+GRANTS+-+REQUIREMENTS+AND+CRITERIA+(2).pdf" 
                             className="text-[#1D942C] flex items-center hover:underline"
                             target="_blank"
                           >
