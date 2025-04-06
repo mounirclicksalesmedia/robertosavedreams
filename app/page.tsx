@@ -682,7 +682,7 @@ export default function Home() {
                             Download Application Form
                           </Link>
                           <Link 
-                            href="/documents/rsdf-requirement.pdf" 
+                            href="rsdf-requirement.pdf" 
                             className="text-[#1D942C] flex items-center hover:underline"
                             target="_blank"
                           >
@@ -727,7 +727,7 @@ export default function Home() {
                             Download Application Form
                           </Link>
                           <Link 
-                            href="/documents/rsdf-requirement.pdf" 
+                            href="rsdf-requirement.pdf" 
                             className="text-[#1D942C] flex items-center hover:underline"
                             target="_blank"
                           >
