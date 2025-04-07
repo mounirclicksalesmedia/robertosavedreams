@@ -670,17 +670,7 @@ export default function Home() {
                         </ul>
                         <p className="mt-3"><span className="font-medium">Note:</span> Submission is free of charge</p>
                         
-                        <div className="flex justify-between items-center mt-4 pt-3 border-t border-gray-100">
-                          <Link 
-                            href="/documents/loan-application-form.pdf" 
-                            className="text-[#1D942C] flex items-center hover:underline"
-                            target="_blank"
-                          >
-                            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-                            </svg>
-                            Download Application Form
-                          </Link>
+                        <div className="flex justify-end items-center mt-4 pt-3 border-t border-gray-100">
                           <Link 
                             href="https://qrwse.s3.us-east-1.amazonaws.com/RSDF+-+MICROLOANS+AND+GRANTS+-+REQUIREMENTS+AND+CRITERIA+(2).pdf" 
                             className="text-[#1D942C] flex items-center hover:underline"
@@ -715,17 +705,7 @@ export default function Home() {
                         </ul>
                         <p className="mt-3"><span className="font-medium">Membership fee:</span> $450</p>
                         
-                        <div className="flex justify-between items-center mt-4 pt-3 border-t border-gray-100">
-                          <Link 
-                            href="/documents/grant-application-form.pdf" 
-                            className="text-[#1D942C] flex items-center hover:underline"
-                            target="_blank"
-                          >
-                            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-                            </svg>
-                            Download Application Form
-                          </Link>
+                        <div className="flex justify-end items-center mt-4 pt-3 border-t border-gray-100">
                           <Link 
                             href="https://qrwse.s3.us-east-1.amazonaws.com/RSDF+-+MICROLOANS+AND+GRANTS+-+REQUIREMENTS+AND+CRITERIA+(2).pdf" 
                             className="text-[#1D942C] flex items-center hover:underline"
