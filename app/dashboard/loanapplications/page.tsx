@@ -24,8 +24,20 @@ interface LoanApplication {
   interestRate: number;
   monthlyPayment: number;
   totalRepayment: number;
-  status: 'pending' | 'approved' | 'rejected';
-  submittedAt: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  applicantType: string;
+  documents: {
+    businessPlan?: string;
+    registration?: string;
+    identification?: string;
+    financialStatements?: string;
+    proofOfIncome?: string;
+    proofOfLandOwnership?: string;
+    proofOfEnrollment?: string;
+    proofOfEmployment?: string;
+  };
 }
 
 export default function LoanApplicationsPage() {
@@ -34,6 +46,7 @@ export default function LoanApplicationsPage() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [selectedApplication, setSelectedApplication] = useState<LoanApplication | null>(null);
 
   // Fetch loan applications from the API
   useEffect(() => {
@@ -42,15 +55,17 @@ export default function LoanApplicationsPage() {
 
   // Function to fetch applications
   const fetchApplications = async () => {
-    setLoading(true);
     try {
+      setLoading(true);
       const response = await fetch('/api/loan-applications');
       const data = await response.json();
       
-      if (data.success) {
-        setApplications(data.applications);
+      if (response.ok) {
+        // Check if data is an array (direct applications) or has an applications property
+        const applications = Array.isArray(data) ? data : data.applications;
+        setApplications(applications || []);
       } else {
-        console.error('Error fetching applications:', data.message);
+        console.error('Error fetching applications:', data?.message || 'Unknown error');
         // Fallback to mock data if API fails
         setApplications([
           {
@@ -74,7 +89,10 @@ export default function LoanApplicationsPage() {
             monthlyPayment: 172.15,
             totalRepayment: 2065.80,
             status: 'pending',
-            submittedAt: '2023-03-10T14:30:00Z'
+            createdAt: '2023-03-10T14:30:00Z',
+            updatedAt: '2023-03-10T14:30:00Z',
+            applicantType: 'Business',
+            documents: {}
           },
           {
             id: '1002',
@@ -97,7 +115,10 @@ export default function LoanApplicationsPage() {
             monthlyPayment: 153.20,
             totalRepayment: 3676.80,
             status: 'approved',
-            submittedAt: '2023-03-05T09:15:00Z'
+            createdAt: '2023-03-05T09:15:00Z',
+            updatedAt: '2023-03-05T09:15:00Z',
+            applicantType: 'Business',
+            documents: {}
           },
           {
             id: '1003',
@@ -120,16 +141,17 @@ export default function LoanApplicationsPage() {
             monthlyPayment: 129.11,
             totalRepayment: 1549.32,
             status: 'rejected',
-            submittedAt: '2023-03-08T16:45:00Z'
+            createdAt: '2023-03-08T16:45:00Z',
+            updatedAt: '2023-03-08T16:45:00Z',
+            applicantType: 'Education',
+            documents: {}
           }
         ]);
       }
-      setLoading(false);
     } catch (error) {
-      console.error('Error fetching applications:', error);
-      // Fallback to mock data if API fails
+      console.error('Failed to fetch applications:', error);
+      // Use mock data as fallback
       setApplications([
-        // Same mock data as above...
         {
           id: '1001',
           firstName: 'John',
@@ -151,10 +173,65 @@ export default function LoanApplicationsPage() {
           monthlyPayment: 172.15,
           totalRepayment: 2065.80,
           status: 'pending',
-          submittedAt: '2023-03-10T14:30:00Z'
+          createdAt: '2023-03-10T14:30:00Z',
+          updatedAt: '2023-03-10T14:30:00Z',
+          applicantType: 'Business',
+          documents: {}
         },
-        // Rest of mock data...
+        {
+          id: '1002',
+          firstName: 'Jane',
+          lastName: 'Smith',
+          email: 'jane.smith@example.com',
+          phone: '+2345678901',
+          address: '456 Oak Ave',
+          city: 'Ndola',
+          state: 'Copperbelt Province',
+          zipCode: '20202',
+          dateOfBirth: '1990-08-22',
+          employmentStatus: 'self-employed',
+          monthlyIncome: '3000',
+          loanPurpose: 'business',
+          businessDescription: 'Tailoring shop startup',
+          loanAmount: 3500,
+          loanTerm: 24,
+          interestRate: 4.68,
+          monthlyPayment: 153.20,
+          totalRepayment: 3676.80,
+          status: 'approved',
+          createdAt: '2023-03-05T09:15:00Z',
+          updatedAt: '2023-03-05T09:15:00Z',
+          applicantType: 'Business',
+          documents: {}
+        },
+        {
+          id: '1003',
+          firstName: 'Michael',
+          lastName: 'Johnson',
+          email: 'michael.j@example.com',
+          phone: '+3456789012',
+          address: '789 Pine Rd',
+          city: 'Livingstone',
+          state: 'Southern Province',
+          zipCode: '30303',
+          dateOfBirth: '1978-12-03',
+          employmentStatus: 'employed',
+          monthlyIncome: '2200',
+          loanPurpose: 'education',
+          businessDescription: 'Funding for vocational training program',
+          loanAmount: 1500,
+          loanTerm: 12,
+          interestRate: 4.68,
+          monthlyPayment: 129.11,
+          totalRepayment: 1549.32,
+          status: 'rejected',
+          createdAt: '2023-03-08T16:45:00Z',
+          updatedAt: '2023-03-08T16:45:00Z',
+          applicantType: 'Education',
+          documents: {}
+        }
       ]);
+    } finally {
       setLoading(false);
     }
   };
@@ -195,33 +272,45 @@ export default function LoanApplicationsPage() {
   };
 
   // Update application status
-  const updateStatus = (id: string, newStatus: 'pending' | 'approved' | 'rejected') => {
+  const updateStatus = async (id: string, newStatus: string) => {
     // Optimistically update the UI
     setApplications(applications.map(app => 
       app.id === id ? { ...app, status: newStatus } : app
     ));
     
-    // Call the API to update the status in the database
-    fetch(`/api/loan-applications/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ status: newStatus }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (!data.success) {
-          console.error('Error updating application status:', data.message);
-          // Revert the optimistic update if the API call fails
-          fetchApplications();
-        }
-      })
-      .catch(error => {
-        console.error('Error updating application status:', error);
-        // Revert the optimistic update if the API call fails
-        fetchApplications();
+    try {
+      // Call API to update status
+      const response = await fetch('/api/loan-applications', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, status: newStatus }),
       });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        console.error('Error updating application status:', data.message);
+        // Revert the UI change if the API call fails
+        fetchApplications();
+      }
+    } catch (error) {
+      console.error('Failed to update application status:', error);
+      // Revert the UI change if the API call fails
+      fetchApplications();
+    }
+  };
+
+  // Handle view application
+  const handleViewApplication = (application: LoanApplication) => {
+    setSelectedApplication(application);
+  };
+
+  // Handle update status
+  const handleUpdateStatus = (id: string, newStatus: string) => {
+    updateStatus(id, newStatus);
+    setSelectedApplication(null);
   };
 
   return (
@@ -281,10 +370,19 @@ export default function LoanApplicationsPage() {
                     Applicant
                   </th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Loan Details
+                    Amount
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Term
                   </th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Category
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Documents
                   </th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Date
@@ -297,231 +395,333 @@ export default function LoanApplicationsPage() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredApplications.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan={8} className="px-6 py-4 text-center text-sm text-gray-500">
                       No applications found
                     </td>
                   </tr>
                 ) : (
                   filteredApplications.map((application) => (
-                    <React.Fragment key={application.id}>
-                      <tr className={`hover:bg-gray-50 ${expandedId === application.id ? 'bg-gray-50' : ''}`}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 h-10 w-10 bg-[#1D942C] rounded-full flex items-center justify-center">
-                              <span className="text-white font-medium">
-                                {application.firstName.charAt(0)}{application.lastName.charAt(0)}
-                              </span>
+                    <tr key={application.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div className="ml-4">
+                            <div className="text-sm font-medium text-gray-900">
+                              {application.firstName} {application.lastName}
                             </div>
-                            <div className="ml-4">
-                              <div className="text-sm font-medium text-gray-900">
-                                {application.firstName} {application.lastName}
-                              </div>
-                              <div className="text-sm text-gray-500">
-                                {application.email}
-                              </div>
+                            <div className="text-sm text-gray-500">
+                              {application.email}
                             </div>
                           </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
-                            {formatCurrency(application.loanAmount)}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {formatCurrency(application.loanAmount)}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          Monthly: {formatCurrency(application.monthlyPayment)}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {application.loanTerm} months
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {application.interestRate}% APR
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            application.status === 'Approved'
+                              ? 'bg-green-100 text-green-800'
+                              : application.status === 'Denied'
+                              ? 'bg-red-100 text-red-800'
+                              : application.status === 'Under Review'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-gray-100 text-gray-800'
+                          }`}
+                        >
+                          {application.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <span className="px-2 py-1 text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                          {application.applicantType || 'Not specified'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {application.documents ? (
+                          <div className="flex space-x-1">
+                            {Object.entries(application.documents).map(([key, url]) => {
+                              if (!url) return null;
+                              
+                              let icon = '📄';
+                              let color = 'text-blue-600';
+                              let title = key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
+                              
+                              if (key === 'businessPlan') {
+                                icon = '📋';
+                                color = 'text-green-600';
+                              } else if (key === 'identification') {
+                                icon = '🪪';
+                                color = 'text-purple-600';
+                              } else if (key === 'financialStatements') {
+                                icon = '📊';
+                                color = 'text-yellow-600';
+                              }
+                              
+                              return (
+                                <a 
+                                  key={key}
+                                  href={url.toString()} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className={`inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 ${color}`}
+                                  title={title}
+                                >
+                                  <span>{icon}</span>
+                                </a>
+                              );
+                            })}
                           </div>
-                          <div className="text-sm text-gray-500">
-                            {application.loanTerm} months at {application.interestRate}%
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                            ${application.status === 'approved' ? 'bg-green-100 text-green-800' : 
-                              application.status === 'rejected' ? 'bg-red-100 text-red-800' : 
-                              'bg-yellow-100 text-yellow-800'}`}>
-                            {application.status.charAt(0).toUpperCase() + application.status.slice(1)}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {formatDate(application.submittedAt)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <button
-                            onClick={() => toggleExpand(application.id)}
-                            className="text-[#1D942C] hover:text-[#167623] flex items-center"
-                          >
-                            <span>Details</span>
-                            {expandedId === application.id ? (
-                              <svg className="ml-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                              </svg>
-                            ) : (
-                              <svg className="ml-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                              </svg>
-                            )}
-                          </button>
-                        </td>
-                      </tr>
-                      
-                      {/* Expanded Details */}
-                      <AnimatePresence>
-                        {expandedId === application.id && (
-                          <motion.tr
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            <td colSpan={5} className="px-6 py-4 bg-gray-50">
-                              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                {/* Personal Information */}
-                                <div>
-                                  <h3 className="text-lg font-medium text-gray-900 mb-3">Personal Information</h3>
-                                  <div className="space-y-2">
-                                    <div>
-                                      <span className="text-sm text-gray-500">Full Name:</span>
-                                      <p className="text-sm font-medium text-gray-900">{application.firstName} {application.lastName}</p>
-                                    </div>
-                                    <div>
-                                      <span className="text-sm text-gray-500">Email:</span>
-                                      <p className="text-sm font-medium text-gray-900">{application.email}</p>
-                                    </div>
-                                    <div>
-                                      <span className="text-sm text-gray-500">Phone:</span>
-                                      <p className="text-sm font-medium text-gray-900">{application.phone}</p>
-                                    </div>
-                                    <div>
-                                      <span className="text-sm text-gray-500">Address:</span>
-                                      <p className="text-sm font-medium text-gray-900">
-                                        {application.address}, {application.city}, {application.state} {application.zipCode}
-                                      </p>
-                                    </div>
-                                    <div>
-                                      <span className="text-sm text-gray-500">Date of Birth:</span>
-                                      <p className="text-sm font-medium text-gray-900">{application.dateOfBirth}</p>
-                                    </div>
-                                    <div>
-                                      <span className="text-sm text-gray-500">Employment Status:</span>
-                                      <p className="text-sm font-medium text-gray-900">
-                                        {application.employmentStatus.charAt(0).toUpperCase() + application.employmentStatus.slice(1)}
-                                      </p>
-                                    </div>
-                                    <div>
-                                      <span className="text-sm text-gray-500">Monthly Income:</span>
-                                      <p className="text-sm font-medium text-gray-900">{formatCurrency(Number(application.monthlyIncome))}</p>
-                                    </div>
-                                  </div>
-                                </div>
-                                
-                                {/* Loan Information */}
-                                <div>
-                                  <h3 className="text-lg font-medium text-gray-900 mb-3">Loan Information</h3>
-                                  <div className="space-y-2">
-                                    <div>
-                                      <span className="text-sm text-gray-500">Loan Purpose:</span>
-                                      <p className="text-sm font-medium text-gray-900">
-                                        {application.loanPurpose.charAt(0).toUpperCase() + application.loanPurpose.slice(1)}
-                                      </p>
-                                    </div>
-                                    <div>
-                                      <span className="text-sm text-gray-500">Business Description:</span>
-                                      <p className="text-sm font-medium text-gray-900">{application.businessDescription}</p>
-                                    </div>
-                                    <div>
-                                      <span className="text-sm text-gray-500">Loan Amount:</span>
-                                      <p className="text-sm font-medium text-gray-900">{formatCurrency(application.loanAmount)}</p>
-                                    </div>
-                                    <div>
-                                      <span className="text-sm text-gray-500">Loan Term:</span>
-                                      <p className="text-sm font-medium text-gray-900">{application.loanTerm} months</p>
-                                    </div>
-                                    <div>
-                                      <span className="text-sm text-gray-500">Interest Rate:</span>
-                                      <p className="text-sm font-medium text-gray-900">{application.interestRate}%</p>
-                                    </div>
-                                    <div>
-                                      <span className="text-sm text-gray-500">Monthly Payment:</span>
-                                      <p className="text-sm font-medium text-gray-900">{formatCurrency(application.monthlyPayment)}</p>
-                                    </div>
-                                    <div>
-                                      <span className="text-sm text-gray-500">Total Repayment:</span>
-                                      <p className="text-sm font-medium text-gray-900">{formatCurrency(application.totalRepayment)}</p>
-                                    </div>
-                                  </div>
-                                </div>
-                                
-                                {/* Actions */}
-                                <div>
-                                  <h3 className="text-lg font-medium text-gray-900 mb-3">Application Status</h3>
-                                  <div className="space-y-4">
-                                    <div>
-                                      <span className="text-sm text-gray-500">Current Status:</span>
-                                      <p className={`text-sm font-medium mt-1 ${
-                                        application.status === 'approved' ? 'text-green-600' : 
-                                        application.status === 'rejected' ? 'text-red-600' : 
-                                        'text-yellow-600'
-                                      }`}>
-                                        {application.status.charAt(0).toUpperCase() + application.status.slice(1)}
-                                      </p>
-                                    </div>
-                                    <div>
-                                      <span className="text-sm text-gray-500">Submitted On:</span>
-                                      <p className="text-sm font-medium text-gray-900">{formatDate(application.submittedAt)}</p>
-                                    </div>
-                                    
-                                    <div className="pt-4">
-                                      <span className="text-sm text-gray-500 mb-2 block">Update Status:</span>
-                                      <div className="flex space-x-2">
-                                        <button
-                                          onClick={() => updateStatus(application.id, 'approved')}
-                                          className={`px-3 py-1 rounded-md text-sm font-medium ${
-                                            application.status === 'approved'
-                                              ? 'bg-green-100 text-green-800 cursor-default'
-                                              : 'bg-white border border-green-600 text-green-600 hover:bg-green-50'
-                                          }`}
-                                          disabled={application.status === 'approved'}
-                                        >
-                                          <svg className="h-4 w-4 inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                          </svg>
-                                          Approve
-                                        </button>
-                                        <button
-                                          onClick={() => updateStatus(application.id, 'rejected')}
-                                          className={`px-3 py-1 rounded-md text-sm font-medium ${
-                                            application.status === 'rejected'
-                                              ? 'bg-red-100 text-red-800 cursor-default'
-                                              : 'bg-white border border-red-600 text-red-600 hover:bg-red-50'
-                                          }`}
-                                          disabled={application.status === 'rejected'}
-                                        >
-                                          <svg className="h-4 w-4 inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                          </svg>
-                                          Reject
-                                        </button>
-                                        <button
-                                          onClick={() => updateStatus(application.id, 'pending')}
-                                          className={`px-3 py-1 rounded-md text-sm font-medium ${
-                                            application.status === 'pending'
-                                              ? 'bg-yellow-100 text-yellow-800 cursor-default'
-                                              : 'bg-white border border-yellow-600 text-yellow-600 hover:bg-yellow-50'
-                                          }`}
-                                          disabled={application.status === 'pending'}
-                                        >
-                                          Reset to Pending
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </td>
-                          </motion.tr>
+                        ) : (
+                          <span className="text-gray-400">No documents</span>
                         )}
-                      </AnimatePresence>
-                    </React.Fragment>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {formatDate(application.createdAt)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => handleViewApplication(application)}
+                            className="text-indigo-600 hover:text-indigo-900"
+                          >
+                            View
+                          </button>
+                          <button
+                            onClick={() => handleUpdateStatus(application.id, 'Approved')}
+                            className={`text-green-600 hover:text-green-900 ${application.status === 'Approved' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            disabled={application.status === 'Approved'}
+                          >
+                            Approve
+                          </button>
+                          <button
+                            onClick={() => handleUpdateStatus(application.id, 'Denied')}
+                            className={`text-red-600 hover:text-red-900 ${application.status === 'Denied' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            disabled={application.status === 'Denied'}
+                          >
+                            Deny
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
                   ))
                 )}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Application Details Modal */}
+      {selectedApplication && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-start">
+                <h2 className="text-2xl font-bold text-gray-900">
+                  Application Details
+                </h2>
+                <button
+                  onClick={() => setSelectedApplication(null)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Name</span>
+                      <p className="mt-1">{selectedApplication.firstName} {selectedApplication.lastName}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Email</span>
+                      <p className="mt-1">{selectedApplication.email}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Phone</span>
+                      <p className="mt-1">{selectedApplication.phone}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Address</span>
+                      <p className="mt-1">{selectedApplication.address}, {selectedApplication.city}, {selectedApplication.state} {selectedApplication.zipCode}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Date of Birth</span>
+                      <p className="mt-1">{selectedApplication.dateOfBirth}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Employment Status</span>
+                      <p className="mt-1">{selectedApplication.employmentStatus}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Monthly Income</span>
+                      <p className="mt-1">{formatCurrency(Number(selectedApplication.monthlyIncome))}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Applicant Type</span>
+                      <p className="mt-1">
+                        <span className="px-2 py-1 text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                          {selectedApplication.applicantType || 'Not specified'}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Loan Information</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Loan Purpose</span>
+                      <p className="mt-1">{selectedApplication.loanPurpose}</p>
+                    </div>
+                    {selectedApplication.businessDescription && (
+                      <div>
+                        <span className="text-sm font-medium text-gray-500">Business Description</span>
+                        <p className="mt-1">{selectedApplication.businessDescription}</p>
+                      </div>
+                    )}
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Loan Amount</span>
+                      <p className="mt-1">{formatCurrency(selectedApplication.loanAmount)}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Loan Term</span>
+                      <p className="mt-1">{selectedApplication.loanTerm} months</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Interest Rate</span>
+                      <p className="mt-1">{selectedApplication.interestRate}%</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Monthly Payment</span>
+                      <p className="mt-1">{formatCurrency(selectedApplication.monthlyPayment)}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Total Repayment</span>
+                      <p className="mt-1">{formatCurrency(selectedApplication.totalRepayment)}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-500">Status</span>
+                      <p className="mt-1">
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            selectedApplication.status === 'Approved'
+                              ? 'bg-green-100 text-green-800'
+                              : selectedApplication.status === 'Denied'
+                              ? 'bg-red-100 text-red-800'
+                              : selectedApplication.status === 'Under Review'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-gray-100 text-gray-800'
+                          }`}
+                        >
+                          {selectedApplication.status}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Documents Section */}
+              {selectedApplication.documents && Object.values(selectedApplication.documents).some(doc => doc) && (
+                <div className="mt-8">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Uploaded Documents</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {Object.entries(selectedApplication.documents).map(([key, url]) => {
+                      if (!url) return null;
+                      
+                      let title = key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
+                      let fileType = url.toString().split('.').pop()?.toUpperCase() || 'FILE';
+                      
+                      return (
+                        <div key={key} className="border border-gray-200 rounded-lg p-4 hover:border-blue-500 transition-colors">
+                          <div className="flex items-center justify-between mb-2">
+                            <h4 className="font-medium text-gray-900">{title}</h4>
+                            <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-600">
+                              {fileType}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center mt-4">
+                            <a 
+                              href={url.toString()} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center"
+                            >
+                              <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                              </svg>
+                              Download
+                            </a>
+                            <a 
+                              href={url.toString()} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-gray-600 hover:text-gray-800 text-sm font-medium"
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              </svg>
+                            </a>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+              
+              <div className="mt-8 flex justify-end space-x-3">
+                <button
+                  onClick={() => setSelectedApplication(null)}
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
+                >
+                  Close
+                </button>
+                {selectedApplication.status !== 'Approved' && (
+                  <button
+                    onClick={() => {
+                      handleUpdateStatus(selectedApplication.id, 'Approved');
+                      setSelectedApplication(null);
+                    }}
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                  >
+                    Approve Application
+                  </button>
+                )}
+                {selectedApplication.status !== 'Denied' && (
+                  <button
+                    onClick={() => {
+                      handleUpdateStatus(selectedApplication.id, 'Denied');
+                      setSelectedApplication(null);
+                    }}
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                  >
+                    Deny Application
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}

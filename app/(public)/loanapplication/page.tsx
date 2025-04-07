@@ -45,6 +45,18 @@ function LoanApplicationContent() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [applicantType, setApplicantType] = useState<string>('');
+  const [documents, setDocuments] = useState<{[key: string]: File | null}>({
+    businessPlan: null,
+    registration: null,
+    identification: null,
+    financialStatements: null,
+    proofOfIncome: null,
+    proofOfLandOwnership: null,
+    proofOfEnrollment: null,
+    proofOfEmployment: null
+  });
+  const [uploadProgress, setUploadProgress] = useState<{[key: string]: number}>({});
 
   // Get loan amount from URL parameters
   useEffect(() => {
@@ -92,14 +104,36 @@ function LoanApplicationContent() {
     });
   };
 
+  const handleApplicantTypeChange = (type: string) => {
+    setApplicantType(type);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, docType: string) => {
+    if (e.target.files && e.target.files[0]) {
+      setDocuments({
+        ...documents,
+        [docType]: e.target.files[0]
+      });
+      
+      setUploadProgress({
+        ...uploadProgress,
+        [docType]: 0
+      });
+    }
+  };
+
   const nextStep = () => {
-    setCurrentStep(currentStep + 1);
-    window.scrollTo(0, 0);
+    if (currentStep < 4) {
+      setCurrentStep(currentStep + 1);
+      window.scrollTo(0, 0);
+    }
   };
 
   const prevStep = () => {
-    setCurrentStep(currentStep - 1);
-    window.scrollTo(0, 0);
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+      window.scrollTo(0, 0);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -117,18 +151,31 @@ function LoanApplicationContent() {
       loanTerm,
       interestRate,
       monthlyPayment: calculatedMonthlyPayment,
-      totalRepayment: calculatedTotalRepayment
+      totalRepayment: calculatedTotalRepayment,
+      applicantType,
     };
     
     console.log('Submitting application data:', applicationData);
     
+    // Create FormData object to handle file uploads
+    const formDataToSend = new FormData();
+    
+    // Add all text fields to FormData
+    Object.entries(applicationData).forEach(([key, value]) => {
+      formDataToSend.append(key, String(value));
+    });
+    
+    // Add all files to FormData
+    Object.entries(documents).forEach(([key, file]) => {
+      if (file) {
+        formDataToSend.append(key, file);
+      }
+    });
+    
     // Submit data to the API
     fetch('/api/loan-applications', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(applicationData),
+      body: formDataToSend,
     })
       .then(response => {
         console.log('Response status:', response.status);
@@ -219,12 +266,12 @@ function LoanApplicationContent() {
               <div className="bg-gray-50 px-6 py-4">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium text-gray-500">Application Progress</span>
-                  <span className="text-sm font-medium text-[#1D942C]">{currentStep} of 3</span>
+                  <span className="text-sm font-medium text-[#1D942C]">{currentStep} of 4</span>
                 </div>
                 <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                   <div 
                     className="h-full bg-[#1D942C] rounded-full transition-all duration-500"
-                    style={{ width: `${(currentStep / 3) * 100}%` }}
+                    style={{ width: `${(currentStep / 4) * 100}%` }}
                   ></div>
                 </div>
               </div>
@@ -256,7 +303,8 @@ function LoanApplicationContent() {
                 {/* Step 1: Personal Information */}
                 {currentStep === 1 && (
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Personal Information</h2>
+                    <h3 className="text-xl font-bold text-gray-900 mb-6">Personal Information</h3>
+                    
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                       <div>
                         <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
@@ -270,6 +318,7 @@ function LoanApplicationContent() {
                           onChange={handleInputChange}
                           required
                           className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-[#1D942C] focus:border-[#1D942C]"
+                          placeholder="John"
                         />
                       </div>
                       <div>
@@ -284,6 +333,7 @@ function LoanApplicationContent() {
                           onChange={handleInputChange}
                           required
                           className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-[#1D942C] focus:border-[#1D942C]"
+                          placeholder="Doe"
                         />
                       </div>
                     </div>
@@ -393,13 +443,381 @@ function LoanApplicationContent() {
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-[#1D942C] focus:border-[#1D942C]"
                       />
                     </div>
+
+                    <div className="flex justify-end mt-8">
+                      <button
+                        type="button"
+                        onClick={nextStep}
+                        className="px-6 py-3 bg-[#1D942C] text-white rounded-lg font-medium hover:bg-[#167623] transition-colors shadow-md"
+                      >
+                        Next Step
+                      </button>
+                    </div>
                   </div>
                 )}
 
-                {/* Step 2: Financial Information */}
+                {/* Step 2: Applicant Type & Required Documents */}
                 {currentStep === 2 && (
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Financial Information</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Applicant Type & Required Documents</h2>
+                    
+                    <div className="mb-8">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Select Your Category
+                      </label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {['Women', 'Civil Servants', 'Entrepreneurs', 'Students', 'Farmers'].map((type) => (
+                          <button
+                            key={type}
+                            type="button"
+                            onClick={() => handleApplicantTypeChange(type)}
+                            className={`py-3 px-4 rounded-lg border-2 transition-all duration-200 ${
+                              applicantType === type
+                                ? 'border-[#1D942C] bg-[#1D942C]/10 text-[#1D942C] font-medium'
+                                : 'border-gray-200 text-gray-700 hover:border-[#1D942C]/20'
+                            }`}
+                          >
+                            {type}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {applicantType && (
+                      <div className="mb-8 bg-gray-50 p-6 rounded-lg">
+                        <h3 className="font-semibold text-lg text-gray-900 mb-3">
+                          Requirements for {applicantType}
+                        </h3>
+                        
+                        <div className="text-sm text-gray-700 space-y-2 mb-6">
+                          <p className="font-medium text-[#1D942C] mt-3">Description:</p>
+                          {applicantType === 'Women' && (
+                            <p>Women may be eligible for microloans and grants to start or expand their own businesses, or to support their education and training.</p>
+                          )}
+                          {applicantType === 'Civil Servants' && (
+                            <p>Civil servants may be eligible for microloans and grants to start their own businesses or to support their education and training.</p>
+                          )}
+                          {applicantType === 'Entrepreneurs' && (
+                            <p>Entrepreneurs may be eligible for microloans and grants to start or expand their own businesses.</p>
+                          )}
+                          {applicantType === 'Students' && (
+                            <p>Students may be eligible for microloans and grants to support their education and training.</p>
+                          )}
+                          {applicantType === 'Farmers' && (
+                            <p>Farmers may be eligible for microloans and grants to improve their farming practices, purchase equipment, or to support their education and training.</p>
+                          )}
+                          
+                          <p className="font-medium text-[#1D942C] mt-3">Required Documents:</p>
+                          <ul className="list-disc pl-5 space-y-1">
+                            {/* Women Requirements */}
+                            {applicantType === 'Women' && (
+                              <>
+                                <li>Business plan</li>
+                                <li>Proof of business registration (if applicable)</li>
+                                <li>Identification</li>
+                                <li>Financial statements</li>
+                                <li>Proof of income</li>
+                              </>
+                            )}
+                            
+                            {/* Civil Servants Requirements */}
+                            {applicantType === 'Civil Servants' && (
+                              <>
+                                <li>Business plan</li>
+                                <li>Proof of employment</li>
+                                <li>Identification</li>
+                                <li>Financial statements</li>
+                                <li>Proof of income</li>
+                              </>
+                            )}
+                            
+                            {/* Entrepreneurs Requirements */}
+                            {applicantType === 'Entrepreneurs' && (
+                              <>
+                                <li>Business plan</li>
+                                <li>Proof of business registration</li>
+                                <li>Identification</li>
+                                <li>Financial statements</li>
+                                <li>Proof of income</li>
+                              </>
+                            )}
+                            
+                            {/* Students Requirements */}
+                            {applicantType === 'Students' && (
+                              <>
+                                <li>Proof of enrollment</li>
+                                <li>Identification</li>
+                                <li>Financial statements</li>
+                                <li>Proof of income</li>
+                              </>
+                            )}
+                            
+                            {/* Farmers Requirements */}
+                            {applicantType === 'Farmers' && (
+                              <>
+                                <li>Business plan</li>
+                                <li>Proof of land ownership</li>
+                                <li>Identification</li>
+                                <li>Financial statements</li>
+                                <li>Proof of income</li>
+                              </>
+                            )}
+                          </ul>
+                        </div>
+                        
+                        {/* Document Upload Section */}
+                        <div className="space-y-4 mt-6">
+                          <h4 className="font-semibold text-lg text-gray-900">Upload Required Documents</h4>
+                          
+                          {/* Business Plan - for all except Students */}
+                          {applicantType !== 'Students' && (
+                            <div className="border border-gray-200 rounded-lg p-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Business Plan</label>
+                              <div className="flex items-center gap-4">
+                                <input
+                                  type="file"
+                                  onChange={(e) => handleFileChange(e, 'businessPlan')}
+                                  className="block w-full text-sm text-gray-500
+                                    file:mr-4 file:py-2 file:px-4
+                                    file:rounded-lg file:border-0
+                                    file:text-sm file:font-medium
+                                    file:bg-[#1D942C]/10 file:text-[#1D942C]
+                                    hover:file:bg-[#1D942C]/20"
+                                  accept=".pdf,.doc,.docx"
+                                />
+                                {uploadProgress.businessPlan !== undefined && uploadProgress.businessPlan > 0 && (
+                                  <div className="w-24 bg-gray-200 rounded-full h-2.5">
+                                    <div className="bg-[#1D942C] h-2.5 rounded-full" style={{ width: `${uploadProgress.businessPlan}%` }}></div>
+                                  </div>
+                                )}
+                                {documents.businessPlan && (
+                                  <span className="text-sm text-[#1D942C]">✓ Uploaded</span>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                          
+                          {/* Proof of Business Registration - for Women and Entrepreneurs */}
+                          {(applicantType === 'Women' || applicantType === 'Entrepreneurs') && (
+                            <div className="border border-gray-200 rounded-lg p-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Proof of Business Registration</label>
+                              <div className="flex items-center gap-4">
+                                <input
+                                  type="file"
+                                  onChange={(e) => handleFileChange(e, 'registration')}
+                                  className="block w-full text-sm text-gray-500
+                                    file:mr-4 file:py-2 file:px-4
+                                    file:rounded-lg file:border-0
+                                    file:text-sm file:font-medium
+                                    file:bg-[#1D942C]/10 file:text-[#1D942C]
+                                    hover:file:bg-[#1D942C]/20"
+                                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                                />
+                                {uploadProgress.registration !== undefined && uploadProgress.registration > 0 && (
+                                  <div className="w-24 bg-gray-200 rounded-full h-2.5">
+                                    <div className="bg-[#1D942C] h-2.5 rounded-full" style={{ width: `${uploadProgress.registration}%` }}></div>
+                                  </div>
+                                )}
+                                {documents.registration && (
+                                  <span className="text-sm text-[#1D942C]">✓ Uploaded</span>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                          
+                          {/* Proof of Employment - for Civil Servants */}
+                          {applicantType === 'Civil Servants' && (
+                            <div className="border border-gray-200 rounded-lg p-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Proof of Employment</label>
+                              <div className="flex items-center gap-4">
+                                <input
+                                  type="file"
+                                  onChange={(e) => handleFileChange(e, 'proofOfEmployment')}
+                                  className="block w-full text-sm text-gray-500
+                                    file:mr-4 file:py-2 file:px-4
+                                    file:rounded-lg file:border-0
+                                    file:text-sm file:font-medium
+                                    file:bg-[#1D942C]/10 file:text-[#1D942C]
+                                    hover:file:bg-[#1D942C]/20"
+                                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                                />
+                                {uploadProgress.proofOfEmployment !== undefined && uploadProgress.proofOfEmployment > 0 && (
+                                  <div className="w-24 bg-gray-200 rounded-full h-2.5">
+                                    <div className="bg-[#1D942C] h-2.5 rounded-full" style={{ width: `${uploadProgress.proofOfEmployment}%` }}></div>
+                                  </div>
+                                )}
+                                {documents.proofOfEmployment && (
+                                  <span className="text-sm text-[#1D942C]">✓ Uploaded</span>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                          
+                          {/* Proof of Enrollment - for Students */}
+                          {applicantType === 'Students' && (
+                            <div className="border border-gray-200 rounded-lg p-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Proof of Enrollment</label>
+                              <div className="flex items-center gap-4">
+                                <input
+                                  type="file"
+                                  onChange={(e) => handleFileChange(e, 'proofOfEnrollment')}
+                                  className="block w-full text-sm text-gray-500
+                                    file:mr-4 file:py-2 file:px-4
+                                    file:rounded-lg file:border-0
+                                    file:text-sm file:font-medium
+                                    file:bg-[#1D942C]/10 file:text-[#1D942C]
+                                    hover:file:bg-[#1D942C]/20"
+                                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                                />
+                                {uploadProgress.proofOfEnrollment !== undefined && uploadProgress.proofOfEnrollment > 0 && (
+                                  <div className="w-24 bg-gray-200 rounded-full h-2.5">
+                                    <div className="bg-[#1D942C] h-2.5 rounded-full" style={{ width: `${uploadProgress.proofOfEnrollment}%` }}></div>
+                                  </div>
+                                )}
+                                {documents.proofOfEnrollment && (
+                                  <span className="text-sm text-[#1D942C]">✓ Uploaded</span>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                          
+                          {/* Proof of Land Ownership - for Farmers */}
+                          {applicantType === 'Farmers' && (
+                            <div className="border border-gray-200 rounded-lg p-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Proof of Land Ownership</label>
+                              <div className="flex items-center gap-4">
+                                <input
+                                  type="file"
+                                  onChange={(e) => handleFileChange(e, 'proofOfLandOwnership')}
+                                  className="block w-full text-sm text-gray-500
+                                    file:mr-4 file:py-2 file:px-4
+                                    file:rounded-lg file:border-0
+                                    file:text-sm file:font-medium
+                                    file:bg-[#1D942C]/10 file:text-[#1D942C]
+                                    hover:file:bg-[#1D942C]/20"
+                                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                                />
+                                {uploadProgress.proofOfLandOwnership !== undefined && uploadProgress.proofOfLandOwnership > 0 && (
+                                  <div className="w-24 bg-gray-200 rounded-full h-2.5">
+                                    <div className="bg-[#1D942C] h-2.5 rounded-full" style={{ width: `${uploadProgress.proofOfLandOwnership}%` }}></div>
+                                  </div>
+                                )}
+                                {documents.proofOfLandOwnership && (
+                                  <span className="text-sm text-[#1D942C]">✓ Uploaded</span>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                          
+                          {/* Identification - for all */}
+                          <div className="border border-gray-200 rounded-lg p-4">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Identification</label>
+                            <div className="flex items-center gap-4">
+                              <input
+                                type="file"
+                                onChange={(e) => handleFileChange(e, 'identification')}
+                                className="block w-full text-sm text-gray-500
+                                  file:mr-4 file:py-2 file:px-4
+                                  file:rounded-lg file:border-0
+                                  file:text-sm file:font-medium
+                                  file:bg-[#1D942C]/10 file:text-[#1D942C]
+                                  hover:file:bg-[#1D942C]/20"
+                                accept=".pdf,.jpg,.jpeg,.png"
+                              />
+                              {uploadProgress.identification !== undefined && uploadProgress.identification > 0 && (
+                                <div className="w-24 bg-gray-200 rounded-full h-2.5">
+                                  <div className="bg-[#1D942C] h-2.5 rounded-full" style={{ width: `${uploadProgress.identification}%` }}></div>
+                                </div>
+                              )}
+                              {documents.identification && (
+                                <span className="text-sm text-[#1D942C]">✓ Uploaded</span>
+                              )}
+                            </div>
+                          </div>
+                          
+                          {/* Financial Statements - for all */}
+                          <div className="border border-gray-200 rounded-lg p-4">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Financial Statements</label>
+                            <div className="flex items-center gap-4">
+                              <input
+                                type="file"
+                                onChange={(e) => handleFileChange(e, 'financialStatements')}
+                                className="block w-full text-sm text-gray-500
+                                  file:mr-4 file:py-2 file:px-4
+                                  file:rounded-lg file:border-0
+                                  file:text-sm file:font-medium
+                                  file:bg-[#1D942C]/10 file:text-[#1D942C]
+                                  hover:file:bg-[#1D942C]/20"
+                                accept=".pdf,.doc,.docx,.xls,.xlsx"
+                              />
+                              {uploadProgress.financialStatements !== undefined && uploadProgress.financialStatements > 0 && (
+                                <div className="w-24 bg-gray-200 rounded-full h-2.5">
+                                  <div className="bg-[#1D942C] h-2.5 rounded-full" style={{ width: `${uploadProgress.financialStatements}%` }}></div>
+                                </div>
+                              )}
+                              {documents.financialStatements && (
+                                <span className="text-sm text-[#1D942C]">✓ Uploaded</span>
+                              )}
+                            </div>
+                          </div>
+                          
+                          {/* Proof of Income - for all */}
+                          <div className="border border-gray-200 rounded-lg p-4">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Proof of Income</label>
+                            <div className="flex items-center gap-4">
+                              <input
+                                type="file"
+                                onChange={(e) => handleFileChange(e, 'proofOfIncome')}
+                                className="block w-full text-sm text-gray-500
+                                  file:mr-4 file:py-2 file:px-4
+                                  file:rounded-lg file:border-0
+                                  file:text-sm file:font-medium
+                                  file:bg-[#1D942C]/10 file:text-[#1D942C]
+                                  hover:file:bg-[#1D942C]/20"
+                                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                              />
+                              {uploadProgress.proofOfIncome !== undefined && uploadProgress.proofOfIncome > 0 && (
+                                <div className="w-24 bg-gray-200 rounded-full h-2.5">
+                                  <div className="bg-[#1D942C] h-2.5 rounded-full" style={{ width: `${uploadProgress.proofOfIncome}%` }}></div>
+                                </div>
+                              )}
+                              {documents.proofOfIncome && (
+                                <span className="text-sm text-[#1D942C]">✓ Uploaded</span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className="flex justify-between mt-8">
+                      <button
+                        type="button"
+                        onClick={prevStep}
+                        className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                      >
+                        Previous Step
+                      </button>
+                      <button
+                        type="button"
+                        onClick={nextStep}
+                        disabled={!applicantType}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors shadow-md ${
+                          !applicantType 
+                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                            : 'bg-[#1D942C] text-white hover:bg-[#167623]'
+                        }`}
+                      >
+                        Next Step
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Step 3: Financial Information */}
+                {currentStep === 3 && (
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-6">Financial Information</h3>
                     
                     <div className="mb-6">
                       <label htmlFor="employmentStatus" className="block text-sm font-medium text-gray-700 mb-2">
@@ -462,131 +880,108 @@ function LoanApplicationContent() {
                         </div>
                       </div>
                     </div>
+                    
+                    <div className="flex justify-between mt-8">
+                      <button
+                        type="button"
+                        onClick={prevStep}
+                        className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                      >
+                        Previous Step
+                      </button>
+                      <button
+                        type="button"
+                        onClick={nextStep}
+                        className="px-6 py-3 bg-[#1D942C] text-white rounded-lg font-medium hover:bg-[#167623] transition-colors shadow-md"
+                      >
+                        Next Step
+                      </button>
+                    </div>
                   </div>
                 )}
-
-                {/* Step 3: Loan Purpose & Agreement */}
-                {currentStep === 3 && (
+                
+                {currentStep === 4 && (
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Loan Purpose & Agreement</h2>
+                    <h3 className="text-xl font-bold text-gray-900 mb-6">Review & Submit</h3>
+                    
+                    <div className="bg-gradient-to-r from-[#1D942C]/10 to-white p-6 rounded-lg mb-6">
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4">Loan Summary</h4>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className="bg-white p-4 rounded-lg shadow-sm">
+                          <p className="text-sm text-gray-500">Loan Amount</p>
+                          <p className="text-xl font-bold text-[#1D942C]">${loanAmount.toLocaleString()}</p>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg shadow-sm">
+                          <p className="text-sm text-gray-500">Term</p>
+                          <p className="text-xl font-bold text-[#1D942C]">{loanTerm} months</p>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg shadow-sm">
+                          <p className="text-sm text-gray-500">Interest Rate</p>
+                          <p className="text-xl font-bold text-[#1D942C]">{interestRate}%</p>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg shadow-sm">
+                          <p className="text-sm text-gray-500">Monthly Payment</p>
+                          <p className="text-xl font-bold text-[#1D942C]">${monthlyPayment.toFixed(2)}</p>
+                        </div>
+                      </div>
+                    </div>
                     
                     <div className="mb-6">
-                      <label htmlFor="loanPurpose" className="block text-sm font-medium text-gray-700 mb-2">
-                        Loan Purpose *
-                      </label>
-                      <select
-                        id="loanPurpose"
-                        name="loanPurpose"
-                        value={formData.loanPurpose}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-[#1D942C] focus:border-[#1D942C]"
-                      >
-                        <option value="business">Start a Business</option>
-                        <option value="expansion">Business Expansion</option>
-                        <option value="equipment">Equipment Purchase</option>
-                        <option value="inventory">Inventory Purchase</option>
-                        <option value="education">Education</option>
-                        <option value="other">Other</option>
-                      </select>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4">Applicant Type</h4>
+                      <div className="bg-white p-4 rounded-lg border border-gray-200">
+                        <p className="font-medium text-[#1D942C]">{applicantType}</p>
+                      </div>
                     </div>
-
+                    
                     <div className="mb-6">
-                      <label htmlFor="businessDescription" className="block text-sm font-medium text-gray-700 mb-2">
-                        Business/Project Description *
-                      </label>
-                      <textarea
-                        id="businessDescription"
-                        name="businessDescription"
-                        value={formData.businessDescription}
-                        onChange={handleInputChange}
-                        required
-                        rows={4}
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-[#1D942C] focus:border-[#1D942C]"
-                        placeholder="Please describe your business or project and how this loan will help you achieve your goals..."
-                      ></textarea>
+                      <div className="flex items-center">
+                        <input
+                          id="agreeToTerms"
+                          name="agreeToTerms"
+                          type="checkbox"
+                          checked={formData.agreeToTerms}
+                          onChange={handleInputChange}
+                          required
+                          className="h-5 w-5 text-[#1D942C] focus:ring-[#1D942C]"
+                        />
+                        <label htmlFor="agreeToTerms" className="ml-2 block text-sm text-gray-700">
+                          I agree to the <a href="#" className="text-[#1D942C] hover:underline">terms and conditions</a> and <a href="#" className="text-[#1D942C] hover:underline">privacy policy</a>. *
+                        </label>
+                      </div>
                     </div>
-
-                    <div className="mb-8 bg-gray-50 p-6 rounded-lg border border-gray-200">
-                      <h3 className="text-lg font-medium text-gray-900 mb-4">Terms and Conditions</h3>
-                      <div className="max-h-40 overflow-y-auto mb-4 text-sm text-gray-600 p-4 bg-white rounded border border-gray-200">
-                        <p className="mb-2">By submitting this application, you agree to the following terms:</p>
-                        <ol className="list-decimal pl-5 space-y-2">
-                          <li>All information provided is accurate and complete to the best of your knowledge.</li>
-                          <li>You authorize Roberto Save Dreams Foundation to verify any information provided.</li>
-                          <li>You understand that loan approval is subject to eligibility criteria and availability of funds.</li>
-                          <li>The loan will be used solely for the purpose stated in this application.</li>
-                          <li>You agree to repay the loan according to the agreed-upon schedule.</li>
-                          <li>You understand that failure to repay may result in legal action and affect your credit score.</li>
-                          <li>You will participate in any required training or mentorship programs associated with the loan.</li>
-                        </ol>
-                      </div>
-                      <div className="flex items-start">
-                        <div className="flex items-center h-5">
-                          <input
-                            id="agreeToTerms"
-                            name="agreeToTerms"
-                            type="checkbox"
-                            checked={formData.agreeToTerms}
-                            onChange={handleInputChange}
-                            required
-                            className="h-4 w-4 text-[#1D942C] border-gray-300 rounded focus:ring-[#1D942C]"
-                          />
-                        </div>
-                        <div className="ml-3 text-sm">
-                          <label htmlFor="agreeToTerms" className="font-medium text-gray-700">
-                            I agree to the terms and conditions *
-                          </label>
-                        </div>
-                      </div>
+                    
+                    <div className="flex justify-between mt-8">
+                      <button
+                        type="button"
+                        onClick={prevStep}
+                        className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                      >
+                        Previous Step
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={isSubmitting || !formData.agreeToTerms}
+                        className={`px-6 py-3 rounded-lg font-medium transition-colors shadow-md ${
+                          isSubmitting || !formData.agreeToTerms
+                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                            : 'bg-[#1D942C] text-white hover:bg-[#167623]'
+                        }`}
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Processing...
+                          </>
+                        ) : (
+                          'Submit Application'
+                        )}
+                      </button>
                     </div>
                   </div>
                 )}
-
-                {/* Navigation Buttons */}
-                <div className="flex justify-between mt-8">
-                  {currentStep > 1 ? (
-                    <button
-                      type="button"
-                      onClick={prevStep}
-                      className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200"
-                    >
-                      Previous
-                    </button>
-                  ) : (
-                    <div></div>
-                  )}
-                  
-                  {currentStep < 3 ? (
-                    <button
-                      type="button"
-                      onClick={nextStep}
-                      className="px-6 py-3 bg-[#1D942C] text-white rounded-lg hover:bg-[#167623] transition-colors duration-200"
-                    >
-                      Next
-                    </button>
-                  ) : (
-                    <button
-                      type="submit"
-                      disabled={isSubmitting || !formData.agreeToTerms}
-                      className={`px-8 py-3 bg-[#1D942C] text-white rounded-lg transition-colors duration-200 flex items-center ${
-                        isSubmitting || !formData.agreeToTerms ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[#167623]'
-                      }`}
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          Processing...
-                        </>
-                      ) : (
-                        'Submit Application'
-                      )}
-                    </button>
-                  )}
-                </div>
               </form>
             </motion.div>
           ) : (
