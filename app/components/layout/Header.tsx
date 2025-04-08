@@ -17,6 +17,7 @@ const navItems = [
       { name: 'Get Involved', href: '/get-involved' },
       { name: 'Donate', href: '/donate' },
       { name: 'Grants', href: '/grants' },
+      { name: 'Fund', href: '/fund' },
     ]
   },
   { name: 'Success Stories', href: '/success-stories' },
