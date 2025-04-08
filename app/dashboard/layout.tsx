@@ -169,6 +169,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       text: 'Loans',
       subItems: [
         { href: '/dashboard/loanapplications', text: 'Loan Applications' },
+        { href: '/dashboard/grantapplications', text: 'Grant Applications' },
         { href: '/dashboard/investments', text: 'Investment Applications' },
       ],
     },
