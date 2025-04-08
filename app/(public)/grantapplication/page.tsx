@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { FiUpload, FiCheck, FiEdit } from 'react-icons/fi';
 import { BsBuilding, BsPerson, BsCalendar } from 'react-icons/bs';
 import PageHeader from '@/app/components/PageHeader';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 // Grant applicant types and their required documents
 const applicantTypes = [
@@ -191,11 +193,150 @@ export default function GrantApplicationPage() {
   
   return (
     <div className="min-h-screen bg-gray-50">
-      <PageHeader
-        title="Grant Application"
-        description="Apply for funding for your community project or initiative."
-        image="/images/hero-bg.jpg"
-      />
+      {/* Hero Section */}
+      <section className="relative min-h-[80vh] bg-[#1D942C] overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0">
+          <motion.div 
+            className="absolute top-0 right-0 w-[400px] sm:w-[800px] h-[400px] sm:h-[800px] rounded-full bg-white/10 blur-3xl"
+            animate={{ 
+              scale: [1, 1.2, 1],
+              opacity: [0.1, 0.05, 0.1],
+              rotate: [0, 45, 0]
+            }}
+            transition={{ 
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <motion.div 
+            className="absolute -bottom-16 -left-16 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] rounded-full bg-white/10 blur-3xl"
+            animate={{ 
+              scale: [1, 1.3, 1],
+              opacity: [0.05, 0.1, 0.05]
+            }}
+            transition={{ 
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1
+            }}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="h-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-8 md:gap-12 py-12 md:py-0 md:pt-14">
+            {/* Text Content */}
+            <motion.div 
+              className="w-full md:w-1/2 text-center md:text-left"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4 sm:mb-6">
+                  Grant <span className="block text-[#ffc500]">Application</span>
+                </h1>
+                <p className="text-lg sm:text-xl md:text-2xl text-white/90 leading-relaxed max-w-2xl mx-auto md:mx-0 mb-6 sm:mb-8">
+                  Apply for funding for your community project or initiative. Complete the form below to submit your application.
+                </p>
+              </motion.div>
+
+              <motion.div 
+                className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                <a 
+                  href="https://qrwse.s3.us-east-1.amazonaws.com/RSDF+-+MICROLOANS+AND+GRANTS+-+REQUIREMENTS+AND+CRITERIA+(2).pdf"
+                  target="_blank"
+                  rel="noopener noreferrer" 
+                  className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-[#1D942C] border-2 border-white rounded-lg shadow-lg hover:bg-opacity-90 transform hover:-translate-y-1 transition-all duration-300 text-base sm:text-lg w-full sm:w-auto text-center"
+                >
+                  View Requirements
+                </a>
+              </motion.div>
+            </motion.div>
+
+            {/* Hero Image/Stats */}
+            <motion.div 
+              className="w-full md:w-1/2 px-4 sm:px-0"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <div className="relative h-[300px] sm:h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src="/images/hero/grant-application.jpg"
+                  alt="Grant Application"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent" />
+                
+                {/* Floating Stats - Updated for better mobile visibility */}
+                <motion.div 
+                  className="absolute top-4 right-4 bg-white rounded-xl p-3 sm:p-4 shadow-lg"
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 1, duration: 0.5 }}
+                >
+                  <p className="text-2xl sm:text-3xl font-bold text-[#1D942C]">5</p>
+                  <p className="text-xs sm:text-sm text-gray-600">Grant Types</p>
+                </motion.div>
+                
+                <motion.div 
+                  className="absolute bottom-4 left-4 bg-white rounded-xl p-3 sm:p-4 shadow-lg"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 1.2, duration: 0.5 }}
+                >
+                  <p className="text-xs sm:text-sm text-gray-600 mb-1">Typical Review Time</p>
+                  <p className="text-xl sm:text-2xl font-bold text-[#1D942C]">7-14 Days</p>
+                </motion.div>
+                
+                <motion.div 
+                  className="absolute bottom-4 right-4 bg-white rounded-xl p-3 sm:p-4 shadow-lg"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 1.4, duration: 0.5 }}
+                >
+                  <p className="text-xs sm:text-sm text-gray-600 mb-1">Success Rate</p>
+                  <p className="text-xl sm:text-2xl font-bold text-[#ffc500]">40%</p>
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <motion.div 
+          className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2 }}
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white rounded-full flex items-center justify-center bg-white/10"
+          >
+            <motion.div
+              animate={{ height: [6, 14, 6] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-1 bg-white rounded-full"
+            />
+          </motion.div>
+        </motion.div>
+      </section>
       
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {successMessage ? (
