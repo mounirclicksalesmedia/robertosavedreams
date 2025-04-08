@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FiDownload, FiChevronDown, FiChevronUp, FiCalendar, FiDollarSign, FiPercent } from 'react-icons/fi';
-import PageHeader from '@/app/components/PageHeader';
 
 // Define the types of grants available
 const availableGrants = [
@@ -92,9 +91,9 @@ const availableGrants = [
 
 export default function GrantsPage() {
   const [expandedGrant, setExpandedGrant] = useState<string | null>(null);
-  const [loanAmount, setLoanAmount] = useState(50000);
-  const [loanTerm, setLoanTerm] = useState(12);
-  const [interestRate] = useState(4.68);
+  const [grantAmount, setGrantAmount] = useState(25000);
+  const [projectDuration, setProjectDuration] = useState(12);
+  const [impactScore, setImpactScore] = useState(7);
 
   // Toggle grant expansion
   const toggleGrant = (id: string) => {
@@ -105,23 +104,23 @@ export default function GrantsPage() {
     }
   };
 
-  // Calculate monthly payment for loan calculator
-  const calculateMonthlyPayment = () => {
-    const principal = loanAmount;
-    const monthlyRate = interestRate / 100 / 12;
-    const payments = loanTerm;
+  // Calculate estimated impact for grant calculator
+  const calculateEstimatedImpact = () => {
+    const baseImpact = grantAmount / 500; // Base impact measured in people helped
+    const durationFactor = Math.sqrt(projectDuration) / 2;
+    const impactMultiplier = impactScore / 5;
     
-    const x = Math.pow(1 + monthlyRate, payments);
-    const monthly = (principal * x * monthlyRate) / (x - 1);
+    const totalImpact = baseImpact * durationFactor * impactMultiplier;
     
-    return isFinite(monthly) ? monthly.toFixed(2) : '0.00';
+    return Math.round(totalImpact);
   };
 
-  // Calculate total repayment
-  const calculateTotalRepayment = () => {
-    const monthlyPayment = parseFloat(calculateMonthlyPayment());
-    const totalRepayment = monthlyPayment * loanTerm;
-    return isFinite(totalRepayment) ? totalRepayment.toFixed(2) : '0.00';
+  // Calculate sustainability score
+  const calculateSustainabilityScore = () => {
+    const base = (projectDuration / 12) * 2.5;
+    const modifier = (impactScore / 10) * 1.5;
+    const score = base + modifier;
+    return Math.min(Math.max(score, 1), 10).toFixed(1);
   };
 
   // Animation variants
@@ -141,12 +140,87 @@ export default function GrantsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <PageHeader
-        title="Grant Programs"
-        description="Funding opportunities to support transformative community initiatives"
-        image="/images/hero-bg.jpg"
-      />
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="relative h-[80vh] bg-gradient-to-br from-[#1D942C] to-[#167623] overflow-hidden">
+        <div className="absolute inset-0 bg-black/20" />
+        
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0">
+          <motion.div 
+            className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full bg-[#ffc500]/20 blur-3xl"
+            animate={{ 
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.2, 0.3],
+              rotate: [0, 45, 0]
+            }}
+            transition={{ 
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <motion.div 
+            className="absolute -bottom-32 -left-32 w-[600px] h-[600px] rounded-full bg-[#1D942C]/20 blur-3xl"
+            animate={{ 
+              scale: [1, 1.3, 1],
+              opacity: [0.2, 0.3, 0.2]
+            }}
+            transition={{ 
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1
+            }}
+          />
+        </div>
+
+        <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center max-w-3xl mx-auto"
+          >
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+              Grant Programs
+              <span className="block text-[#ffc500] mt-2">Funding For Impact</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-white/90">
+              Supporting initiatives that create lasting positive change in communities
+            </p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <Link href="/grantapplication" className="mt-8 inline-block bg-[#ffc500] text-[#1D942C] px-8 py-4 rounded-xl font-bold text-lg hover:bg-[#ffd23d] transform hover:-translate-y-1 transition-all duration-300">
+                Apply for a Grant
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <motion.div 
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2 }}
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="w-6 h-10 border-2 border-white/50 rounded-full flex items-center justify-center"
+          >
+            <motion.div
+              animate={{ height: [6, 14, 6] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-1 bg-white/50 rounded-full"
+            />
+          </motion.div>
+        </motion.div>
+      </section>
       
       <div className="container mx-auto px-4 py-16">
         {/* Introduction Section */}
@@ -162,9 +236,6 @@ export default function GrantsPage() {
             The Roberto Save Dreams Foundation is committed to providing financial support to initiatives that create lasting positive change. 
             Our grant programs are designed to empower communities, foster innovation, and address critical social challenges.
           </p>
-          <Link href="/grantapplication" className="inline-flex items-center justify-center px-6 py-3 bg-[#1D942C] text-white font-medium rounded-lg hover:bg-[#167623] transition-colors">
-            Apply for a Grant
-          </Link>
         </motion.div>
         
         {/* Requirements Download Section */}
@@ -267,7 +338,7 @@ export default function GrantsPage() {
           </div>
         </motion.div>
         
-        {/* Loan Calculator Section */}
+        {/* Grant Calculator Section */}
         <motion.div 
           className="bg-white rounded-xl shadow-md p-8 max-w-4xl mx-auto"
           initial="hidden"
@@ -275,10 +346,10 @@ export default function GrantsPage() {
           viewport={{ once: true }}
           variants={fadeIn}
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Loan Calculator</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Grant Impact Calculator</h2>
           <p className="text-gray-700 mb-8">
-            In addition to grants, we also offer low-interest loans to qualified organizations and individuals. 
-            Use our calculator to estimate monthly payments and total repayment amounts.
+            Use our calculator to estimate the potential impact of your grant project based on funding amount, 
+            project duration, and anticipated impact score.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -287,22 +358,22 @@ export default function GrantsPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <div className="flex items-center">
                     <FiDollarSign className="mr-2" />
-                    Loan Amount
+                    Grant Amount
                   </div>
                 </label>
                 <input
                   type="range"
                   min="5000"
-                  max="1000000"
+                  max="150000"
                   step="5000"
-                  value={loanAmount}
-                  onChange={(e) => setLoanAmount(Number(e.target.value))}
+                  value={grantAmount}
+                  onChange={(e) => setGrantAmount(Number(e.target.value))}
                   className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                 />
                 <div className="flex justify-between mt-2">
                   <span className="text-sm text-gray-500">$5,000</span>
-                  <span className="text-sm font-medium text-gray-900">${loanAmount.toLocaleString()}</span>
-                  <span className="text-sm text-gray-500">$1,000,000</span>
+                  <span className="text-sm font-medium text-gray-900">${grantAmount.toLocaleString()}</span>
+                  <span className="text-sm text-gray-500">$150,000</span>
                 </div>
               </div>
               
@@ -310,22 +381,22 @@ export default function GrantsPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <div className="flex items-center">
                     <FiCalendar className="mr-2" />
-                    Loan Term (months)
+                    Project Duration (months)
                   </div>
                 </label>
                 <input
                   type="range"
-                  min="6"
-                  max="60"
-                  step="6"
-                  value={loanTerm}
-                  onChange={(e) => setLoanTerm(Number(e.target.value))}
+                  min="3"
+                  max="36"
+                  step="3"
+                  value={projectDuration}
+                  onChange={(e) => setProjectDuration(Number(e.target.value))}
                   className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                 />
                 <div className="flex justify-between mt-2">
-                  <span className="text-sm text-gray-500">6 months</span>
-                  <span className="text-sm font-medium text-gray-900">{loanTerm} months</span>
-                  <span className="text-sm text-gray-500">60 months</span>
+                  <span className="text-sm text-gray-500">3 months</span>
+                  <span className="text-sm font-medium text-gray-900">{projectDuration} months</span>
+                  <span className="text-sm text-gray-500">36 months</span>
                 </div>
               </div>
               
@@ -333,47 +404,66 @@ export default function GrantsPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <div className="flex items-center">
                     <FiPercent className="mr-2" />
-                    Interest Rate
+                    Impact Score (1-10)
                   </div>
                 </label>
-                <div className="flex items-center">
-                  <span className="text-lg font-medium text-gray-900">{interestRate}%</span>
-                  <span className="ml-2 text-sm text-gray-500">Fixed rate for all qualified applicants</span>
+                <input
+                  type="range"
+                  min="1"
+                  max="10"
+                  step="1"
+                  value={impactScore}
+                  onChange={(e) => setImpactScore(Number(e.target.value))}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                />
+                <div className="flex justify-between mt-2">
+                  <span className="text-sm text-gray-500">Low Impact (1)</span>
+                  <span className="text-sm font-medium text-gray-900">{impactScore}</span>
+                  <span className="text-sm text-gray-500">High Impact (10)</span>
                 </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  Impact score reflects the expected reach and effectiveness of your project based on your methodology and target population.
+                </p>
               </div>
             </div>
             
             <div className="bg-gray-50 p-6 rounded-xl">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Summary</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-6">Impact Analysis</h3>
               
               <div className="space-y-4">
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Loan Amount:</span>
-                  <span className="font-medium text-gray-900">${loanAmount.toLocaleString()}</span>
+                  <span className="text-gray-700">Grant Amount:</span>
+                  <span className="font-medium text-gray-900">${grantAmount.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Loan Term:</span>
-                  <span className="font-medium text-gray-900">{loanTerm} months</span>
+                  <span className="text-gray-700">Project Duration:</span>
+                  <span className="font-medium text-gray-900">{projectDuration} months</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Interest Rate:</span>
-                  <span className="font-medium text-gray-900">{interestRate}%</span>
+                  <span className="text-gray-700">Impact Score:</span>
+                  <span className="font-medium text-gray-900">{impactScore}/10</span>
                 </div>
                 <div className="border-t border-gray-200 pt-4 mt-4">
                   <div className="flex justify-between">
-                    <span className="text-gray-700">Monthly Payment:</span>
-                    <span className="font-bold text-xl text-gray-900">${calculateMonthlyPayment()}</span>
+                    <span className="text-gray-700">Estimated People Impacted:</span>
+                    <span className="font-bold text-xl text-gray-900">{calculateEstimatedImpact().toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between mt-2">
-                    <span className="text-gray-700">Total Repayment:</span>
-                    <span className="font-medium text-gray-900">${calculateTotalRepayment()}</span>
+                    <span className="text-gray-700">Sustainability Score:</span>
+                    <span className="font-medium text-gray-900">{calculateSustainabilityScore()}/10</span>
+                  </div>
+                  <div className="flex justify-between mt-2">
+                    <span className="text-gray-700">Cost per Person:</span>
+                    <span className="font-medium text-gray-900">
+                      ${(grantAmount / calculateEstimatedImpact()).toFixed(2)}
+                    </span>
                   </div>
                 </div>
               </div>
               
               <div className="mt-8">
-                <Link href="/loanapplication" className="w-full inline-flex items-center justify-center px-6 py-3 bg-[#1D942C] text-white font-medium rounded-lg hover:bg-[#167623] transition-colors">
-                  Apply for a Loan
+                <Link href="/grantapplication" className="w-full inline-flex items-center justify-center px-6 py-3 bg-[#1D942C] text-white font-medium rounded-lg hover:bg-[#167623] transition-colors">
+                  Apply for a Grant
                 </Link>
               </div>
             </div>
