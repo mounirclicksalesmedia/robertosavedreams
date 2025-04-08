@@ -16,7 +16,7 @@ const navItems = [
     dropdown: [
       { name: 'Get Involved', href: '/get-involved' },
       { name: 'Donate', href: '/donate' },
-      { name: 'Grants & Funding', href: '/grants' },
+      { name: 'Grants', href: '/grants' },
     ]
   },
   { name: 'Success Stories', href: '/success-stories' },
