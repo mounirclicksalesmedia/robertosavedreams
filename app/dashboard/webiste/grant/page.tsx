@@ -25,6 +25,7 @@ interface GrantsContent {
     icon: string;
     iconColor: string;
     requirements: string[];
+    documents: string[];
   }>;
   applicationProcess: {
     title: string;
@@ -97,7 +98,8 @@ export default function GrantsEditor() {
             description: grant.description || '',
             icon: grant.icon || '',
             iconColor: grant.iconColor || '#1D942C',
-            requirements: Array.isArray(grant.requirements) ? grant.requirements : []
+            requirements: Array.isArray(grant.requirements) ? grant.requirements : [],
+            documents: Array.isArray(grant.documents) ? grant.documents : []
           })) : [],
           applicationProcess: {
             title: data.applicationProcess?.title || '',
@@ -343,7 +345,8 @@ export default function GrantsEditor() {
                   description: '',
                   icon: '',
                   iconColor: '#1D942C',
-                  requirements: []
+                  requirements: [],
+                  documents: []
                 })}
                 className="flex items-center text-[#1D942C] hover:text-[#167623]"
               >

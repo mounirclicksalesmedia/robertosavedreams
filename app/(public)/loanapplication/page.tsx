@@ -124,15 +124,15 @@ function LoanApplicationContent() {
 
   const nextStep = () => {
     if (currentStep < 4) {
-      setCurrentStep(currentStep + 1);
-      window.scrollTo(0, 0);
+    setCurrentStep(currentStep + 1);
+    window.scrollTo(0, 0);
     }
   };
 
   const prevStep = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-      window.scrollTo(0, 0);
+    setCurrentStep(currentStep - 1);
+    window.scrollTo(0, 0);
     }
   };
 
@@ -899,7 +899,7 @@ function LoanApplicationContent() {
                     </div>
                   </div>
                 )}
-                
+
                 {currentStep === 4 && (
                   <div>
                     <h3 className="text-xl font-bold text-gray-900 mb-6">Review & Submit</h3>
@@ -925,61 +925,61 @@ function LoanApplicationContent() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="mb-6">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4">Applicant Type</h4>
                       <div className="bg-white p-4 rounded-lg border border-gray-200">
                         <p className="font-medium text-[#1D942C]">{applicantType}</p>
-                      </div>
                     </div>
+                      </div>
                     
                     <div className="mb-6">
                       <div className="flex items-center">
-                        <input
-                          id="agreeToTerms"
-                          name="agreeToTerms"
-                          type="checkbox"
-                          checked={formData.agreeToTerms}
-                          onChange={handleInputChange}
-                          required
+                          <input
+                            id="agreeToTerms"
+                            name="agreeToTerms"
+                            type="checkbox"
+                            checked={formData.agreeToTerms}
+                            onChange={handleInputChange}
+                            required
                           className="h-5 w-5 text-[#1D942C] focus:ring-[#1D942C]"
                         />
                         <label htmlFor="agreeToTerms" className="ml-2 block text-sm text-gray-700">
                           I agree to the <a href="#" className="text-[#1D942C] hover:underline">terms and conditions</a> and <a href="#" className="text-[#1D942C] hover:underline">privacy policy</a>. *
-                        </label>
+                          </label>
+                        </div>
                       </div>
-                    </div>
-                    
-                    <div className="flex justify-between mt-8">
-                      <button
-                        type="button"
-                        onClick={prevStep}
+
+                <div className="flex justify-between mt-8">
+                    <button
+                      type="button"
+                      onClick={prevStep}
                         className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
-                      >
+                    >
                         Previous Step
-                      </button>
-                      <button
-                        type="submit"
-                        disabled={isSubmitting || !formData.agreeToTerms}
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !formData.agreeToTerms}
                         className={`px-6 py-3 rounded-lg font-medium transition-colors shadow-md ${
                           isSubmitting || !formData.agreeToTerms
                             ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                             : 'bg-[#1D942C] text-white hover:bg-[#167623]'
-                        }`}
-                      >
-                        {isSubmitting ? (
-                          <>
+                      }`}
+                    >
+                      {isSubmitting ? (
+                        <>
                             <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            Processing...
-                          </>
-                        ) : (
-                          'Submit Application'
-                        )}
-                      </button>
-                    </div>
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Processing...
+                        </>
+                      ) : (
+                        'Submit Application'
+                      )}
+                    </button>
+                </div>
                   </div>
                 )}
               </form>
