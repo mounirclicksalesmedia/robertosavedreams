@@ -15,6 +15,11 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { amount, frequency, donorInfo } = body;
 
+    // Validate amount - ensure it's at least 0.01
+    const validAmount = Math.max(parseFloat(amount) || 1, 0.01).toFixed(2);
+    
+    console.log('Processing payment with amount:', validAmount);
+
     // Generate a unique order ID
     const orderId = `DON-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
 
@@ -26,8 +31,8 @@ export async function POST(req: Request) {
     // Directly try PesaPal IPN registration URL to simulate a payment
     // This is a fallback approach that bypasses the complex OAuth flow
     try {
-      // Create simplified payment URL
-      const paymentUrl = `https://pay.pesapal.com/iframe/PesapalIframe3/Index?OrderTrackingId=${orderId}&pesapal_merchant_reference=${orderId}`;
+      // Create simplified payment URL with explicitly defined amount parameter
+      const paymentUrl = `https://pay.pesapal.com/iframe/PesapalIframe3/Index?OrderTrackingId=${orderId}&pesapal_merchant_reference=${orderId}&amount=${validAmount}`;
       
       // Save payment info to your database here if needed
       
@@ -62,8 +67,8 @@ export async function POST(req: Request) {
           const textResponse = await authResponse.text();
           console.error('Non-JSON response from PesaPal Auth:', textResponse.substring(0, 200));
           
-          // Try alternative payment URL format
-          const alternativePaymentUrl = `https://pay.pesapal.com/v3/?OrderTrackingId=${orderId}&PesapalMerchantReference=${orderId}&PesapalMerchantURL=${encodeURIComponent(process.env.NEXT_PUBLIC_BASE_URL || 'https://robertosavedreamsfoundation.org')}/donate/thank-you`;
+          // Also update the alternative payment URL with the valid amount
+          const alternativePaymentUrl = `https://pay.pesapal.com/v3/?OrderTrackingId=${orderId}&PesapalMerchantReference=${orderId}&Amount=${validAmount}&PesapalMerchantURL=${encodeURIComponent(process.env.NEXT_PUBLIC_BASE_URL || 'https://robertosavedreamsfoundation.org')}/donate/thank-you`;
           
           return NextResponse.json({
             success: true,
@@ -84,11 +89,11 @@ export async function POST(req: Request) {
           });
         }
 
-        // Create order with the token
+        // Update the order payload to use the valid amount
         const orderPayload = {
           id: orderId,
           currency: 'USD',
-          amount: amount.toString(),
+          amount: validAmount,
           description: `${frequency === 'one-time' ? 'One-time' : 'Monthly'} donation to Roberto Save Dreams Foundation`,
           callback_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://robertosavedreamsfoundation.org'}/donate/thank-you`,
           notification_id: `notify-${orderId}`,
