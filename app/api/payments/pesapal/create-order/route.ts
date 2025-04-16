@@ -5,9 +5,10 @@ const PESAPAL_CONSUMER_KEY = process.env.PESAPAL_CONSUMER_KEY || 'dAuxF1mPZ48Ikd
 const PESAPAL_CONSUMER_SECRET = process.env.PESAPAL_CONSUMER_SECRET || 'kl48WutzfDiLtFxz4LwsGEPWsMs=';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
+// The correct API URLs for PesaPal
 const PESAPAL_API_URL = IS_PRODUCTION 
-  ? 'https://pay.pesapal.com/pesapalv3'
-  : 'https://cybqa.pesapal.com/pesapalv3';
+  ? 'https://pay.pesapal.com/v3'  // Production URL
+  : 'https://cybqa.pesapal.com/v3'; // Sandbox URL
 
 export async function POST(req: Request) {
   try {
@@ -16,6 +17,11 @@ export async function POST(req: Request) {
 
     // Generate a unique order ID
     const orderId = `DON-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+
+    console.log('Using PesaPal credentials:', {
+      consumer_key: PESAPAL_CONSUMER_KEY,
+      url: PESAPAL_API_URL
+    });
 
     // First, get the auth token
     const authResponse = await fetch(`${PESAPAL_API_URL}/api/Auth/RequestToken`, {
@@ -30,6 +36,18 @@ export async function POST(req: Request) {
       })
     });
 
+    // Check if the response is valid JSON
+    const contentType = authResponse.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const textResponse = await authResponse.text();
+      console.error('Non-JSON response from PesaPal Auth:', textResponse.substring(0, 200));
+      return NextResponse.json({ 
+        success: false, 
+        message: 'Invalid response from payment provider',
+        error: 'Received non-JSON response'
+      });
+    }
+
     const authData = await authResponse.json();
     console.log('Auth Response:', authData);
 
@@ -37,7 +55,7 @@ export async function POST(req: Request) {
       console.error('PesaPal Auth Error:', authData);
       return NextResponse.json({ 
         success: false, 
-        message: 'Failed to authenticate with PesaPal',
+        message: 'Failed to authenticate with PesaPal. Please check API credentials.',
         error: authData 
       });
     }
@@ -70,6 +88,18 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify(orderPayload)
     });
+
+    // Check if the order response is valid JSON
+    const orderContentType = orderResponse.headers.get('content-type');
+    if (!orderContentType || !orderContentType.includes('application/json')) {
+      const textResponse = await orderResponse.text();
+      console.error('Non-JSON response from PesaPal Order:', textResponse.substring(0, 200));
+      return NextResponse.json({ 
+        success: false, 
+        message: 'Invalid order response from payment provider',
+        error: 'Received non-JSON response'
+      });
+    }
 
     const orderData = await orderResponse.json();
     console.log('Order Response:', orderData);
