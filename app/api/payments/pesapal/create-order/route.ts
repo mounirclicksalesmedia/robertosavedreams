@@ -4,12 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 // Define constants
 const PESAPAL_CONSUMER_KEY = 'qkio1BGGYAXTu2JOfm7XSXNruoZsrqEW';
 const PESAPAL_CONSUMER_SECRET = 'osGQ364R49cXKeOYSpaOnT++rHs=';
-const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+// Force production mode to get live PesaPal payments
+const IS_PRODUCTION = true; //process.env.NODE_ENV === 'production';
 
-// Use the correct base URLs for sandbox (testing) and production environments
-const PESAPAL_API_URL = IS_PRODUCTION 
-  ? 'https://pay.pesapal.com/pesapalv3/api'
-  : 'https://cybqa.pesapal.com/pesapalv3/api';
+// Use the correct base URLs for production only
+const PESAPAL_API_URL = 'https://pay.pesapal.com/pesapalv3/api';
 
 // Define base URL for callbacks
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://robertosavedreamsfoundation.org';
@@ -166,10 +165,8 @@ export async function POST(req: Request) {
         console.log('Falling back to direct iframe payment URL...');
         
         // Use iframe URL directly - try a simpler approach
-        // For sandbox, use the /iframe direct URL which should work reliably
-        const directUrl = IS_PRODUCTION
-          ? 'https://pay.pesapal.com/iframe' // Production iframe
-          : 'https://cybqa.pesapal.com/pesapalv3/iframe'; // Sandbox iframe
+        // For production, use the /iframe direct URL which should work for live payments
+        const directUrl = 'https://pay.pesapal.com/iframe'; // Always use production iframe
           
         // Generate a simple form with minimal parameters
         const formFields = {
@@ -245,9 +242,7 @@ export async function POST(req: Request) {
       
       // Use iframe URL directly - try a simpler approach
       // This is the correct URL format for Pesapal payments
-      const directUrl = IS_PRODUCTION
-        ? 'https://pay.pesapal.com/iframe' // Production iframe
-        : 'https://cybqa.pesapal.com/pesapalv3/iframe'; // Sandbox iframe
+      const directUrl = 'https://pay.pesapal.com/iframe'; // Always use production iframe
           
       // Define callback URL
       const callbackUrl = `${BASE_URL}/donate/thank-you`;

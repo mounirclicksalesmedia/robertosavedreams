@@ -5,12 +5,11 @@ import path from 'path';
 // Define constants - match the ones in create-order
 const PESAPAL_CONSUMER_KEY = 'qkio1BGGYAXTu2JOfm7XSXNruoZsrqEW';
 const PESAPAL_CONSUMER_SECRET = 'osGQ364R49cXKeOYSpaOnT++rHs=';
-const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+// Force production mode to get live PesaPal payments
+const IS_PRODUCTION = true; //process.env.NODE_ENV === 'production';
 
-// Use the correct base URLs for sandbox (testing) and production environments
-const PESAPAL_API_URL = IS_PRODUCTION 
-  ? 'https://pay.pesapal.com/pesapalv3/api'
-  : 'https://cybqa.pesapal.com/pesapalv3/api';
+// Use the correct base URLs for production only
+const PESAPAL_API_URL = 'https://pay.pesapal.com/pesapalv3/api';
 
 // Define data directory for saving transactions
 const dataDir = path.join(process.cwd(), 'data');
