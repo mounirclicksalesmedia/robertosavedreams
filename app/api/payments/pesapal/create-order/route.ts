@@ -8,7 +8,7 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 // Use the correct base URLs for sandbox (testing) and production environments
 const PESAPAL_API_URL = IS_PRODUCTION 
-  ? 'https://pay.pesapal.com/v3/api'
+  ? 'https://pay.pesapal.com/pesapalv3/api'
   : 'https://cybqa.pesapal.com/pesapalv3/api';
 
 // Define base URL for callbacks
@@ -168,7 +168,7 @@ export async function POST(req: Request) {
         // Use sandbox iframe URL as fallback
         // This is the correct URL format for Pesapal sandbox/production payments
         const directUrl = IS_PRODUCTION
-          ? 'https://pay.pesapal.com/v3/api/Transactions/TransactionListener' // Production
+          ? 'https://pay.pesapal.com/pesapalv3/api/Transactions/TransactionListener' // Production
           : 'https://cybqa.pesapal.com/pesapalv3/api/Transactions/TransactionListener'; // Sandbox
           
         // Prepare form data for iframe POST submission
@@ -248,7 +248,7 @@ export async function POST(req: Request) {
       // Use sandbox iframe URL as fallback
       // This is the correct URL format for Pesapal payments
       const directUrl = IS_PRODUCTION
-        ? 'https://pay.pesapal.com/v3/api/Transactions/TransactionListener' // Production
+        ? 'https://pay.pesapal.com/pesapalv3/api/Transactions/TransactionListener' // Production
         : 'https://cybqa.pesapal.com/pesapalv3/api/Transactions/TransactionListener'; // Sandbox
           
       // Define callback URL

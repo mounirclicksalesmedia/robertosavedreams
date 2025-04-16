@@ -9,7 +9,7 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 // Use the correct base URLs for sandbox (testing) and production environments
 const PESAPAL_API_URL = IS_PRODUCTION 
-  ? 'https://pay.pesapal.com/v3/api'
+  ? 'https://pay.pesapal.com/pesapalv3/api'
   : 'https://cybqa.pesapal.com/pesapalv3/api';
 
 // Define data directory for saving transactions
