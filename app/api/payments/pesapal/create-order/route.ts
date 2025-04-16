@@ -118,15 +118,16 @@ export async function POST(req: Request) {
       }
       
       if (!parsedResponse.redirect_url) {
-        throw new Error('No redirect URL in PesaPal response');
+        console.log('No redirect URL in PesaPal response, using iframe fallback...');
+        // Instead of throwing an error, fall back to iframe method directly
+      } else {
+        // Return the redirect URL if it exists
+        return NextResponse.json({
+          success: true,
+          redirectUrl: parsedResponse.redirect_url,
+          orderId: orderId
+        });
       }
-      
-      // Return the redirect URL
-      return NextResponse.json({
-        success: true,
-        redirectUrl: parsedResponse.redirect_url,
-        orderId: orderId
-      });
       
     } catch (apiError: any) {
       console.error('PesaPal API error:', apiError);

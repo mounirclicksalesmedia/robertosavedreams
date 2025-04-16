@@ -460,6 +460,11 @@ export default function DonatePage() {
                 ) : (
                   <div className="mt-6">
                     <h4 className="text-lg font-medium mb-4">Complete Your Donation</h4>
+                    <div className="bg-[#ffc500]/10 rounded-lg p-4 mb-4">
+                      <p className="text-sm text-gray-700">
+                        You'll be redirected to PesaPal's secure payment page to complete your donation. PesaPal accepts credit/debit cards and mobile payments.
+                      </p>
+                    </div>
                     <PesapalPayment
                       amount={donationAmount}
                       frequency={donationFrequency}
@@ -472,6 +477,13 @@ export default function DonatePage() {
                       onSuccess={handlePaymentSuccess}
                       onError={handlePaymentError}
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPaymentForm(false)}
+                      className="w-full mt-4 py-3 px-4 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                    >
+                      Back
+                    </button>
                   </div>
                 )}
               </div>

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import VideoPlayer from './components/ui/VideoPlayer';
-import LencoPayment from './components/LencoPayment';
+import PesapalPayment from './components/PesapalPayment';
 
 // Define content interface
 interface HomeContent {
@@ -1226,7 +1226,12 @@ export default function Home() {
                     
                     <div className="bg-white rounded-xl border border-gray-200 p-6">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4">Secure Payment</h4>
-                      <LencoPayment
+                      <div className="bg-[#ffc500]/10 rounded-lg p-4 mb-4">
+                        <p className="text-sm text-gray-700">
+                          You'll be redirected to PesaPal's secure payment page to complete your donation. PesaPal accepts credit/debit cards and mobile payments.
+                        </p>
+                      </div>
+                      <PesapalPayment
                         amount={donationAmount}
                         frequency={donationFrequency}
                         donorInfo={donorInfo}
@@ -1234,7 +1239,7 @@ export default function Home() {
                         onError={handlePaymentError}
                       />
                       <p className="text-gray-600 text-sm mt-4">
-                        Your payment will be processed securely through Lenco Payment Gateway.
+                        Your payment will be processed securely through PesaPal Payment Gateway.
                       </p>
                     </div>
                   </>

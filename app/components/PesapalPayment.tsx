@@ -96,18 +96,43 @@ const PesapalPayment: React.FC<PesapalPaymentProps> = ({
             // Create a container for the form
             const formContainer = document.createElement('div');
             formContainer.style.display = 'none';
-            formContainer.innerHTML = data.formHtml;
             document.body.appendChild(formContainer);
+            
+            // Set the HTML content
+            formContainer.innerHTML = data.formHtml;
             
             // Submit the form after a short delay
             setTimeout(() => {
               const form = formContainer.querySelector('form');
               if (form) {
+                // Add a loading state for the component
+                setIsLoading(true);
                 form.submit();
               } else {
-                setErrorMessage('Payment form not found');
-                onError('Payment form not found');
-                setIsLoading(false);
+                // If form not found, try alternative approach with direct form creation
+                try {
+                  console.log('Form not found in provided HTML, creating manually...');
+                  const manualForm = document.createElement('form');
+                  manualForm.method = 'post';
+                  manualForm.action = data.formAction;
+                  
+                  // Add form fields
+                  Object.entries(data.formData).forEach(([key, value]) => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value as string;
+                    manualForm.appendChild(input);
+                  });
+                  
+                  document.body.appendChild(manualForm);
+                  setIsLoading(true);
+                  manualForm.submit();
+                } catch (formError) {
+                  setErrorMessage('Payment form creation failed');
+                  onError('Payment form creation failed');
+                  setIsLoading(false);
+                }
               }
             }, 500);
             
