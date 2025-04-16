@@ -165,17 +165,15 @@ export async function POST(req: Request) {
         // Fall back to a direct PesaPal iframe payment URL (sandbox)
         console.log('Falling back to direct iframe payment URL...');
         
-        // Use sandbox iframe URL as fallback
-        // This is the correct URL format for Pesapal sandbox/production payments
+        // Use iframe URL directly - try a simpler approach
+        // For sandbox, use the /iframe direct URL which should work reliably
         const directUrl = IS_PRODUCTION
-          ? 'https://pay.pesapal.com/pesapalv3/api/Transactions/TransactionListener' // Production
-          : 'https://cybqa.pesapal.com/pesapalv3/api/Transactions/TransactionListener'; // Sandbox
+          ? 'https://pay.pesapal.com/iframe' // Production iframe
+          : 'https://cybqa.pesapal.com/pesapalv3/iframe'; // Sandbox iframe
           
-        // Prepare form data for iframe POST submission
+        // Generate a simple form with minimal parameters
         const formFields = {
           OrderTrackingId: orderId,
-          OrderMerchantReference: orderId,
-          OrderNotificationType: "MERCHANT",
           Amount: validAmount,
           Currency: 'USD',
           Description: 'Donation to Roberto Save Dreams Foundation',
@@ -245,11 +243,11 @@ export async function POST(req: Request) {
       
       // Fall back to a direct PesaPal iframe payment URL due to API error...
       
-      // Use sandbox iframe URL as fallback
+      // Use iframe URL directly - try a simpler approach
       // This is the correct URL format for Pesapal payments
       const directUrl = IS_PRODUCTION
-        ? 'https://pay.pesapal.com/pesapalv3/api/Transactions/TransactionListener' // Production
-        : 'https://cybqa.pesapal.com/pesapalv3/api/Transactions/TransactionListener'; // Sandbox
+        ? 'https://pay.pesapal.com/iframe' // Production iframe
+        : 'https://cybqa.pesapal.com/pesapalv3/iframe'; // Sandbox iframe
           
       // Define callback URL
       const callbackUrl = `${BASE_URL}/donate/thank-you`;
@@ -257,8 +255,6 @@ export async function POST(req: Request) {
       // Prepare form data for iframe POST submission
       const formFields = {
         OrderTrackingId: orderId,
-        OrderMerchantReference: orderId,
-        OrderNotificationType: "MERCHANT",
         Amount: validAmount,
         Currency: 'USD',
         Description: 'Donation to Roberto Save Dreams Foundation',

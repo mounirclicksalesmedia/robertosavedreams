@@ -67,6 +67,7 @@ const PesapalPayment: React.FC<PesapalPaymentProps> = ({
       let sessionData;
       try {
         const sessionText = await sessionResponse.text();
+        console.log('Raw session response:', sessionText.substring(0, 200) + (sessionText.length > 200 ? '...' : ''));
         sessionData = JSON.parse(sessionText);
         console.log('Session Response:', sessionData);
       } catch (jsonError) {
@@ -95,6 +96,7 @@ const PesapalPayment: React.FC<PesapalPaymentProps> = ({
         let data;
         try {
           const responseText = await response.text();
+          console.log('Raw PesaPal response:', responseText.substring(0, 200) + (responseText.length > 200 ? '...' : ''));
           data = JSON.parse(responseText);
           console.log('PesaPal Response:', data);
         } catch (jsonError) {
