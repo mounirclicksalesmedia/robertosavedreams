@@ -120,6 +120,74 @@ export async function POST(req: Request) {
       if (!parsedResponse.redirect_url) {
         console.log('No redirect URL in PesaPal response, using iframe fallback...');
         // Instead of throwing an error, fall back to iframe method directly
+        
+        // Fall back to a direct PesaPal iframe payment URL (sandbox)
+        console.log('Falling back to direct iframe payment URL...');
+        
+        // Use sandbox iframe URL as fallback
+        // This is the correct URL format for Pesapal sandbox payments
+        const directUrl = IS_PRODUCTION
+          ? 'https://pay.pesapal.com/iframe/?OrderTrackingId=' + orderId // Production
+          : 'https://cybqa.pesapal.com/pesapalv3/TransactionListener/SubmitOrderToPaymentPage'; // Sandbox
+          
+        // Prepare form data for iframe POST submission
+        const formFields = {
+          OrderTrackingId: orderId,
+          Amount: validAmount,
+          Currency: 'USD',
+          Description: 'Donation to Roberto Save Dreams Foundation',
+          Email: donorInfo.email || 'customer@example.com',
+          FirstName: donorInfo.name?.split(' ')[0] || 'Anonymous',
+          LastName: donorInfo.name?.split(' ').slice(1).join(' ') || 'Donor',
+          PhoneNumber: donorInfo.phone || '',
+          CallbackUrl: `${BASE_URL}/donate/thank-you`
+        };
+        
+        // Generate HTML with auto-submit form for the client
+        const formHtml = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Redirecting to Payment...</title>
+          <style>
+            body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
+            .loader { border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-radius: 50%; width: 50px; height: 50px; animation: spin 2s linear infinite; margin: 20px auto; }
+            @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+          </style>
+        </head>
+        <body>
+          <h2>Redirecting to secure payment page...</h2>
+          <div class="loader"></div>
+          <p>Please wait, you will be redirected automatically in a few seconds.</p>
+          <form id="pesapalForm" method="post" action="${directUrl}">
+            ${Object.entries(formFields).map(([key, value]) => 
+              `<input type="hidden" name="${key}" value="${value}">`
+            ).join('')}
+          </form>
+          <script>
+            document.addEventListener('DOMContentLoaded', function() {
+              setTimeout(function() {
+                document.getElementById('pesapalForm').submit();
+              }, 1500);
+            });
+          </script>
+        </body>
+        </html>
+        `;
+        
+        console.log('Using HTML form redirect to PesaPal iframe');
+        
+        // Return JSON with the form HTML in a data field
+        // The client will need to create and inject this HTML
+        return NextResponse.json({
+          success: true,
+          paymentMethod: 'pesapal',
+          orderId: orderId,
+          usesFormRedirect: true,
+          formHtml: formHtml,
+          formData: formFields,
+          formAction: directUrl
+        });
       } else {
         // Return the redirect URL if it exists
         return NextResponse.json({
@@ -133,7 +201,7 @@ export async function POST(req: Request) {
       console.error('PesaPal API error:', apiError);
       
       // Fall back to a direct PesaPal iframe payment URL (sandbox)
-      console.log('Falling back to direct iframe payment URL...');
+      console.log('Falling back to direct iframe payment URL due to API error...');
       
       // Use sandbox iframe URL as fallback
       // This is the correct URL format for Pesapal sandbox payments

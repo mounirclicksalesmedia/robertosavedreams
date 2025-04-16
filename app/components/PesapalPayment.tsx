@@ -63,8 +63,19 @@ const PesapalPayment: React.FC<PesapalPaymentProps> = ({
         }),
       });
 
-      const sessionData = await sessionResponse.json();
-      console.log('Session Response:', sessionData);
+      // Safely parse JSON response
+      let sessionData;
+      try {
+        const sessionText = await sessionResponse.text();
+        sessionData = JSON.parse(sessionText);
+        console.log('Session Response:', sessionData);
+      } catch (jsonError) {
+        console.error('Failed to parse session response:', jsonError);
+        setErrorMessage('Failed to process payment: Invalid server response');
+        onError('Failed to process payment: Invalid server response');
+        setIsLoading(false);
+        return;
+      }
 
       if (sessionData.success && sessionData.useCustomEndpoint) {
         // Now call the PesaPal-specific endpoint
@@ -80,8 +91,19 @@ const PesapalPayment: React.FC<PesapalPaymentProps> = ({
           }),
         });
 
-        const data = await response.json();
-        console.log('PesaPal Response:', data);
+        // Safely parse JSON response
+        let data;
+        try {
+          const responseText = await response.text();
+          data = JSON.parse(responseText);
+          console.log('PesaPal Response:', data);
+        } catch (jsonError) {
+          console.error('Failed to parse PesaPal response:', jsonError);
+          setErrorMessage('Failed to process payment: Invalid payment gateway response');
+          onError('Failed to process payment: Invalid payment gateway response');
+          setIsLoading(false);
+          return;
+        }
 
         if (data.success) {
           // Store order ID in session storage for reference
