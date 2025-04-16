@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
 import { formatAmount } from '@/app/lib/lenco';
+import PesapalPayment from '@/app/components/PesapalPayment';
 
 // Define interface for the content
 interface DonateContent {
@@ -52,10 +53,12 @@ export default function DonatePage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [country, setCountry] = useState('Nigeria');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isPaymentComplete, setIsPaymentComplete] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
 
   // Fetch content from API
   useEffect(() => {
@@ -101,11 +104,12 @@ export default function DonatePage() {
     }
   };
 
-  const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFormChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if (name === 'name') setName(value);
     if (name === 'email') setEmail(value);
     if (name === 'phone') setPhone(value);
+    if (name === 'country') setCountry(value);
   };
 
   const handlePayment = async (e: FormEvent) => {
@@ -115,22 +119,26 @@ export default function DonatePage() {
       return;
     }
     
-    setIsProcessing(true);
-    setErrorMessage('');
-    
-    try {
-      // Integrate with Lenco payment here
-      // This is where you'll add the actual payment processing logic
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      setIsPaymentComplete(true);
-      setCurrentStep(4);
-    } catch (error) {
-      console.error('Payment error:', error);
-      setErrorMessage('There was an error processing your payment. Please try again.');
-    } finally {
-      setIsProcessing(false);
+    // Validate required fields
+    if (!name || !email) {
+      setErrorMessage('Please provide your name and email');
+      return;
     }
+    
+    // Show payment form instead of direct processing
+    setShowPaymentForm(true);
+  };
+
+  const handlePaymentSuccess = (reference: string) => {
+    setIsPaymentComplete(true);
+    setCurrentStep(4);
+    // Redirect to success page
+    window.location.href = `/donate/success?reference=${reference}&amount=${donationAmount}`;
+  };
+  
+  const handlePaymentError = (error: string) => {
+    setErrorMessage(error);
+    setIsProcessing(false);
   };
 
   // Calculate impact
@@ -404,6 +412,27 @@ export default function DonatePage() {
                       onChange={handleFormChange}
                     />
                   </div>
+                  
+                  <div>
+                    <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-1">
+                      Country
+                    </label>
+                    <select
+                      id="country"
+                      name="country"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#1D942C] focus:border-[#1D942C]"
+                      value={country}
+                      onChange={handleFormChange}
+                    >
+                      <option value="Nigeria">Nigeria</option>
+                      <option value="Kenya">Kenya</option>
+                      <option value="Ghana">Ghana</option>
+                      <option value="United States">United States</option>
+                      <option value="United Kingdom">United Kingdom</option>
+                      <option value="South Africa">South Africa</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
                 </div>
 
                 {errorMessage && (
@@ -412,21 +441,39 @@ export default function DonatePage() {
                   </div>
                 )}
                 
-                <button
-                  type="button"
-                  onClick={handlePayment}
-                  disabled={isProcessing}
-                  className="w-full py-4 px-6 bg-[#1D942C] text-white rounded-lg shadow-md hover:bg-[#167623] transition-colors duration-200 text-lg font-medium disabled:bg-gray-300 disabled:cursor-not-allowed"
-                >
-                  {isProcessing ? (
-                    <div className="flex items-center justify-center">
-                      <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                      Processing...
-                    </div>
-                  ) : (
-                    donationFrequency === 'one-time' ? 'Complete Donation' : 'Start Monthly Donation'
-                  )}
-                </button>
+                {!showPaymentForm ? (
+                  <button
+                    type="button"
+                    onClick={handlePayment}
+                    disabled={isProcessing}
+                    className="w-full py-4 px-6 bg-[#1D942C] text-white rounded-lg shadow-md hover:bg-[#167623] transition-colors duration-200 text-lg font-medium disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  >
+                    {isProcessing ? (
+                      <div className="flex items-center justify-center">
+                        <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                        Processing...
+                      </div>
+                    ) : (
+                      donationFrequency === 'one-time' ? 'Proceed to Payment' : 'Start Monthly Donation'
+                    )}
+                  </button>
+                ) : (
+                  <div className="mt-6">
+                    <h4 className="text-lg font-medium mb-4">Complete Your Donation</h4>
+                    <PesapalPayment
+                      amount={donationAmount}
+                      frequency={donationFrequency}
+                      donorInfo={{
+                        name,
+                        email,
+                        phone,
+                        country
+                      }}
+                      onSuccess={handlePaymentSuccess}
+                      onError={handlePaymentError}
+                    />
+                  </div>
+                )}
               </div>
               
               <div className="lg:col-span-2 bg-gradient-to-br from-[#ffc500]/5 to-white rounded-xl p-6 border border-gray-100">

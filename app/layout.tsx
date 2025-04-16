@@ -39,7 +39,7 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <Script
-          src="https://js.lenco.co/v1/lenco.js"
+          src="https://www.pesapal.com/api/pesapaljs/v3/pesapal.js"
           strategy="afterInteractive"
         />
       </head>
