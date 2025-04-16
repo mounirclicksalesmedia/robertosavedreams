@@ -14,6 +14,9 @@ const PESAPAL_API_URL = IS_PRODUCTION
 // Define base URL for callbacks
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://robertosavedreamsfoundation.org';
 
+// Define IPN URL
+const IPN_URL = `${BASE_URL}/api/payments/pesapal/ipn-handler`;
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -69,6 +72,42 @@ export async function POST(req: Request) {
       const token = tokenData.token;
       console.log('Successfully obtained PesaPal token');
       
+      // Step 1.5: Register IPN (needed for proper API operation)
+      try {
+        console.log('Registering IPN with PesaPal...');
+        const ipnResponse = await fetch(`${PESAPAL_API_URL}/URLSetup/RegisterIPN`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            url: IPN_URL,
+            ipn_notification_type: 'GET'
+          })
+        });
+        
+        const ipnResponseText = await ipnResponse.text();
+        console.log('IPN registration response:', ipnResponseText);
+        
+        // Continue with order even if IPN registration fails
+        // We'll just log the error but not stop the payment flow
+        if (!ipnResponse.ok) {
+          console.warn('IPN registration failed but continuing with payment');
+        } else {
+          try {
+            const ipnData = JSON.parse(ipnResponseText);
+            console.log('IPN registration successful, ID:', ipnData.ipn_id);
+          } catch (e) {
+            console.error('Failed to parse IPN response');
+          }
+        }
+      } catch (ipnError) {
+        console.error('IPN registration error:', ipnError);
+        // Continue anyway, as this is not critical for the payment form
+      }
+      
       // Step 2: Submit order request
       const callbackUrl = `${BASE_URL}/donate/thank-you`;
       
@@ -79,6 +118,7 @@ export async function POST(req: Request) {
         amount: parseFloat(validAmount),
         description: "Donation to Roberto Save Dreams Foundation",
         callback_url: callbackUrl,
+        notification_id: "pesapal_donation", // Use a fixed notification ID since we may not have registered an IPN
         redirect_mode: "0",  // Use 0 for immediate redirect
         billing_address: {
           email_address: donorInfo.email || 'customer@example.com',
@@ -105,6 +145,7 @@ export async function POST(req: Request) {
       console.log('Order submission response text:', orderResponseText);
       
       if (!orderResponse.ok) {
+        console.error('Order submission error details:', orderResponseText);
         throw new Error(`Order submission failed with status ${orderResponse.status}: ${orderResponseText}`);
       }
       
@@ -125,14 +166,16 @@ export async function POST(req: Request) {
         console.log('Falling back to direct iframe payment URL...');
         
         // Use sandbox iframe URL as fallback
-        // This is the correct URL format for Pesapal sandbox payments
+        // This is the correct URL format for Pesapal sandbox/production payments
         const directUrl = IS_PRODUCTION
-          ? 'https://pay.pesapal.com/iframe/?OrderTrackingId=' + orderId // Production
-          : 'https://cybqa.pesapal.com/pesapalv3/TransactionListener/SubmitOrderToPaymentPage'; // Sandbox
+          ? 'https://pay.pesapal.com/v3/api/Transactions/TransactionListener' // Production
+          : 'https://cybqa.pesapal.com/pesapalv3/api/Transactions/TransactionListener'; // Sandbox
           
         // Prepare form data for iframe POST submission
         const formFields = {
           OrderTrackingId: orderId,
+          OrderMerchantReference: orderId,
+          OrderNotificationType: "MERCHANT",
           Amount: validAmount,
           Currency: 'USD',
           Description: 'Donation to Roberto Save Dreams Foundation',
@@ -140,7 +183,7 @@ export async function POST(req: Request) {
           FirstName: donorInfo.name?.split(' ')[0] || 'Anonymous',
           LastName: donorInfo.name?.split(' ').slice(1).join(' ') || 'Donor',
           PhoneNumber: donorInfo.phone || '',
-          CallbackUrl: `${BASE_URL}/donate/thank-you`
+          CallbackUrl: callbackUrl
         };
         
         // Generate HTML with auto-submit form for the client
@@ -200,18 +243,22 @@ export async function POST(req: Request) {
     } catch (apiError: any) {
       console.error('PesaPal API error:', apiError);
       
-      // Fall back to a direct PesaPal iframe payment URL (sandbox)
-      console.log('Falling back to direct iframe payment URL due to API error...');
+      // Fall back to a direct PesaPal iframe payment URL due to API error...
       
       // Use sandbox iframe URL as fallback
-      // This is the correct URL format for Pesapal sandbox payments
+      // This is the correct URL format for Pesapal payments
       const directUrl = IS_PRODUCTION
-        ? 'https://pay.pesapal.com/iframe/?OrderTrackingId=' + orderId // Production
-        : 'https://cybqa.pesapal.com/pesapalv3/TransactionListener/SubmitOrderToPaymentPage'; // Sandbox
-        
+        ? 'https://pay.pesapal.com/v3/api/Transactions/TransactionListener' // Production
+        : 'https://cybqa.pesapal.com/pesapalv3/api/Transactions/TransactionListener'; // Sandbox
+          
+      // Define callback URL
+      const callbackUrl = `${BASE_URL}/donate/thank-you`;
+      
       // Prepare form data for iframe POST submission
       const formFields = {
         OrderTrackingId: orderId,
+        OrderMerchantReference: orderId,
+        OrderNotificationType: "MERCHANT",
         Amount: validAmount,
         Currency: 'USD',
         Description: 'Donation to Roberto Save Dreams Foundation',
@@ -219,7 +266,7 @@ export async function POST(req: Request) {
         FirstName: donorInfo.name?.split(' ')[0] || 'Anonymous',
         LastName: donorInfo.name?.split(' ').slice(1).join(' ') || 'Donor',
         PhoneNumber: donorInfo.phone || '',
-        CallbackUrl: `${BASE_URL}/donate/thank-you`
+        CallbackUrl: callbackUrl
       };
       
       // Generate HTML with auto-submit form for the client
