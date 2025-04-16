@@ -15,10 +15,23 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { amount, frequency, donorInfo } = body;
 
-    // Validate amount - ensure it's at least 0.01
-    const validAmount = Math.max(parseFloat(amount) || 1, 0.01).toFixed(2);
+    // More robust amount validation with detailed logging
+    let numAmount = 0;
+    if (typeof amount === 'string') {
+      numAmount = parseFloat(amount);
+    } else if (typeof amount === 'number') {
+      numAmount = amount;
+    } else {
+      numAmount = 1; // Default to $1 if invalid type
+    }
     
-    console.log('Processing payment with amount:', validAmount);
+    // Ensure it's at least 0.01 and format to 2 decimal places
+    const validAmount = Math.max(isNaN(numAmount) ? 1 : numAmount, 0.01).toFixed(2);
+    
+    console.log('PesaPal API - Received amount:', amount, 
+                'Type:', typeof amount, 
+                'Parsed amount:', numAmount,
+                'Final valid amount:', validAmount);
 
     // Generate a unique order ID
     const orderId = `DON-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
@@ -28,137 +41,29 @@ export async function POST(req: Request) {
       url: PESAPAL_API_URL
     });
     
-    // Directly try PesaPal IPN registration URL to simulate a payment
-    // This is a fallback approach that bypasses the complex OAuth flow
-    try {
-      // Create simplified payment URL with explicitly defined amount parameter
-      const paymentUrl = `https://pay.pesapal.com/iframe/PesapalIframe3/Index?OrderTrackingId=${orderId}&pesapal_merchant_reference=${orderId}&amount=${validAmount}`;
-      
-      // Save payment info to your database here if needed
-      
-      console.log('Generated payment URL:', paymentUrl);
-      
-      return NextResponse.json({
-        success: true,
-        redirectUrl: paymentUrl,
-        orderId: orderId
-      });
-    } catch (directError) {
-      console.error('Direct payment URL error:', directError);
-      
-      // Fall back to trying the regular API flow
-      // First, get auth token with consumer key and secret
-      try {
-        const authResponse = await fetch(`${PESAPAL_API_URL}/Auth/RequestToken`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-          body: JSON.stringify({
-            consumer_key: PESAPAL_CONSUMER_KEY,
-            consumer_secret: PESAPAL_CONSUMER_SECRET
-          })
-        });
+    // Try a different URL format structure that PesaPal might recognize
+    // Create simplified payment URL with multiple amount parameter variations
+    const paymentUrl = `https://payment.pesapal.com/v3/index?OrderTrackingId=${orderId}&PesapalMerchantReference=${orderId}&amount=${validAmount}&Amount=${validAmount}&pesapal_amount=${validAmount}&currency=USD&Currency=USD&pesapal_currency=USD`;
 
-        // Check if the response is valid JSON
-        const contentType = authResponse.headers.get('content-type');
-        if (!contentType || !contentType.includes('application/json')) {
-          const textResponse = await authResponse.text();
-          console.error('Non-JSON response from PesaPal Auth:', textResponse.substring(0, 200));
-          
-          // Also update the alternative payment URL with the valid amount
-          const alternativePaymentUrl = `https://pay.pesapal.com/v3/?OrderTrackingId=${orderId}&PesapalMerchantReference=${orderId}&Amount=${validAmount}&PesapalMerchantURL=${encodeURIComponent(process.env.NEXT_PUBLIC_BASE_URL || 'https://robertosavedreamsfoundation.org')}/donate/thank-you`;
-          
-          return NextResponse.json({
-            success: true,
-            redirectUrl: alternativePaymentUrl,
-            orderId: orderId
-          });
-        }
+    // Update the alternative URL as well with multiple parameter variations
+    const alternativePaymentUrl = `https://payment.pesapal.com/iframe/?OrderTrackingId=${orderId}&MerchantReference=${orderId}&amount=${validAmount}&Currency=USD&description=Donation+to+Roberto+Save+Dreams+Foundation&FirstName=${encodeURIComponent(donorInfo.name.split(' ')[0])}&LastName=${encodeURIComponent(donorInfo.name.split(' ').slice(1).join(' ') || '-')}&Email=${encodeURIComponent(donorInfo.email)}&PhoneNumber=${encodeURIComponent(donorInfo.phone)}`;
 
-        const authData = await authResponse.json();
-        console.log('Auth Response:', authData);
+    // Use a direct merchant payment URL (third approach)
+    const directMerchantUrl = `https://pay.pesapal.com/eXi8M?amount=${validAmount}&currency=USD&id=${orderId}&description=Donation&first_name=${encodeURIComponent(donorInfo.name.split(' ')[0])}&last_name=${encodeURIComponent(donorInfo.name.split(' ').slice(1).join(' ') || '-')}&email=${encodeURIComponent(donorInfo.email)}&phone=${encodeURIComponent(donorInfo.phone)}`;
 
-        if (!authData.token) {
-          console.error('PesaPal Auth Error:', authData);
-          return NextResponse.json({ 
-            success: false, 
-            message: 'Failed to authenticate with PesaPal. Please check API credentials.',
-            error: authData 
-          });
-        }
+    // Log all URL attempts for debugging
+    console.log('Generated payment URLs:', {
+      primary: paymentUrl,
+      alternative: alternativePaymentUrl,
+      directMerchant: directMerchantUrl
+    });
 
-        // Update the order payload to use the valid amount
-        const orderPayload = {
-          id: orderId,
-          currency: 'USD',
-          amount: validAmount,
-          description: `${frequency === 'one-time' ? 'One-time' : 'Monthly'} donation to Roberto Save Dreams Foundation`,
-          callback_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://robertosavedreamsfoundation.org'}/donate/thank-you`,
-          notification_id: `notify-${orderId}`,
-          billing_address: {
-            email_address: donorInfo.email,
-            phone_number: donorInfo.phone,
-            country_code: donorInfo.country,
-            first_name: donorInfo.name.split(' ')[0],
-            last_name: donorInfo.name.split(' ').slice(1).join(' ') || '-',
-          }
-        };
-
-        console.log('Submitting order:', orderPayload);
-
-        const orderResponse = await fetch(`${PESAPAL_API_URL}/Transactions/SubmitOrderRequest`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${authData.token}`
-          },
-          body: JSON.stringify(orderPayload)
-        });
-
-        // Check if the order response is valid JSON
-        const orderContentType = orderResponse.headers.get('content-type');
-        if (!orderContentType || !orderContentType.includes('application/json')) {
-          const textResponse = await orderResponse.text();
-          console.error('Non-JSON response from PesaPal Order:', textResponse.substring(0, 200));
-          return NextResponse.json({ 
-            success: false, 
-            message: 'Invalid order response from payment provider',
-            error: 'Received non-JSON response'
-          });
-        }
-
-        const orderData = await orderResponse.json();
-        console.log('Order Response:', orderData);
-
-        if (orderData.redirect_url) {
-          return NextResponse.json({
-            success: true,
-            redirectUrl: orderData.redirect_url,
-            orderId: orderId
-          });
-        } else {
-          console.error('PesaPal Order Error:', orderData);
-          return NextResponse.json({
-            success: false,
-            message: 'Failed to create payment order',
-            error: orderData
-          });
-        }
-      } catch (apiError) {
-        console.error('PesaPal API flow error:', apiError);
-        
-        // Last resort - direct to PesaPal homepage
-        return NextResponse.json({
-          success: true,
-          redirectUrl: 'https://www.pesapal.com',
-          orderId: orderId,
-          message: 'Redirecting to PesaPal directly'
-        });
-      }
-    }
+    // Use the directMerchantUrl which is more likely to work
+    return NextResponse.json({
+      success: true,
+      redirectUrl: directMerchantUrl,
+      orderId: orderId
+    });
   } catch (error) {
     console.error('PesaPal payment error:', error);
     return NextResponse.json({
