@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 
-// Define constants
-const PESAPAL_CONSUMER_KEY = 'qkio1BGGYAXTu2JOfm7XSXNruoZsrqEW';
-const PESAPAL_CONSUMER_SECRET = 'osGQ364R49cXKeOYSpaOnT++rHs=';
-// Force production mode to get live PesaPal payments
-const IS_PRODUCTION = true; //process.env.NODE_ENV === 'production';
+// Define constants - PRODUCTION CREDENTIALS
+// These are live production credentials
+const PESAPAL_CONSUMER_KEY = '4OgxPPOapZTKJfowFM+eJ+LAFYQwdEK4';  // Replace with actual live key
+const PESAPAL_CONSUMER_SECRET = 'YeVQDJHM7xBM/oPh9j+YPkLwfz4=';   // Replace with actual live secret
+const IS_PRODUCTION = true;
 
-// Use the correct base URLs for production only
+// Use the correct production URL
 const PESAPAL_API_URL = 'https://pay.pesapal.com/pesapalv3/api';
 
 // Define base URL for callbacks
@@ -72,8 +72,10 @@ export async function POST(req: Request) {
       console.log('Successfully obtained PesaPal token');
       
       // Step 1.5: Register IPN (needed for proper API operation)
+      let notificationId = "production_donation"; // Default fallback
+      
       try {
-        console.log('Registering IPN with PesaPal...');
+        console.log('Registering IPN with PesaPal production API...');
         const ipnResponse = await fetch(`${PESAPAL_API_URL}/URLSetup/RegisterIPN`, {
           method: 'POST',
           headers: {
@@ -90,41 +92,48 @@ export async function POST(req: Request) {
         const ipnResponseText = await ipnResponse.text();
         console.log('IPN registration response:', ipnResponseText);
         
-        // Continue with order even if IPN registration fails
-        // We'll just log the error but not stop the payment flow
-        if (!ipnResponse.ok) {
-          console.warn('IPN registration failed but continuing with payment');
-        } else {
+        if (ipnResponse.ok) {
           try {
             const ipnData = JSON.parse(ipnResponseText);
             console.log('IPN registration successful, ID:', ipnData.ipn_id);
+            if (ipnData.ipn_id) {
+              notificationId = ipnData.ipn_id;
+            }
           } catch (e) {
             console.error('Failed to parse IPN response');
           }
+        } else {
+          console.warn('IPN registration failed, using default notification ID');
         }
       } catch (ipnError) {
         console.error('IPN registration error:', ipnError);
-        // Continue anyway, as this is not critical for the payment form
+        // Continue with default notification ID
       }
       
       // Step 2: Submit order request
       const callbackUrl = `${BASE_URL}/donate/thank-you`;
       
-      // Prepare the order data
+      // Prepare the order data with proper production parameters
       const orderData = {
         id: orderId,
         currency: "USD",
         amount: parseFloat(validAmount),
         description: "Donation to Roberto Save Dreams Foundation",
         callback_url: callbackUrl,
-        notification_id: "pesapal_donation", // Use a fixed notification ID since we may not have registered an IPN
-        redirect_mode: "0",  // Use 0 for immediate redirect
+        notification_id: notificationId,
+        redirect_mode: "1",  // Use 1 for production
         billing_address: {
           email_address: donorInfo.email || 'customer@example.com',
           phone_number: donorInfo.phone || '',
-          country_code: "US", // Fix: Always use "US" as a valid 2-letter country code
+          country_code: donorInfo.country ? donorInfo.country.substring(0, 2).toUpperCase() : "US",
           first_name: donorInfo.name?.split(' ')[0] || 'Anonymous',
-          last_name: donorInfo.name?.split(' ').slice(1).join(' ') || 'Donor'
+          last_name: donorInfo.name?.split(' ').slice(1).join(' ') || 'Donor',
+          line_1: "",
+          line_2: "",
+          city: "",
+          state: "",
+          postal_code: "",
+          zip_code: ""
         }
       };
       
@@ -167,7 +176,7 @@ export async function POST(req: Request) {
         // Use iframe URL directly - try a simpler approach
         // For production, use the /iframe direct URL which should work for live payments
         const directUrl = 'https://pay.pesapal.com/iframe'; // Always use production iframe
-          
+        
         // Generate a simple form with minimal parameters
         const formFields = {
           OrderTrackingId: orderId,
@@ -234,7 +243,6 @@ export async function POST(req: Request) {
           orderId: orderId
         });
       }
-      
     } catch (apiError: any) {
       console.error('PesaPal API error:', apiError);
       
@@ -243,7 +251,7 @@ export async function POST(req: Request) {
       // Use iframe URL directly - try a simpler approach
       // This is the correct URL format for Pesapal payments
       const directUrl = 'https://pay.pesapal.com/iframe'; // Always use production iframe
-          
+      
       // Define callback URL
       const callbackUrl = `${BASE_URL}/donate/thank-you`;
       
@@ -292,7 +300,7 @@ export async function POST(req: Request) {
       </html>
       `;
       
-      console.log('Using HTML form redirect to PesaPal iframe');
+      console.log('Using HTML form redirect to PesaPal iframe due to API error');
       
       // Return JSON with the form HTML in a data field
       // The client will need to create and inject this HTML

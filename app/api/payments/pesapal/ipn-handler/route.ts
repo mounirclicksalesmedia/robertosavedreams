@@ -2,13 +2,13 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-// Define constants - match the ones in create-order
-const PESAPAL_CONSUMER_KEY = 'qkio1BGGYAXTu2JOfm7XSXNruoZsrqEW';
-const PESAPAL_CONSUMER_SECRET = 'osGQ364R49cXKeOYSpaOnT++rHs=';
-// Force production mode to get live PesaPal payments
-const IS_PRODUCTION = true; //process.env.NODE_ENV === 'production';
+// Define constants - PRODUCTION CREDENTIALS
+// These are live production credentials
+const PESAPAL_CONSUMER_KEY = '4OgxPPOapZTKJfowFM+eJ+LAFYQwdEK4';  // Replace with actual live key
+const PESAPAL_CONSUMER_SECRET = 'YeVQDJHM7xBM/oPh9j+YPkLwfz4=';   // Replace with actual live secret
+const IS_PRODUCTION = true;
 
-// Use the correct base URLs for production only
+// Use the correct production URL
 const PESAPAL_API_URL = 'https://pay.pesapal.com/pesapalv3/api';
 
 // Define data directory for saving transactions
