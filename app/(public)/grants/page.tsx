@@ -221,30 +221,30 @@ export default function GrantsPage() {
           </motion.div>
         </motion.div>
       </section>
-      
+
       <div className="container mx-auto px-4 py-16">
         {/* Introduction Section */}
-        <motion.div 
+          <motion.div
           className="max-w-3xl mx-auto text-center mb-16"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+                variants={fadeIn}
         >
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Empowering Communities Through Strategic Funding</h2>
           <p className="text-lg text-gray-700 mb-8">
             The Roberto Save Dreams Foundation is committed to providing financial support to initiatives that create lasting positive change. 
             Our grant programs are designed to empower communities, foster innovation, and address critical social challenges.
-          </p>
-        </motion.div>
+                </p>
+              </motion.div>
         
         {/* Requirements Download Section */}
         <motion.div 
           className="bg-white rounded-xl shadow-md p-8 mb-16 max-w-4xl mx-auto"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeIn}
         >
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="mb-6 md:mb-0">
@@ -266,11 +266,11 @@ export default function GrantsPage() {
         </motion.div>
         
         {/* Available Grants Section */}
-        <motion.div 
+              <motion.div
           className="mb-16"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
           variants={staggerContainer}
         >
           <h2 className="text-3xl font-bold text-center mb-10">Available Grant Programs</h2>
@@ -310,10 +310,10 @@ export default function GrantsPage() {
                             <li key={index} className="flex items-start">
                               <span className="text-[#1D942C] mr-2">•</span>
                               <span className="text-gray-700">{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                      </li>
+                            ))}
+                          </ul>
+                </div>
                       <div>
                         <h4 className="text-lg font-semibold text-gray-900 mb-3">Required Documents</h4>
                         <ul className="space-y-2">
@@ -324,8 +324,8 @@ export default function GrantsPage() {
                             </li>
                           ))}
                         </ul>
-                      </div>
-                    </div>
+          </div>
+        </div>
                     <div className="mt-6 text-center">
                       <Link href="/grantapplication" className="inline-flex items-center justify-center px-6 py-3 bg-[#1D942C] text-white font-medium rounded-lg hover:bg-[#167623] transition-colors">
                         Apply for this Grant
@@ -333,18 +333,18 @@ export default function GrantsPage() {
                     </div>
                   </div>
                 )}
-              </motion.div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </div>
         </motion.div>
         
         {/* Grant Calculator Section */}
         <motion.div 
           className="bg-white rounded-xl shadow-md overflow-hidden max-w-6xl mx-auto"
-          initial="hidden"
-          whileInView="visible"
+            initial="hidden"
+            whileInView="visible"
           viewport={{ once: true }}
-          variants={fadeIn}
+            variants={fadeIn}
         >
           <h2 className="text-3xl font-bold text-center my-10">Funding Calculator</h2>
           <p className="text-center text-lg text-gray-700 mb-10 max-w-3xl mx-auto">
@@ -382,9 +382,9 @@ export default function GrantsPage() {
                     <span className="text-sm text-gray-500">$50,000</span>
                     <span className="text-lg font-semibold text-[#1D942C]">${grantAmount.toLocaleString()}</span>
                     <span className="text-sm text-gray-500">$250,000</span>
-                  </div>
+                    </div>
                 </div>
-                
+
                 {/* Grant Duration Field */}
                 <div className="mb-8 relative z-10">
                   <label htmlFor="grantDuration" className="block text-sm font-medium text-gray-700 mb-2">
@@ -392,34 +392,34 @@ export default function GrantsPage() {
                   </label>
                   <div className="grid grid-cols-3 gap-3">
                     {[12, 24, 36].map((months) => (
-                      <button
+                        <button
                         key={months}
-                        type="button"
+                          type="button"
                         onClick={() => setProjectDuration(months)}
                         className={`py-2 px-4 rounded-lg border-2 transition-all duration-200 ${
                           months === projectDuration
-                            ? 'border-[#1D942C] bg-[#1D942C]/10 text-[#1D942C] font-medium'
-                            : 'border-gray-200 text-gray-700 hover:border-[#1D942C]/20'
-                        }`}
-                      >
+                              ? 'border-[#1D942C] bg-[#1D942C]/10 text-[#1D942C] font-medium'
+                              : 'border-gray-200 text-gray-700 hover:border-[#1D942C]/20'
+                          }`}
+                        >
                         {months} months
-                      </button>
-                    ))}
+                        </button>
+                      ))}
                   </div>
-                </div>
-
+                    </div>
+                    
                 {/* Membership Fee */}
                 <div className="mb-8 relative z-10">
                   <label htmlFor="membershipFee" className="block text-sm font-medium text-gray-700 mb-2">
                     Membership Fee
-                  </label>
+                      </label>
                   <div className="relative">
                     <div className="block w-full rounded-lg border-gray-300 bg-white py-2 px-3 shadow-sm">
                       $450 (Non-refundable)
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-
+                    
                 {/* Eligibility & Requirements Section */}
                 <div className="mt-8 p-6 rounded-xl bg-white border border-gray-100 relative z-10">
                   <h3 className="font-semibold text-lg text-gray-900 mb-3">
@@ -460,7 +460,7 @@ export default function GrantsPage() {
                       >
                         <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-                        </svg>
+                            </svg>
                         Download Requirements
                       </Link>
                     </div>
@@ -478,7 +478,7 @@ export default function GrantsPage() {
                   <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                     <p className="text-sm text-gray-500 mb-1">Grant Amount</p>
                     <p className="text-3xl font-bold text-[#1D942C]">${grantAmount.toLocaleString()}</p>
-                  </div>
+                    </div>
                   
                   <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                     <p className="text-sm text-gray-500 mb-1">Membership Fee</p>
@@ -511,7 +511,7 @@ export default function GrantsPage() {
                   <div className="flex items-start">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#1D942C] mt-0.5" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                    </svg>
+                      </svg>
                     <p className="ml-2 text-sm text-gray-600">
                       Grant applications are reviewed on a quarterly basis. The membership fee supports our administrative costs and ensures serious applications.
                     </p>
@@ -571,8 +571,8 @@ export default function GrantsPage() {
             <Link href="/grantapplication" className="inline-flex items-center justify-center px-8 py-4 bg-[#1D942C] text-white font-medium rounded-lg hover:bg-[#167623] transition-colors text-lg">
               Start Your Application
             </Link>
-          </div>
-        </motion.div>
+            </div>
+          </motion.div>
       </div>
     </div>
   );

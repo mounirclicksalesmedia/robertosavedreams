@@ -7,6 +7,19 @@ import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import clsx from 'clsx';
 
+// Define role-based access permissions
+type Role = 'ADMIN' | 'MANAGER' | 'STAFF' | 'USER' | 'INVESTOR';
+type AccessArea = 'overview' | 'loans' | 'grants' | 'investments' | 'contact' | 'website' | 'users' | 'settings';
+
+// Role-based access mapping
+const roleAccess: Record<Role, AccessArea[]> = {
+  ADMIN: ['overview', 'loans', 'grants', 'investments', 'contact', 'website', 'users', 'settings'],
+  MANAGER: ['overview', 'loans', 'grants', 'investments', 'contact', 'website'],
+  STAFF: ['overview', 'contact', 'website'],
+  USER: [],
+  INVESTOR: ['overview', 'investments'],
+};
+
 interface SidebarLinkProps {
   href: string;
   icon: React.ReactNode;
@@ -20,9 +33,11 @@ interface SidebarItemProps {
   href: string;
   icon: React.ReactNode;
   text: string;
+  access: AccessArea;
   subItems?: {
     href: string;
     text: string;
+    access?: AccessArea;
   }[];
 }
 
@@ -144,6 +159,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     loans: true, // Add loans to default expanded items
   });
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const { data: session } = useSession();
+  const userRole = (session?.user?.role as Role) || 'USER';
+
+  // Check if user has access to a specific area
+  const hasAccess = (area: AccessArea) => {
+    return roleAccess[userRole]?.includes(area) || false;
+  };
 
   // Sidebar items with their sub-items
   const sidebarItems: SidebarItemProps[] = [
@@ -158,6 +180,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </svg>
       ),
       text: 'Overview',
+      access: 'overview',
     },
     {
       href: '/dashboard/loanapplications',
@@ -167,10 +190,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </svg>
       ),
       text: 'Loans',
+      access: 'loans',
       subItems: [
-        { href: '/dashboard/loanapplications', text: 'Loan Applications' },
-        { href: '/dashboard/grantapplications', text: 'Grant Applications' },
-        { href: '/dashboard/investments', text: 'Investment Applications' },
+        { href: '/dashboard/loanapplications', text: 'Loan Applications', access: 'loans' },
+        { href: '/dashboard/grantapplications', text: 'Grant Applications', access: 'grants' },
+        { href: '/dashboard/investments', text: 'Investment Applications', access: 'investments' },
       ],
     },
     {
@@ -181,6 +205,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </svg>
       ),
       text: 'Contact',
+      access: 'contact',
     },
     {
       href: '/dashboard/webiste',
@@ -191,15 +216,33 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </svg>
       ),
       text: 'Website',
+      access: 'website',
       subItems: [
-        { href: '/dashboard/webiste/home', text: 'Home' },
-        { href: '/dashboard/webiste/about', text: 'About' },
-        { href: '/dashboard/webiste/programs', text: 'Programs' },
-        { href: '/dashboard/webiste/gallery', text: 'Gallery' },
-        { href: '/dashboard/webiste/get-involved', text: 'Get Involved' },
-        { href: '/dashboard/webiste/successstories', text: 'Success Stories' },
-        { href: '/dashboard/webiste/grant', text: 'Grants' },
-        { href: '/dashboard/webiste/donate', text: 'Donate' },
+        { href: '/dashboard/webiste/home', text: 'Home', access: 'website' },
+        { href: '/dashboard/webiste/about', text: 'About', access: 'website' },
+        { href: '/dashboard/webiste/programs', text: 'Programs', access: 'website' },
+        { href: '/dashboard/webiste/gallery', text: 'Gallery', access: 'website' },
+        { href: '/dashboard/webiste/get-involved', text: 'Get Involved', access: 'website' },
+        { href: '/dashboard/webiste/successstories', text: 'Success Stories', access: 'website' },
+        { href: '/dashboard/webiste/grant', text: 'Grants', access: 'website' },
+        { href: '/dashboard/webiste/donate', text: 'Donate', access: 'website' },
+      ],
+    },
+    {
+      href: '/dashboard/users',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+      ),
+      text: 'User Management',
+      access: 'users',
+      subItems: [
+        { href: '/dashboard/users', text: 'All Users', access: 'users' },
+        { href: '/dashboard/users/roles', text: 'Roles & Permissions', access: 'users' },
       ],
     },
     {
@@ -211,8 +254,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </svg>
       ),
       text: 'Settings',
+      access: 'settings',
     },
   ];
+
+  // Filter sidebar items based on user role and permissions
+  const filteredSidebarItems = sidebarItems.filter(item => hasAccess(item.access));
 
   // Toggle expanded state for sidebar items with sub-items
   const toggleExpanded = (itemText: string) => {
@@ -271,7 +318,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
 
           <nav className="mt-6 px-3 space-y-1">
-            {sidebarItems.map((item) => (
+            {filteredSidebarItems.map((item) => (
               <div key={item.href}>
                 <SidebarLink
                   href={item.subItems ? '#' : item.href}
@@ -282,16 +329,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 />
                 {item.subItems && expandedItems[item.text.toLowerCase()] && (
                   <div className="mt-1 space-y-1">
-                    {item.subItems.map((subItem) => (
-                      <SidebarLink
-                        key={subItem.href}
-                        href={subItem.href}
-                        icon={null}
-                        text={subItem.text}
-                        isActive={pathname === subItem.href}
-                        isSubItem={true}
-                      />
-                    ))}
+                    {item.subItems
+                      .filter(subItem => !subItem.access || hasAccess(subItem.access as AccessArea))
+                      .map((subItem) => (
+                        <SidebarLink
+                          key={subItem.href}
+                          href={subItem.href}
+                          icon={null}
+                          text={subItem.text}
+                          isActive={pathname === subItem.href}
+                          isSubItem={true}
+                        />
+                      ))}
                   </div>
                 )}
               </div>

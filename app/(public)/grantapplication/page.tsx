@@ -274,7 +274,7 @@ export default function GrantApplicationPage() {
             >
               <div className="relative h-[300px] sm:h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl">
                 <Image
-                  src="/images/hero/grant-application.jpg"
+                  src="/images/grant/grant.jpeg"
                   alt="Grant Application"
                   fill
                   className="object-cover"

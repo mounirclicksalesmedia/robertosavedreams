@@ -2,6 +2,19 @@ import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
+// Mapping of routes to roles that can access them
+const ROUTE_ACCESS: Record<string, string[]> = {
+  '/dashboard/overview': ['ADMIN', 'MANAGER', 'STAFF'],
+  '/dashboard/loanapplications': ['ADMIN', 'MANAGER'],
+  '/dashboard/grantapplications': ['ADMIN', 'MANAGER'],
+  '/dashboard/investments': ['ADMIN', 'MANAGER'],
+  '/dashboard/contact': ['ADMIN', 'MANAGER', 'STAFF'],
+  '/dashboard/webiste': ['ADMIN', 'MANAGER', 'STAFF'],
+  '/dashboard/users': ['ADMIN'],
+  '/dashboard/settings': ['ADMIN'],
+  // Add more routes and their allowed roles as needed
+};
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
@@ -20,17 +33,27 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    // If the user is authenticated but doesn't have the required role for admin routes
-    if (pathname.startsWith('/dashboard/users') || pathname.startsWith('/dashboard/settings')) {
+    // Admin can access everything
+    if (token.role === 'ADMIN') {
+      return NextResponse.next();
+    }
+
+    // Check role-based access for the requested route
+    const matchingRoute = Object.keys(ROUTE_ACCESS).find(route => 
+      pathname.startsWith(route)
+    );
+
+    if (matchingRoute) {
+      const allowedRoles = ROUTE_ACCESS[matchingRoute];
       // @ts-ignore - We know role exists on our token
-      if (token.role !== 'ADMIN' && token.role !== 'MANAGER') {
-        // Redirect to the dashboard overview page
-        return NextResponse.redirect(new URL('/dashboard/overview', request.url));
+      if (!allowedRoles.includes(token.role)) {
+        // Redirect to the dashboard main page
+        return NextResponse.redirect(new URL('/dashboard', request.url));
       }
     }
   }
 
-  // If user is already authenticated and tries to access signin or signup pages
+  // If the user is already authenticated and tries to access signin or signup pages
   if ((pathname === '/signin' || pathname === '/signup') && token) {
     // Redirect to dashboard
     const response = NextResponse.redirect(new URL('/dashboard', request.url));
